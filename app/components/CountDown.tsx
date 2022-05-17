@@ -16,7 +16,7 @@ export default function CountDown(props: BoxProps) {
 	const [days, hours, minutes] = useCountdown(WEDDING_DATE)
 	return (
 		<Box d='flex' justifyContent='center' {...props}>
-			<HStack w='full' maxW='container.xs' justifyContent='space-around' divider={<Text px={2}>|</Text>}>
+			<HStack w='full' justifyContent='space-around' divider={<Text px={2}>|</Text>}>
 				<DateValue label='days' value={days} />
 				<DateValue label='hours' value={hours} />
 				<DateValue label='minutes' value={minutes} />

@@ -1,18 +1,19 @@
-import type { TextProps } from '@chakra-ui/react'
-import { Box, Heading } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
+import type { HoverTextProps } from './HoverText'
+import HoverText from './HoverText'
 
-const Line = ({ children }: TextProps) => (
-	<Heading textAlign='center' size='3xl'>
+const Line = ({ children }: HoverTextProps) => (
+	<HoverText heading hoverBg='green.700' textAlign='center' size='3xl'>
 		{children}
-	</Heading>
+	</HoverText>
 )
 
 export default function OurNames() {
 	return (
-		<Box>
+		<Flex alignItems='center' flexDir='column'>
 			<Line>Rachel</Line>
 			<Line>&</Line>
 			<Line>Justin</Line>
-		</Box>
+		</Flex>
 	)
 }

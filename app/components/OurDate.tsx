@@ -1,4 +1,3 @@
-import type { BoxProps } from '@chakra-ui/react'
 import { Box, useTheme } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import type { ReactNode, SVGProps } from 'react'
@@ -18,7 +17,7 @@ const SvgText = ({ children, value, ...props }: SVGProps<SVGTextElement> & { val
 	)
 }
 
-export default function OurDate(props: BoxProps) {
+export default function OurDate() {
 	useEffect(() => {
 		document.querySelectorAll('.svg-text').forEach((svg) => {
 			const text = svg.querySelector('text') as SVGTextElement
@@ -28,7 +27,7 @@ export default function OurDate(props: BoxProps) {
 	}, [])
 
 	return (
-		<Box w='100%' mx='auto' border='8px' p={5} {...props}>
+		<Box w='100%' border='8px' p={5}>
 			<SvgText fontWeight={900} value={format(WEDDING_DATE, 'M/d/y')} />
 			<SvgText fontWeight={100} value={format(WEDDING_DATE, 'EEEE')} />
 			<SvgText fontWeight={500} value={format(WEDDING_DATE, 'MMMM')} />

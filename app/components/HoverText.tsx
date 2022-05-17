@@ -1,9 +1,12 @@
 import type { TextProps } from '@chakra-ui/react'
-import { Text } from '@chakra-ui/react'
+import { Heading, Text } from '@chakra-ui/react'
 
-export default function HoverText({ hoverBg, children, ...props }: TextProps & { hoverBg: any }) {
+export type HoverTextProps = TextProps & { hoverBg?: string; heading?: boolean }
+
+export default function HoverText({ hoverBg, heading, children, ...props }: HoverTextProps) {
+	const Wrapper = heading ? Heading : Text
 	return (
-		<Text
+		<Wrapper
 			pos='relative'
 			textDecor='none'
 			_before={{
@@ -25,6 +28,6 @@ export default function HoverText({ hoverBg, children, ...props }: TextProps & {
 			{...props}
 		>
 			{children}
-		</Text>
+		</Wrapper>
 	)
 }

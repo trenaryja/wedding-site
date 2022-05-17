@@ -1,5 +1,4 @@
-import type { ThemeConfig } from '@chakra-ui/react'
-import { Box, ChakraProvider, Container, extendTheme } from '@chakra-ui/react'
+import { Box, ChakraProvider, Container } from '@chakra-ui/react'
 import { withEmotionCache } from '@emotion/react'
 import type { LinksFunction, MetaFunction } from '@remix-run/node'
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react'
@@ -8,6 +7,7 @@ import BackToTop from './components/BackToTop'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import { ClientStyleContext, ServerStyleContext } from './context'
+import theme from './utils/theme'
 
 export const meta: MetaFunction = () => ({
 	charset: 'utf-8',
@@ -64,22 +64,13 @@ const Document = withEmotionCache(({ children }: DocumentProps, emotionCache) =>
 	)
 })
 
-const config: ThemeConfig = {
-	useSystemColorMode: true,
-	initialColorMode: 'dark',
-}
-
-const theme = extendTheme({ config })
-
-// TODO: BackToTop and Footer
-
 export default function App() {
 	return (
 		<Document>
 			<ChakraProvider theme={theme}>
 				<Box minW='xs' overflowX='hidden' d='flex' flexDir='column' minH='100vh'>
 					<Header />
-					<Container maxW='container.xl' as='main'>
+					<Container maxW='container.sm' as='main'>
 						<Outlet />
 					</Container>
 					<BackToTop />
