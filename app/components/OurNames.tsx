@@ -3,7 +3,7 @@ import type { HoverTextProps } from './HoverText'
 import HoverText from './HoverText'
 
 const Line = ({ children }: HoverTextProps) => (
-	<HoverText heading hoverBg='green.700' textAlign='center' size='3xl'>
+	<HoverText heading hoverBg='green.700' textAlign='center' size='4xl'>
 		{children}
 	</HoverText>
 )

@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Text } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { NavLink } from '@remix-run/react'
 import type { ReactNode } from 'react'
 
@@ -28,15 +28,11 @@ const MenuItem = ({ children, to }: MenuItemProps) => (
 
 export default function Header() {
 	return (
-		<Box as='header'>
-			<Container maxW='container.xl'>
-				<Grid autoFlow='column' justifyContent='space-around'>
-					<MenuItem to=''>home</MenuItem>
-					<MenuItem to='info'>info</MenuItem>
-					<MenuItem to='people'>people</MenuItem>
-					<MenuItem to='rsvp'>rsvp</MenuItem>
-				</Grid>
-			</Container>
-		</Box>
+		<Flex as='header' justifyContent='space-around'>
+			<MenuItem to=''>home</MenuItem>
+			<MenuItem to='info'>info</MenuItem>
+			<MenuItem to='people'>people</MenuItem>
+			<MenuItem to='rsvp'>rsvp</MenuItem>
+		</Flex>
 	)
 }
