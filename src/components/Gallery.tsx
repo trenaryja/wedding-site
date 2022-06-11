@@ -9,7 +9,9 @@ export default function Gallery() {
 		const fetchData = async () => {
 			const response = await fetch(`https://wedding-site.glitch.me/${albumId}`)
 			const urls = (await response.json()) as string[]
-			const results = urls.map((x, i) => <Image w='100%' h='100%' objectFit='cover' src={x} key={i} />)
+			const results = urls.map((x, i) => (
+				<Image w='100%' h='100%' objectFit='cover' src={x} key={i} alt='Picture of Justin, Rachel, and Friends' />
+			))
 			setImages(results)
 		}
 		fetchData()

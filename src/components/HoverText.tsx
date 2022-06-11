@@ -1,5 +1,4 @@
-import type { TextProps } from '@chakra-ui/react'
-import { Heading, Text } from '@chakra-ui/react'
+import { Heading, Text, TextProps } from '@chakra-ui/react'
 
 export type HoverTextProps = TextProps & { hoverBg?: string; heading?: boolean }
 
