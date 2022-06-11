@@ -4,7 +4,7 @@ import { ReactNode, SVGProps, useEffect } from 'react'
 import { useTheme } from '../utils/theme'
 import CountDown from './CountDown'
 
-const WEDDING_DATE = new Date('2023-11-17T05:00:00.000Z')
+const WEDDING_DATE = new Date('2023-11-18T05:00:00.000Z')
 
 const SvgText = ({ children, value, ...props }: SVGProps<SVGTextElement> & { value: ReactNode }) => {
 	const theme = useTheme()
@@ -17,12 +17,14 @@ const SvgText = ({ children, value, ...props }: SVGProps<SVGTextElement> & { val
 	)
 }
 
+const lineHeight = 0.7
+
 export default function OurDate(props: BoxProps) {
 	useEffect(() => {
 		document.querySelectorAll('.svg-text').forEach((svg) => {
 			const text = svg.querySelector('text') as SVGTextElement
 			const bbox = text.getBBox()
-			svg.setAttribute('viewBox', [bbox.x, bbox.y, bbox.width, bbox.height].join(' '))
+			svg.setAttribute('viewBox', [bbox.x, bbox.y * lineHeight, bbox.width, bbox.height * lineHeight].join(' '))
 		})
 	}, [])
 
@@ -33,7 +35,7 @@ export default function OurDate(props: BoxProps) {
 			<SvgText fontWeight={500} value={format(WEDDING_DATE, 'MMMM')} />
 			<SvgText fontWeight={900} value={format(WEDDING_DATE, 'do')} />
 			<SvgText fontWeight={500} value={format(WEDDING_DATE, 'y')} />
-			<CountDown w='100%' mt={10} />
+			<CountDown w='100%' />
 		</Box>
 	)
 }

@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<ChakraProvider resetCSS theme={theme}>
 				<Flex minW='xs' overflowX='hidden' flexDir='column' minH='100vh'>
 					<Header />
-					<Container maxW='container.sm' as='main'>
+					<Container maxW='container.xl' as='main'>
 						<Component {...pageProps} />
 					</Container>
 					<BackToTop />
