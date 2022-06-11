@@ -1,5 +1,5 @@
 import { BoxProps, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react'
-import useCountdown from '~/hooks/useCountDown'
+import useCountdown from '../hooks/useCountDown'
 
 const WEDDING_DATE = new Date('2023-11-18T05:00:00.000Z')
 // const WEDDING_DATE = new Date(new Date().getTime() + 3000)

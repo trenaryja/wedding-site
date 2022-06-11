@@ -1,9 +1,7 @@
-import type { BoxProps } from '@chakra-ui/react'
-import { Box } from '@chakra-ui/react'
+import { Box, BoxProps } from '@chakra-ui/react'
 import { format } from 'date-fns'
-import type { ReactNode, SVGProps } from 'react'
-import { useEffect } from 'react'
-import { useTheme } from '~/utils/theme'
+import { ReactNode, SVGProps, useEffect } from 'react'
+import { useTheme } from '../utils/theme'
 import CountDown from './CountDown'
 
 const WEDDING_DATE = new Date('2023-11-17T05:00:00.000Z')

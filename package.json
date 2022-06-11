@@ -1,9 +1,17 @@
 {
-	"name": "remix-template-remix",
 	"private": true,
-	"description": "",
-	"license": "",
-	"sideEffects": false,
+	"scripts": {
+		"dev": "next",
+		"build": "next build",
+		"start": "next start",
+		"prettier": "prettier --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx|json)\"",
+		"eslint": "eslint --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx)\"",
+		"format": "npm run prettier -- --write",
+		"lint": "npm run eslint -- --fix"
+	},
+	"eslintConfig": {
+		"extends": "next/core-web-vitals"
+	},
 	"prettier": {
 		"semi": false,
 		"jsxSingleQuote": true,
@@ -13,44 +21,25 @@
 		"trailingComma": "all",
 		"useTabs": true
 	},
-	"scripts": {
-		"build": "remix build",
-		"dev": "remix dev",
-		"start": "remix-serve build",
-		"netdev": "cross-env NODE_ENV=development netlify dev",
-		"netstart": "cross-env NODE_ENV=production netlify dev",
-		"prettier": "prettier --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx|json)\"",
-		"eslint": "eslint --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx)\"",
-		"format": "npm run prettier -- --write",
-		"lint": "npm run eslint -- --fix"
-	},
 	"dependencies": {
-		"@chakra-ui/react": "latest",
-		"@emotion/cache": "latest",
-		"@emotion/react": "latest",
-		"@emotion/server": "latest",
-		"@emotion/styled": "latest",
-		"@netlify/functions": "latest",
-		"@remix-run/netlify": "latest",
-		"@remix-run/node": "latest",
-		"@remix-run/react": "latest",
-		"@remix-run/serve": "latest",
-		"cross-env": "latest",
-		"date-fns": "latest",
-		"framer-motion": "latest",
-		"react": "latest",
-		"react-dom": "latest",
-		"react-icons": "latest"
+		"@chakra-ui/icons": "^1.1.7",
+		"@chakra-ui/react": "1.8.8",
+		"@emotion/react": "^11",
+		"@emotion/styled": "^11",
+		"date-fns": "^2.28.0",
+		"framer-motion": "^6",
+		"next": "latest",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-icons": "^4.4.0"
 	},
 	"devDependencies": {
-		"@remix-run/dev": "latest",
-		"@remix-run/eslint-config": "latest",
-		"@types/react": "latest",
-		"@types/react-dom": "latest",
-		"eslint": "latest",
-		"typescript": "latest"
-	},
-	"engines": {
-		"node": ">=14"
+		"@types/node": "^14.6.0",
+		"@types/react": "^17.0.3",
+		"@types/react-dom": "^17.0.3",
+		"eslint": "^8.17.0",
+		"eslint-config-next": "^12.1.6",
+		"prettier": "^2.6.2",
+		"typescript": "4.3.2"
 	}
 }

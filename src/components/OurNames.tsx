@@ -1,6 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import type { HoverTextProps } from './HoverText'
-import HoverText from './HoverText'
+import HoverText, { HoverTextProps } from './HoverText'
 
 const Line = ({ children }: HoverTextProps) => (
 	<HoverText heading hoverBg='green.700' textAlign='center' size='4xl'>
