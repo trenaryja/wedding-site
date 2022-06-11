@@ -1,4 +1,4 @@
-import { Grid, Image } from '@chakra-ui/react'
+import { Grid, Image, Spinner } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
 export default function Gallery() {
@@ -10,17 +10,25 @@ export default function Gallery() {
 			const response = await fetch(`https://wedding-site.glitch.me/${albumId}`)
 			const urls = (await response.json()) as string[]
 			const results = urls.map((x, i) => (
-				<Image w='100%' h='100%' objectFit='cover' src={x} key={i} alt='Picture of Justin, Rachel, and Friends' />
+				<Image
+					borderRadius='xl'
+					w='100%'
+					h='100%'
+					objectFit='cover'
+					src={x}
+					key={i}
+					alt='Picture of Justin, Rachel, and Friends'
+				/>
 			))
 			setImages(results)
 		}
 		fetchData()
 	}, [])
 
-	if (!images) return <></>
+	if (!images) return <Spinner />
 
 	return (
-		<Grid overflow='auto' maxH='container.sm' alignItems='center'>
+		<Grid overflow='auto' maxH='container.sm' alignItems='center' gap={5}>
 			{images}
 		</Grid>
 	)
