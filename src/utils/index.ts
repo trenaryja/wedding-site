@@ -1,3 +1,12 @@
+declare global {
+	namespace NodeJS {
+		interface ProcessEnv {
+			IRON_SESSION_COOKIE_PW: string
+			ADMIN_PW: string
+		}
+	}
+}
+
 export const chunk = <T>(a: Array<T>, n: number) => {
 	if (n < 2) return [a]
 	const result: T[][] = []

@@ -22,7 +22,7 @@ export default function useUser({ redirectTo = '', redirectIfLoggedIn = false } 
 }
 
 export const sessionOptions: IronSessionOptions = {
-	password: process.env.IRON_SESSION_COOKIE_PW as string,
+	password: process.env.IRON_SESSION_COOKIE_PW,
 	cookieName: 'trenary.netlify.app',
 	cookieOptions: {
 		secure: process.env.NODE_ENV === 'production',
