@@ -17,14 +17,12 @@ const SvgText = ({ children, value, ...props }: SVGProps<SVGTextElement> & { val
 	)
 }
 
-const lineHeight = 0.7
-
 export default function OurDate(props: BoxProps) {
 	useEffect(() => {
 		document.querySelectorAll('.svg-text').forEach((svg) => {
 			const text = svg.querySelector('text') as SVGTextElement
 			const bbox = text.getBBox()
-			svg.setAttribute('viewBox', [bbox.x, bbox.y * lineHeight, bbox.width, bbox.height * lineHeight].join(' '))
+			svg.setAttribute('viewBox', [bbox.x, bbox.y, bbox.width, bbox.height].join(' '))
 		})
 	}, [])
 

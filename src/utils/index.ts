@@ -13,3 +13,10 @@ export const chunk = <T>(a: Array<T>, n: number) => {
 	}
 	return result
 }
+
+export const fetchJson = async (input: RequestInfo, init?: RequestInit): Promise<unknown> => {
+	const response = await fetch(input, init)
+	const data = await response.json()
+	if (response.ok) return data
+	throw new Error(data.message || 'Unexpected error')
+}
