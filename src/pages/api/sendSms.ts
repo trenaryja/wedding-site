@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import twilio from 'twilio'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 import { sessionOptions } from '../../hooks/useUser'
+import { validateE164PhoneNumber } from '../../utils'
 
 const sendSmsRoute = async (req: NextApiRequest, res: NextApiResponse<MessageInstance | Error>) => {
 	const accountSid = process.env.TWILIO_ACCOUNT_SID
@@ -12,17 +13,22 @@ const sendSmsRoute = async (req: NextApiRequest, res: NextApiResponse<MessageIns
 	const { to, body } = req.body
 
 	if (!req.session.user?.isLoggedIn) {
-		res.status(403).json({ message: 'You are not an admin. Stop it.' } as Error)
+		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
 		return
 	}
 
-	if (true) {
-		res.status(400).json({ message: 'Forced Error for Testing' } as Error)
+	if (!to || !body) {
+		res.status(400).json({ message: 'Missing required fields' } as Error)
 		return
 	}
 
-	// const message = await client.messages.create({ to, from, body })
-	// res.json(message)
+	if (!validateE164PhoneNumber(to)) {
+		res.status(400).json({ message: 'Not a valid E.164 formatted US phone number' } as Error)
+		return
+	}
+
+	const message = await client.messages.create({ to, from, body })
+	res.json(message)
 }
 
 export default withIronSessionApiRoute(sendSmsRoute, sessionOptions)

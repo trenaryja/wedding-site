@@ -9,13 +9,14 @@ export default function SmsForm() {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<Error | null>()
 
-	useEffect(() => setError(null), [to, body])
+	useEffect(() => setError(null), [to])
 
 	const handleSendSms = async (e: BaseSyntheticEvent) => {
 		try {
 			e.preventDefault()
+			if (error) return
 			setLoading(true)
-			await sendSms(to, body)
+			await sendSms(`+1${to}`, body)
 		} catch (error) {
 			setError(error)
 		} finally {
@@ -23,11 +24,15 @@ export default function SmsForm() {
 		}
 	}
 
+	const handleValidate = () => {
+		if (to && to.length < 10) setError(new Error('Please enter a valid phone number'))
+	}
+
 	return (
 		<Box borderWidth='1px' borderRadius='lg' p={5} w='100%'>
 			<form onSubmit={handleSendSms}>
 				<FormControl isInvalid={!!error}>
-					<PhoneInput value={to} onChange={(e) => setTo(e.target.value)} isRequired />
+					<PhoneInput value={to} onChange={(e) => setTo(e.target.value)} onBlur={handleValidate} isRequired />
 					<FormErrorMessage>{error?.message}</FormErrorMessage>
 				</FormControl>
 				<FormControl my={5} display='flex' flexDirection='column'>

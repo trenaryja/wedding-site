@@ -37,3 +37,7 @@ export const formatPhoneNumber = (value: string) => {
 	if (numberValue.length < 7) return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3)}`
 	return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3, 6)}-${numberValue.slice(6, 10)}`
 }
+
+export const validateE164PhoneNumber = (value: string) => {
+	return /^\+1\d{10}$/.test(value)
+}
