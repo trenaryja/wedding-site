@@ -1,7 +1,7 @@
 import { Button, Flex, FormControl, FormErrorMessage, Heading, Input } from '@chakra-ui/react'
-import { useState } from 'react'
-import useUser, { User } from '../../hooks/useUser'
-import { fetchJson } from '../../utils'
+import { BaseSyntheticEvent, useEffect, useState } from 'react'
+import useUser from '../../hooks/useUser'
+import { login } from '../../utils'
 
 export default function Login() {
 	const { mutateUser } = useUser({
@@ -9,20 +9,15 @@ export default function Login() {
 		redirectIfLoggedIn: true,
 	})
 
+	const [password, setPassword] = useState('')
 	const [error, setError] = useState<Error | null>(null)
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
+	useEffect(() => setError(null), [password])
 
+	const handleSubmit = async (e: BaseSyntheticEvent) => {
 		try {
-			const user = (await fetchJson('/api/login', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					password: e.currentTarget.password.value,
-				}),
-			})) as User
-
+			e.preventDefault()
+			const user = await login(password)
 			mutateUser(user)
 			setError(null)
 		} catch (err) {
@@ -36,7 +31,7 @@ export default function Login() {
 				<Flex flexDir='column' justifyContent='center' alignItems='center' gap={10}>
 					<Heading>Enter Password</Heading>
 					<FormControl isInvalid={!!error}>
-						<Input type='password' name='password' required onChange={() => setError(null)} />
+						<Input type='password' name='password' required onChange={(e) => setPassword(e.target.value)} />
 						<FormErrorMessage>{error?.message}</FormErrorMessage>
 					</FormControl>
 					<Button type='submit'>Login</Button>

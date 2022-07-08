@@ -2,7 +2,7 @@ import { IconButton } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { FaArrowUp } from 'react-icons/fa'
 
-export function scrollTo(id: string): void {
+export const scrollTo = (id: string): void => {
 	const element = document.getElementById(id)
 	const top = element?.getBoundingClientRect().top ?? 0 + window.pageYOffset
 
@@ -12,7 +12,7 @@ export function scrollTo(id: string): void {
 	})
 }
 
-export function scrollToTop() {
+export const scrollToTop = () => {
 	window.scrollTo({
 		top: 0,
 		behavior: 'smooth',

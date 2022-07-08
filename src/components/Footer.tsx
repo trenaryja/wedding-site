@@ -1,5 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react'
-import { useTheme } from '../utils/theme'
+import { useTheme } from '../utils'
 
 export default function Footer() {
 	const theme = useTheme()

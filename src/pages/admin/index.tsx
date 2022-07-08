@@ -1,7 +1,8 @@
-import { Button, Flex, Heading, Spinner } from '@chakra-ui/react'
+import { Button, Flex, Spinner } from '@chakra-ui/react'
 import router from 'next/router'
-import useUser, { User } from '../../hooks/useUser'
-import { fetchJson } from '../../utils'
+import SmsForm from '../../components/SmsForm'
+import useUser from '../../hooks/useUser'
+import { logout } from '../../utils'
 
 export default function Index() {
 	const { user, mutateUser } = useUser({
@@ -15,16 +16,15 @@ export default function Index() {
 			</Flex>
 		)
 
-	const handleLogout = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		e.preventDefault()
-		const user = (await fetchJson('/api/logout', { method: 'POST' })) as User
+	const handleLogout = async () => {
+		const user = logout()
 		mutateUser(user)
 		router.push('/admin/login')
 	}
 
 	return (
-		<Flex flexDir='column' justifyContent='center' alignItems='center'>
-			<Heading mb={10}>Logged In!</Heading>
+		<Flex flexDir='column' justifyContent='center' alignItems='center' gap={5}>
+			<SmsForm />
 			<Button onClick={handleLogout}>Logout</Button>
 		</Flex>
 	)

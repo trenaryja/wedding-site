@@ -5,8 +5,7 @@ import { SWRConfig } from 'swr'
 import BackToTop from '../components/BackToTop'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
-import { fetchJson } from '../utils'
-import theme from '../utils/theme'
+import { fetchJson, theme } from '../utils'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (

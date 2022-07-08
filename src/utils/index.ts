@@ -1,8 +1,14 @@
+export * from './api'
+export * from './theme'
+
 declare global {
 	namespace NodeJS {
 		interface ProcessEnv {
 			IRON_SESSION_COOKIE_PW: string
 			ADMIN_PW: string
+			TWILIO_ACCOUNT_SID: string
+			TWILIO_AUTH_TOKEN: string
+			TWILIO_PHONE_NUMBER: string
 		}
 	}
 }
@@ -23,9 +29,11 @@ export const chunk = <T>(a: Array<T>, n: number) => {
 	return result
 }
 
-export const fetchJson = async (input: RequestInfo, init?: RequestInit): Promise<unknown> => {
-	const response = await fetch(input, init)
-	const data = await response.json()
-	if (response.ok) return data
-	throw new Error(data.message || 'Unexpected error')
+export const formatPhoneNumber = (value: string) => {
+	if (!value) return value
+	const numberValue = value.replace(/[^\d]/g, '')
+
+	if (numberValue.length < 4) return numberValue
+	if (numberValue.length < 7) return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3)}`
+	return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3, 6)}-${numberValue.slice(6, 10)}`
 }

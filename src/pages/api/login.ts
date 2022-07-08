@@ -2,11 +2,11 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { sessionOptions, User } from '../../hooks/useUser'
 
-const loginRoute = async (req: NextApiRequest, res: NextApiResponse) => {
+const loginRoute = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
 	const { password } = await req.body
 
 	if (password !== process.env.ADMIN_PW) {
-		res.status(403).json({ message: 'Invalid password' })
+		res.status(403).json({ message: 'Invalid password' } as Error)
 		return
 	}
 

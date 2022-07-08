@@ -8,7 +8,7 @@ type Theme = typeof defaultTheme & {
 	// insert any additional values
 }
 
-const theme = extendTheme(defaultTheme, { config }) as Theme
+export const theme = extendTheme(defaultTheme, { config }) as Theme
 
 export const useTheme = () => {
 	return defaultUseTheme() as Theme
