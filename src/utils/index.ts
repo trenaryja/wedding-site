@@ -1,3 +1,7 @@
+import CryptoJS from 'crypto-js'
+import { IronSessionOptions } from 'iron-session'
+import { User } from './api'
+
 export * from './api'
 export * from './theme'
 
@@ -9,8 +13,28 @@ declare global {
 			TWILIO_ACCOUNT_SID: string
 			TWILIO_AUTH_TOKEN: string
 			TWILIO_PHONE_NUMBER: string
+			RACHEL_PHONE_NUMBER: string
+			JUSTIN_PHONE_NUMBER: string
 		}
 	}
+}
+
+declare module 'iron-session' {
+	interface IronSessionData {
+		user?: User
+	}
+}
+
+export const sessionOptions: IronSessionOptions = {
+	password: process.env.IRON_SESSION_COOKIE_PW,
+	cookieName: 'trenary.netlify.app',
+	cookieOptions: {
+		secure: process.env.NODE_ENV === 'production',
+	},
+}
+
+export const padStart = (num: number, length: number, char = '0') => {
+	return `${char.repeat(length)}${num}`.slice(-length)
 }
 
 export const chunk = <T>(a: Array<T>, n: number) => {
@@ -40,4 +64,21 @@ export const formatPhoneNumber = (value: string) => {
 
 export const validateE164PhoneNumber = (value: string) => {
 	return /^\+1\d{10}$/.test(value)
+}
+
+export const generateOtp = (length = 4) => {
+	const dict = '0123456789'
+	let OTP = ''
+	for (let i = 0; i < length; i++) {
+		OTP += dict[Math.floor(Math.random() * dict.length)]
+	}
+	return OTP
+}
+
+export const encrypt = (value: string) => {
+	return CryptoJS.AES.encrypt(value, process.env.IRON_SESSION_COOKIE_PW).toString()
+}
+
+export const decrypt = (value: string) => {
+	return CryptoJS.AES.decrypt(value, process.env.IRON_SESSION_COOKIE_PW).toString(CryptoJS.enc.Utf8)
 }

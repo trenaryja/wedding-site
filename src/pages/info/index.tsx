@@ -1,9 +1,9 @@
-import { Button, Flex, Heading, Link } from '@chakra-ui/react'
+import { Button, Heading, Link, VStack } from '@chakra-ui/react'
 
 export default function Index() {
 	return (
-		<Flex textAlign='center' my={20} gap={5} flexDir='column' alignItems='center' justifyContent='center'>
-			<Heading my={5}>Location:</Heading>
+		<VStack w='100%'>
+			<Heading>Location:</Heading>
 
 			<iframe
 				title='map'
@@ -15,6 +15,6 @@ export default function Index() {
 			<Link href='https://goo.gl/maps/shUnofrBwKH6HZPF6'>
 				<Button>Get Directions</Button>
 			</Link>
-		</Flex>
+		</VStack>
 	)
 }

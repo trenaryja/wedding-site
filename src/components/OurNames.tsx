@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react'
+import { VStack } from '@chakra-ui/react'
 import HoverText, { HoverTextProps } from './HoverText'
 
 const Line = ({ children }: HoverTextProps) => (
@@ -9,10 +9,10 @@ const Line = ({ children }: HoverTextProps) => (
 
 export default function OurNames() {
 	return (
-		<Flex alignItems='center' flexDir='column'>
+		<VStack>
 			<Line>Rachel</Line>
 			<Line>&</Line>
 			<Line>Justin</Line>
-		</Flex>
+		</VStack>
 	)
 }

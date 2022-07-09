@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormErrorMessage, FormHelperText, Textarea } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormErrorMessage, FormHelperText, Textarea, useToast } from '@chakra-ui/react'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
 import { sendSms } from '../utils'
 import PhoneInput from './PhoneInput'
@@ -8,6 +8,7 @@ export default function SmsForm() {
 	const [body, setBody] = useState('')
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<Error | null>()
+	const toast = useToast()
 
 	useEffect(() => setError(null), [to])
 
@@ -17,6 +18,7 @@ export default function SmsForm() {
 			if (error) return
 			setLoading(true)
 			await sendSms(`+1${to}`, body)
+			toast({ title: 'SMS sent!', status: 'success' })
 		} catch (error) {
 			setError(error)
 		} finally {
@@ -32,7 +34,7 @@ export default function SmsForm() {
 		<Box borderWidth='1px' borderRadius='lg' p={5} w='100%'>
 			<form onSubmit={handleSendSms}>
 				<FormControl isInvalid={!!error}>
-					<PhoneInput value={to} onChange={(e) => setTo(e.target.value)} onBlur={handleValidate} isRequired />
+					<PhoneInput value={to} onChange={(value) => setTo(value)} onBlur={handleValidate} isRequired />
 					<FormErrorMessage>{error?.message}</FormErrorMessage>
 				</FormControl>
 				<FormControl my={5} display='flex' flexDirection='column'>
@@ -45,7 +47,7 @@ export default function SmsForm() {
 					/>
 					<FormHelperText mt={1} alignSelf='flex-end'>{`${body.length}/160`}</FormHelperText>
 				</FormControl>
-				<Button float='right' disabled={loading} type='submit'>
+				<Button float='right' disabled={loading || !!error} type='submit'>
 					Send SMS
 				</Button>
 			</form>

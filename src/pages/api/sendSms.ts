@@ -2,8 +2,7 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
 import twilio from 'twilio'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
-import { sessionOptions } from '../../hooks/useUser'
-import { validateE164PhoneNumber } from '../../utils'
+import { sessionOptions, validateE164PhoneNumber } from '../../utils'
 
 const sendSmsRoute = async (req: NextApiRequest, res: NextApiResponse<MessageInstance | Error>) => {
 	const accountSid = process.env.TWILIO_ACCOUNT_SID
@@ -12,7 +11,7 @@ const sendSmsRoute = async (req: NextApiRequest, res: NextApiResponse<MessageIns
 	const client = twilio(accountSid, authToken)
 	const { to, body } = req.body
 
-	if (!req.session.user?.isLoggedIn) {
+	if (!req.session.user?.isAdmin) {
 		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
 		return
 	}

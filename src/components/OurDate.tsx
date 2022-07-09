@@ -20,7 +20,7 @@ const SvgText = ({ children, value, ...props }: SVGProps<SVGTextElement> & { val
 export default function OurDate(props: BoxProps) {
 	useEffect(() => {
 		document.querySelectorAll('.svg-text').forEach((svg) => {
-			const text = svg.querySelector('text') as SVGTextElement
+			const text = svg.querySelector('text')
 			const bbox = text.getBBox()
 			svg.setAttribute('viewBox', [bbox.x, bbox.y, bbox.width, bbox.height].join(' '))
 		})
@@ -33,7 +33,7 @@ export default function OurDate(props: BoxProps) {
 			<SvgText fontWeight={500} value={format(WEDDING_DATE, 'MMMM')} />
 			<SvgText fontWeight={900} value={format(WEDDING_DATE, 'do')} />
 			<SvgText fontWeight={500} value={format(WEDDING_DATE, 'y')} />
-			<CountDown w='100%' />
+			<CountDown />
 		</Box>
 	)
 }

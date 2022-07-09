@@ -1,8 +1,8 @@
-import { Box, Image } from '@chakra-ui/react'
+import { Box, Image, VStack } from '@chakra-ui/react'
 
 export default function Index() {
 	return (
-		<>
+		<VStack>
 			<Image src='dickarm.svg' alt='dick arm' p={10} w='100%' />
 			<Box maxW='720px' m='0 auto'>
 				<Box pos='relative' pb='75%' height={0}>
@@ -15,6 +15,6 @@ export default function Index() {
 					></iframe>
 				</Box>
 			</Box>
-		</>
+		</VStack>
 	)
 }

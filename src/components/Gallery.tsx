@@ -23,11 +23,12 @@ export default function Gallery() {
 					alt='Picture of Justin, Rachel, and Friends'
 					transition={'all 0.5s ease-in-out'}
 					filter='grayscale(1)'
+					transform='scale(.975)'
 					onError={(e) => {
 						e.currentTarget.src = `https://picsum.photos/id/${i + 1}/200/300`
 					}}
 					_hover={{
-						transform: 'scale(1.025)',
+						transform: 'scale(1)',
 						filter: 'grayscale(0)',
 					}}
 				/>

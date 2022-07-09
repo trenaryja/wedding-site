@@ -1,36 +1,37 @@
-import { IronSessionOptions } from 'iron-session'
 import Router from 'next/router'
 import { useEffect } from 'react'
 import useSWR from 'swr'
+import { User } from '../utils'
 
-export type User = {
-	isLoggedIn: boolean
-}
-
-export default function useUser({ redirectTo = '', redirectIfLoggedIn = false } = {}) {
+export default function useUser({
+	redirectTo = '',
+	redirectIfNotLoggedIn = false,
+	redirectIfLoggedIn = false,
+	redirectIfNotAdmin = false,
+	redirectIfAdmin = false,
+} = {}) {
 	const { data: user, mutate: mutateUser } = useSWR<User>('/api/user')
 
 	useEffect(() => {
 		if (!redirectTo || !user) return
 
-		if ((redirectTo && !redirectIfLoggedIn && !user?.isLoggedIn) || (redirectIfLoggedIn && user?.isLoggedIn)) {
+		const contradictions = [redirectIfLoggedIn && redirectIfNotLoggedIn, redirectIfAdmin && redirectIfNotAdmin]
+
+		if (contradictions.some(Boolean)) {
+			throw new Error('useUser: contradictory redirect conditions detected')
+		}
+
+		const anyReasonToRedirect = [
+			redirectIfNotLoggedIn && !user.isLoggedIn,
+			redirectIfLoggedIn && user.isLoggedIn,
+			redirectIfNotAdmin && !user.isAdmin,
+			redirectIfAdmin && user.isAdmin,
+		]
+
+		if (anyReasonToRedirect.some(Boolean)) {
 			Router.push(redirectTo)
 		}
-	}, [user, redirectTo, redirectIfLoggedIn])
+	}, [user, redirectTo, redirectIfLoggedIn, redirectIfAdmin, redirectIfNotLoggedIn, redirectIfNotAdmin])
 
 	return { user, mutateUser }
-}
-
-export const sessionOptions: IronSessionOptions = {
-	password: process.env.IRON_SESSION_COOKIE_PW,
-	cookieName: 'trenary.netlify.app',
-	cookieOptions: {
-		secure: process.env.NODE_ENV === 'production',
-	},
-}
-
-declare module 'iron-session' {
-	interface IronSessionData {
-		user?: User
-	}
 }
