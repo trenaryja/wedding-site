@@ -19,7 +19,7 @@ export const updateUser = async (req: NextApiRequest, res: NextApiResponse, user
 	res.json(user)
 }
 
-export const fetchJson = async <T>(input: RequestInfo, init?: RequestInit): Promise<T> => {
+export const fetchJson = async <T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> => {
 	const response = await fetch(input, init)
 	const data = await response.json()
 	if (response.ok) return data as T
@@ -28,43 +28,31 @@ export const fetchJson = async <T>(input: RequestInfo, init?: RequestInit): Prom
 
 const jsonRequestHeaders = { 'Content-Type': 'application/json' }
 
-export const login = async (password: string, useHerPhoneNumber: boolean) => {
-	const user = await fetchJson<User>('/api/login', {
-		body: JSON.stringify({ password, useHerPhoneNumber }),
+const postJson = async <T>(input: RequestInfo | URL, body?: any, init?: RequestInit): Promise<T> => {
+	return await fetchJson(input, {
 		method: 'POST',
 		headers: jsonRequestHeaders,
+		body: JSON.stringify(body),
+		...init,
 	})
-	return user
+}
+
+export const login = async (password: string, useHerPhoneNumber: boolean) => {
+	return await postJson<User>('/api/login', { password, useHerPhoneNumber })
 }
 
 export const logout = async () => {
-	const user = await fetchJson<User>('/api/logout')
-	return user
+	return await postJson<User>('/api/logout')
 }
 
 export const sendSms = async (to: string, body: string) => {
-	const message = await fetchJson<MessageInstance>('/api/sendSms', {
-		method: 'POST',
-		headers: jsonRequestHeaders,
-		body: JSON.stringify({ to, body }),
-	})
-	return message
+	return await postJson<MessageInstance>('/api/sendSms', { to, body })
 }
 
 export const sendOtp = async (to: string) => {
-	const user = await fetchJson<User>('/api/sendOtp', {
-		method: 'POST',
-		headers: jsonRequestHeaders,
-		body: JSON.stringify({ to }),
-	})
-	return user
+	return await postJson<User>('/api/sendOtp', { to })
 }
 
 export const validateOtp = async (otp: string) => {
-	const user = await fetchJson<User>('/api/validateOtp', {
-		method: 'POST',
-		headers: jsonRequestHeaders,
-		body: JSON.stringify({ otp }),
-	})
-	return user
+	return await postJson<User>('/api/validateOtp', { otp })
 }
