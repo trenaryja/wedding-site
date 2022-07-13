@@ -5,7 +5,7 @@ import { SWRConfig } from 'swr'
 import BackToTop from '../components/BackToTop'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
-import { fetchJson, theme } from '../utils'
+import { fetcher, theme } from '../utils'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -13,13 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Head>
 				<title>Justin & Rachel</title>
 				<meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width' />
-				<link rel='icon' type='image/svg+xml' href='favicon.svg' />
+				<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 			</Head>
-			<SWRConfig
-				value={{
-					fetcher: fetchJson,
-				}}
-			>
+			<SWRConfig value={{ fetcher }}>
 				<ChakraProvider resetCSS theme={theme}>
 					<Flex minW='xs' overflowX='hidden' flexDir='column' minH='100vh'>
 						<Header />

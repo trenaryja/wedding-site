@@ -2,7 +2,7 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { sessionOptions, updateUser, User } from '../../utils'
 
-const loginRoute = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
 	const { password, useHerPhoneNumber } = await req.body
 
 	if (password !== process.env.ADMIN_PW) {
@@ -16,4 +16,4 @@ const loginRoute = async (req: NextApiRequest, res: NextApiResponse<User | Error
 	await updateUser(req, res, user)
 }
 
-export default withIronSessionApiRoute(loginRoute, sessionOptions)
+export default withIronSessionApiRoute(handler, sessionOptions)

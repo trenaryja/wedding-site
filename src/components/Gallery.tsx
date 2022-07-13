@@ -1,6 +1,6 @@
 import { Flex, Grid, Image, Spinner, useBreakpointValue } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { chunk } from '../utils'
+import { chunk, getImages } from '../utils'
 
 export default function Gallery() {
 	const [images, setImages] = useState<JSX.Element[]>()
@@ -9,16 +9,15 @@ export default function Gallery() {
 	const gap = 5
 
 	useEffect(() => {
-		const fetchData = async () => {
-			const response = await fetch(`https://wedding-site.glitch.me/${albumId}`)
-			const urls = (await response.json()) as string[]
-			const results = urls.map((x, i) => (
+		const asyncUseEffect = async () => {
+			const urls = await getImages(albumId)
+			const results = urls.map((src, i) => (
 				<Image
 					borderRadius='xl'
 					w='100%'
 					h='100%'
 					objectFit='cover'
-					src={x}
+					src={src}
 					key={i}
 					alt='Picture of Justin, Rachel, and Friends'
 					transition={'all 0.5s ease-in-out'}
@@ -35,7 +34,7 @@ export default function Gallery() {
 			))
 			setImages(results)
 		}
-		fetchData()
+		asyncUseEffect()
 	}, [])
 
 	if (!images) return <Spinner />

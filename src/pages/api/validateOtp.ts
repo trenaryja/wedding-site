@@ -2,7 +2,7 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { decrypt, sessionOptions, updateUser, User } from '../../utils'
 
-const sendOtpRoute = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
 	const { otp } = req.body
 
 	if (!otp) {
@@ -25,4 +25,4 @@ const sendOtpRoute = async (req: NextApiRequest, res: NextApiResponse<User | Err
 	await updateUser(req, res, user)
 }
 
-export default withIronSessionApiRoute(sendOtpRoute, sessionOptions)
+export default withIronSessionApiRoute(handler, sessionOptions)

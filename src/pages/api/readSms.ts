@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import twilio from 'twilio'
 import { sessionOptions } from '../../utils'
 
-const readSmsRoute = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const accountSid = process.env.TWILIO_ACCOUNT_SID
 	const authToken = process.env.TWILIO_AUTH_TOKEN
 	const to = process.env.TWILIO_PHONE_NUMBER
@@ -18,4 +18,4 @@ const readSmsRoute = async (req: NextApiRequest, res: NextApiResponse) => {
 	res.json(messages)
 }
 
-export default withIronSessionApiRoute(readSmsRoute, sessionOptions)
+export default withIronSessionApiRoute(handler, sessionOptions)

@@ -4,7 +4,7 @@ import OurDate from '../components/OurDate'
 import OurNames from '../components/OurNames'
 
 const Index = () => (
-	<VStack mt={20} gap={20}>
+	<VStack mt={20} gap={20} w='100%'>
 		<OurNames />
 		<OurDate maxW='sm' />
 		<Gallery />

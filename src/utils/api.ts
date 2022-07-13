@@ -1,17 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
-
-export type User = {
-	isLoggedIn: boolean
-	isAdmin: boolean
-	phone?: string
-	otp?: string
-}
-
-export const defaultUser: User = {
-	isLoggedIn: false,
-	isAdmin: false,
-}
+import { User } from './types'
 
 export const updateUser = async (req: NextApiRequest, res: NextApiResponse, user: User) => {
 	req.session.user = user
@@ -19,7 +8,7 @@ export const updateUser = async (req: NextApiRequest, res: NextApiResponse, user
 	res.json(user)
 }
 
-export const fetchJson = async <T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> => {
+export const fetcher = async <T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> => {
 	const response = await fetch(input, init)
 	const data = await response.json()
 	if (response.ok) return data as T
@@ -29,10 +18,18 @@ export const fetchJson = async <T>(input: RequestInfo | URL, init?: RequestInit)
 const jsonRequestHeaders = { 'Content-Type': 'application/json' }
 
 const postJson = async <T>(input: RequestInfo | URL, body?: any, init?: RequestInit): Promise<T> => {
-	return await fetchJson(input, {
+	return await fetcher(input, {
 		method: 'POST',
 		headers: jsonRequestHeaders,
 		body: JSON.stringify(body),
+		...init,
+	})
+}
+
+const getJson = async <T>(input: RequestInfo | URL, params?: any, init?: RequestInit): Promise<T> => {
+	return await fetcher(`${input}?${new URLSearchParams(params)}`, {
+		method: 'GET',
+		headers: jsonRequestHeaders,
 		...init,
 	})
 }
@@ -55,4 +52,8 @@ export const sendOtp = async (to: string) => {
 
 export const validateOtp = async (otp: string) => {
 	return await postJson<User>('/api/validateOtp', { otp })
+}
+
+export const getImages = async (albumId: string) => {
+	return await getJson<string[]>('/api/gallery', { albumId })
 }

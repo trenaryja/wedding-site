@@ -11,7 +11,7 @@ import {
 	validateE164PhoneNumber,
 } from '../../utils'
 
-const sendOtpRoute = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
 	const accountSid = process.env.TWILIO_ACCOUNT_SID
 	const authToken = process.env.TWILIO_AUTH_TOKEN
 	const from = process.env.TWILIO_PHONE_NUMBER
@@ -45,4 +45,4 @@ const sendOtpRoute = async (req: NextApiRequest, res: NextApiResponse<User | Err
 	await updateUser(req, res, user)
 }
 
-export default withIronSessionApiRoute(sendOtpRoute, sessionOptions)
+export default withIronSessionApiRoute(handler, sessionOptions)

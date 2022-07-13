@@ -1,9 +1,10 @@
 import CryptoJS from 'crypto-js'
 import { IronSessionOptions } from 'iron-session'
-import { User } from './api'
+import { User } from './types'
 
 export * from './api'
 export * from './theme'
+export * from './types'
 
 declare global {
 	namespace NodeJS {

@@ -4,7 +4,7 @@ import twilio from 'twilio'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 import { sessionOptions, validateE164PhoneNumber } from '../../utils'
 
-const sendSmsRoute = async (req: NextApiRequest, res: NextApiResponse<MessageInstance | Error>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance | Error>) => {
 	const accountSid = process.env.TWILIO_ACCOUNT_SID
 	const authToken = process.env.TWILIO_AUTH_TOKEN
 	const from = process.env.TWILIO_PHONE_NUMBER
@@ -30,4 +30,4 @@ const sendSmsRoute = async (req: NextApiRequest, res: NextApiResponse<MessageIns
 	res.json(message)
 }
 
-export default withIronSessionApiRoute(sendSmsRoute, sessionOptions)
+export default withIronSessionApiRoute(handler, sessionOptions)
