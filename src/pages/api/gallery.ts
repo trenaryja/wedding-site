@@ -1,6 +1,5 @@
-import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { sessionOptions } from '../../utils'
+import { withSessionRoute } from '../../utils'
 
 const regex = /\["(https:\/\/lh3\.googleusercontent\.com\/[a-zA-Z0-9\-_]*)"/g
 
@@ -19,4 +18,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	res.json(Array.from(links))
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions)
+export default withSessionRoute(handler)

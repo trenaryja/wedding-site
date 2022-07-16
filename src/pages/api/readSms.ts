@@ -1,21 +1,15 @@
-import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
-import twilio from 'twilio'
-import { sessionOptions } from '../../utils'
+import { withSessionRoute } from '../../utils'
+import { twilioClient, twilioPhoneNumber } from '../../utils/twilio'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const accountSid = process.env.TWILIO_ACCOUNT_SID
-	const authToken = process.env.TWILIO_AUTH_TOKEN
-	const to = process.env.TWILIO_PHONE_NUMBER
-	const client = twilio(accountSid, authToken)
-
 	if (!req.session.user?.isAdmin) {
 		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
 		return
 	}
 
-	const messages = await client.messages.list({ to })
+	const messages = await twilioClient.messages.list({ to: twilioPhoneNumber })
 	res.json(messages)
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions)
+export default withSessionRoute(handler)

@@ -1,8 +1,7 @@
 import CryptoJS from 'crypto-js'
-import { IronSessionOptions } from 'iron-session'
-import { User } from './types'
 
 export * from './api'
+export * from './session'
 export * from './theme'
 export * from './types'
 
@@ -18,20 +17,6 @@ declare global {
 			JUSTIN_PHONE_NUMBER: string
 		}
 	}
-}
-
-declare module 'iron-session' {
-	interface IronSessionData {
-		user?: User
-	}
-}
-
-export const sessionOptions: IronSessionOptions = {
-	password: process.env.IRON_SESSION_COOKIE_PW,
-	cookieName: 'trenary.netlify.app',
-	cookieOptions: {
-		secure: process.env.NODE_ENV === 'production',
-	},
 }
 
 export const padStart = (num: number, length: number, char = '0') => {

@@ -1,14 +1,9 @@
-import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
-import twilio from 'twilio'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
-import { sessionOptions, validateE164PhoneNumber } from '../../utils'
+import { validateE164PhoneNumber, withSessionRoute } from '../../utils'
+import { twilioClient, twilioPhoneNumber } from '../../utils/twilio'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance | Error>) => {
-	const accountSid = process.env.TWILIO_ACCOUNT_SID
-	const authToken = process.env.TWILIO_AUTH_TOKEN
-	const from = process.env.TWILIO_PHONE_NUMBER
-	const client = twilio(accountSid, authToken)
 	const { to, body } = req.body
 
 	if (!req.session.user?.isAdmin) {
@@ -26,8 +21,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance
 		return
 	}
 
-	const message = await client.messages.create({ to, from, body })
+	const message = await twilioClient.messages.create({ from: twilioPhoneNumber, to, body })
 	res.json(message)
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions)
+export default withSessionRoute(handler)

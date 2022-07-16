@@ -1,6 +1,5 @@
-import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { sessionOptions, updateUser, User } from '../../utils'
+import { updateUser, User, withSessionRoute } from '../../utils'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
 	const { password, useHerPhoneNumber } = await req.body
@@ -16,4 +15,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<User | Error>) 
 	await updateUser(req, res, user)
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions)
+export default withSessionRoute(handler)

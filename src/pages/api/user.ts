@@ -1,6 +1,5 @@
-import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { defaultUser, sessionOptions, User } from '../../utils'
+import { defaultUser, User, withSessionRoute } from '../../utils'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<User>) => {
 	if (!!req.session.user) {
@@ -10,4 +9,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<User>) => {
 	res.json(defaultUser)
 }
 
-export default withIronSessionApiRoute(handler, sessionOptions)
+export default withSessionRoute(handler)
