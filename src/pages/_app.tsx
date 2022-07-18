@@ -23,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 							display='flex'
 							flexDirection='column'
 							flex={1}
+							py='1rem'
 							justifyContent='center'
 							alignItems='center'
 							maxW='container.xl'

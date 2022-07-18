@@ -1,5 +1,6 @@
 import { Button, Spinner, VStack } from '@chakra-ui/react'
 import router from 'next/router'
+import Conversation from '../../components/Conversation'
 import SmsForm from '../../components/SmsForm'
 import useUser from '../../hooks/useUser'
 import { logout } from '../../utils'
@@ -19,6 +20,7 @@ export default function Index() {
 
 	return (
 		<VStack>
+			<Conversation />
 			<SmsForm />
 			<Button onClick={handleLogout}>Logout</Button>
 		</VStack>

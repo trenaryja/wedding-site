@@ -31,7 +31,7 @@ export default function SmsForm() {
 	}
 
 	return (
-		<Box borderWidth='1px' borderRadius='lg' p={5} w='100%'>
+		<Box borderWidth='medium' borderRadius='lg' p={5} w='100%'>
 			<form onSubmit={handleSendSms}>
 				<FormControl isInvalid={!!error}>
 					<PhoneInput value={to} onChange={(value) => setTo(value)} onBlur={handleValidate} isRequired />

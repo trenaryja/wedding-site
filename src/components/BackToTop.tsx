@@ -35,7 +35,7 @@ export default function BackToTop() {
 			right={5}
 			onClick={scrollToTop}
 			icon={<FaArrowUp />}
-			aria-label={'Scroll Back To Top'}
+			aria-label='Scroll Back To Top'
 		/>
 	) : null
 }

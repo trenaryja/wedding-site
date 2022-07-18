@@ -57,3 +57,7 @@ export const validateOtp = async (otp: string) => {
 export const getImages = async (albumId: string) => {
 	return await getJson<string[]>('/api/gallery', { albumId })
 }
+
+export const getMessages = async () => {
+	return await getJson<MessageInstance[]>('/api/readSms')
+}

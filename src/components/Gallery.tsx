@@ -20,7 +20,7 @@ export default function Gallery() {
 					src={src}
 					key={i}
 					alt='Picture of Justin, Rachel, and Friends'
-					transition={'all 0.5s ease-in-out'}
+					transition='all 0.5s ease-in-out'
 					filter='grayscale(1)'
 					transform='scale(.975)'
 					onError={(e) => {
