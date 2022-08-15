@@ -57,9 +57,7 @@ export default function Login() {
 		if (phone && phone.length < 10) setError(new Error('Please enter a valid phone number'))
 	}
 
-	const handleCancel = async () => {
-		await mutateUser(await logout())
-	}
+	const handleCancel = async () => await mutateUser(await logout())
 
 	const handleSubmitPhone = async (e: BaseSyntheticEvent) => {
 		try {

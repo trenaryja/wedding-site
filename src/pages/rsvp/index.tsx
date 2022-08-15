@@ -1,5 +1,4 @@
 import { Button, Spinner, Text, VStack } from '@chakra-ui/react'
-import router from 'next/router'
 import useUser from '../../hooks/useUser'
 import { logout } from '../../utils'
 
@@ -11,10 +10,7 @@ export default function Index() {
 
 	if (!user || !user.isLoggedIn) return <Spinner />
 
-	const handleLogout = async () => {
-		await mutateUser(await logout())
-		router.push('/rsvp/login')
-	}
+	const handleLogout = async () => await mutateUser(await logout())
 
 	return (
 		<VStack>

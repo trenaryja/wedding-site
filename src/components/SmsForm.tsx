@@ -1,9 +1,18 @@
-import { Box, Button, FormControl, FormErrorMessage, FormHelperText, Textarea, useToast } from '@chakra-ui/react'
+import {
+	Box,
+	BoxProps,
+	Button,
+	FormControl,
+	FormErrorMessage,
+	FormHelperText,
+	Textarea,
+	useToast,
+} from '@chakra-ui/react'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
 import { sendSms } from '../utils'
 import PhoneInput from './PhoneInput'
 
-export default function SmsForm() {
+export default function SmsForm(props: BoxProps) {
 	const [to, setTo] = useState('')
 	const [body, setBody] = useState('')
 	const [loading, setLoading] = useState(false)
@@ -31,7 +40,7 @@ export default function SmsForm() {
 	}
 
 	return (
-		<Box borderWidth='medium' borderRadius='lg' p={5} w='100%'>
+		<Box maxW='sm' borderWidth='medium' borderRadius='lg' p={5} w='100%' {...props}>
 			<form onSubmit={handleSendSms}>
 				<FormControl isInvalid={!!error}>
 					<PhoneInput value={to} onChange={(value) => setTo(value)} onBlur={handleValidate} isRequired />
