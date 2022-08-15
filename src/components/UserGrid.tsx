@@ -1,5 +1,12 @@
-import { AddIcon, DownloadIcon, EditIcon, TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
+import { AddIcon, DeleteIcon, DownloadIcon, EditIcon } from '@chakra-ui/icons'
 import {
+	AlertDialog,
+	AlertDialogBody,
+	AlertDialogCloseButton,
+	AlertDialogContent,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogOverlay,
 	Box,
 	Button,
 	Checkbox,
@@ -21,13 +28,11 @@ import {
 	Th,
 	Thead,
 	Tr,
+	useToast,
 	VStack,
 } from '@chakra-ui/react'
-import { rankItem } from '@tanstack/match-sorter-utils'
 import {
-	ColumnDef,
 	createColumnHelper,
-	FilterFn,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
@@ -36,42 +41,17 @@ import {
 	SortingState,
 	useReactTable,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { CSVLink } from 'react-csv'
+import { globalFilterFn, sortComponents } from '../utils/table'
 
 type Person = {
 	firstName: string
 	lastName: string
 	age: number
 }
-const globalFilterFn: FilterFn<any> = (row, columnId, value, addMeta) => {
-	const itemRank = rankItem(row.getValue(columnId), value)
-	addMeta({ itemRank })
-	return itemRank.passed
-}
+
 const columnHelper = createColumnHelper<Person>()
-const columns: ColumnDef<Person>[] = [
-	columnHelper.display({
-		id: 'actions',
-		header: ({ table }) => (
-			<Checkbox
-				isIndeterminate={table.getIsSomeRowsSelected()}
-				isChecked={table.getIsAllRowsSelected()}
-				onChange={table.getToggleAllRowsSelectedHandler()}
-			/>
-		),
-		cell: ({ row }) => (
-			<HStack>
-				<Checkbox isChecked={row.getIsSelected()} onChange={row.getToggleSelectedHandler()} />
-				<IconButton size='xs' icon={<EditIcon />} aria-label='Edit' />
-			</HStack>
-		),
-	}),
-	columnHelper.accessor('firstName', {}),
-	columnHelper.accessor('lastName', {}),
-	columnHelper.accessor('age', {}),
-]
-const sortComponents = { asc: <TriangleUpIcon />, desc: <TriangleDownIcon /> }
 
 const defaultData: Person[] = [
 	{
@@ -95,8 +75,36 @@ export default function UserGrid() {
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [globalFilter, setGlobalFilter] = useState('')
 	const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
-
+	const [currentRowId, setCurrentRowId] = useState('')
 	const [showModal, setShowModal] = useState(false)
+	const [showAlert, setShowAlert] = useState(false)
+	const cancelAlertRef = useRef()
+	const toast = useToast()
+
+	const columns = useMemo(() => {
+		return [
+			columnHelper.accessor('firstName', {}),
+			columnHelper.accessor('lastName', {}),
+			columnHelper.accessor('age', {}),
+			columnHelper.display({
+				id: 'actions',
+				header: ({ table }) => (
+					<Checkbox
+						isIndeterminate={table.getIsSomeRowsSelected()}
+						isChecked={table.getIsAllRowsSelected()}
+						onChange={table.getToggleAllRowsSelectedHandler()}
+					/>
+				),
+				cell: ({ row }) => (
+					<HStack>
+						<Checkbox isChecked={row.getIsSelected()} onChange={row.getToggleSelectedHandler()} />
+						<IconButton size='xs' icon={<EditIcon />} aria-label='Edit' onClick={() => beginEditRow(row.id)} />
+						<IconButton size='xs' icon={<DeleteIcon />} aria-label='Delete' onClick={() => beginDeleteRow(row.id)} />
+					</HStack>
+				),
+			}),
+		]
+	}, [])
 	const table = useReactTable({
 		columns,
 		data: defaultData,
@@ -110,13 +118,49 @@ export default function UserGrid() {
 		onSortingChange: setSorting,
 	})
 
+	const exportData = table.getRowModel().rows.map((x) => x.original as Person)
+	const currentRowData = currentRowId ? (table.getRow(currentRowId).original as Person) : undefined
+
 	const resetTable = () => {
 		setGlobalFilter('')
 		setSorting([])
 		setRowSelection({})
+		setCurrentRowId('')
 	}
 
-	const exportData = table.getRowModel().rows.map((x) => x.original)
+	const beginEditRow = (rowId: string) => {
+		setCurrentRowId(rowId)
+		setShowModal(true)
+	}
+
+	const beginDeleteRow = (rowId: string) => {
+		setCurrentRowId(rowId)
+		setShowAlert(true)
+	}
+
+	const confirmDeleteRow = () => {
+		toast({ title: 'Row deleted', description: 'The row has been deleted', status: 'warning' })
+		closeAlert()
+	}
+
+	const confirmEditRow = () => {
+		if (currentRowId) {
+			toast({ title: 'Row updated', description: 'The row has been updated', status: 'success' })
+		} else {
+			toast({ title: 'Row added', description: 'The row has been added', status: 'success' })
+		}
+		closeModal()
+	}
+
+	const closeModal = () => {
+		setShowModal(false)
+		setCurrentRowId('')
+	}
+
+	const closeAlert = () => {
+		setShowAlert(false)
+		setCurrentRowId('')
+	}
 
 	return (
 		<VStack py={5} alignItems='center' w='100%' borderWidth='medium' borderRadius='lg'>
@@ -174,19 +218,36 @@ export default function UserGrid() {
 			</Box>
 			<Text>{table.getRowModel().rows.length} rows</Text>
 
-			<Modal isOpen={showModal} onClose={() => setShowModal(false)} isCentered closeOnOverlayClick={false}>
+			<Modal isOpen={showModal} onClose={closeModal} isCentered closeOnOverlayClick={false}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalHeader>Modal Title</ModalHeader>
+					<ModalHeader>{currentRowData ? `Editing ${currentRowData?.firstName}` : 'Adding New User'}</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Text>Hello world!</Text>
+						<Text>{currentRowData?.firstName}</Text>
 					</ModalBody>
 					<ModalFooter>
-						<Button>Save</Button>
+						<Button onClick={confirmEditRow}>Save</Button>
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
+
+			<AlertDialog isCentered isOpen={showAlert} leastDestructiveRef={cancelAlertRef} onClose={closeAlert}>
+				<AlertDialogOverlay />
+				<AlertDialogContent>
+					<AlertDialogHeader>{`Deleting ${currentRowData?.firstName}`}</AlertDialogHeader>
+					<AlertDialogCloseButton />
+					<AlertDialogBody>Are you sure? You cant undo this action afterwards.</AlertDialogBody>
+					<AlertDialogFooter>
+						<Button ref={cancelAlertRef} onClick={closeAlert}>
+							Cancel
+						</Button>
+						<Button colorScheme='red' onClick={confirmDeleteRow} ml={3}>
+							Delete
+						</Button>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
 		</VStack>
 	)
 }
