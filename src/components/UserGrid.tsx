@@ -18,9 +18,9 @@ import {
 	ModalBody,
 	ModalCloseButton,
 	ModalContent,
-	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
+	Spinner,
 	Table,
 	Tbody,
 	Td,
@@ -31,6 +31,7 @@ import {
 	useToast,
 	VStack,
 } from '@chakra-ui/react'
+import { User } from '@prisma/client'
 import {
 	createColumnHelper,
 	flexRender,
@@ -41,37 +42,16 @@ import {
 	SortingState,
 	useReactTable,
 } from '@tanstack/react-table'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { CSVLink } from 'react-csv'
+import { db } from '../utils'
 import { globalFilterFn, sortComponents } from '../utils/table'
+import UserForm from './UserForm'
 
-type Person = {
-	firstName: string
-	lastName: string
-	age: number
-}
-
-const columnHelper = createColumnHelper<Person>()
-
-const defaultData: Person[] = [
-	{
-		firstName: 'tanner',
-		lastName: 'linsley',
-		age: 24,
-	},
-	{
-		firstName: 'tandy',
-		lastName: 'miller',
-		age: 40,
-	},
-	{
-		firstName: 'joe',
-		lastName: 'dirte',
-		age: 45,
-	},
-]
+const columnHelper = createColumnHelper<User>()
 
 export default function UserGrid() {
+	const [data, setData] = useState<User[]>([])
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [globalFilter, setGlobalFilter] = useState('')
 	const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
@@ -85,7 +65,17 @@ export default function UserGrid() {
 		return [
 			columnHelper.accessor('firstName', {}),
 			columnHelper.accessor('lastName', {}),
-			columnHelper.accessor('age', {}),
+			columnHelper.accessor('phone', {}),
+			columnHelper.accessor('isAttending', {
+				header: () => 'Attending',
+				cell: ({ getValue }) => (
+					<Checkbox
+						isChecked={getValue()}
+						isIndeterminate={getValue() === null}
+						colorScheme={getValue() === null ? 'red' : undefined}
+					/>
+				),
+			}),
 			columnHelper.display({
 				id: 'actions',
 				header: ({ table }) => (
@@ -107,7 +97,7 @@ export default function UserGrid() {
 	}, [])
 	const table = useReactTable({
 		columns,
-		data: defaultData,
+		data,
 		globalFilterFn,
 		state: { sorting, globalFilter, rowSelection },
 		getCoreRowModel: getCoreRowModel(),
@@ -118,8 +108,15 @@ export default function UserGrid() {
 		onSortingChange: setSorting,
 	})
 
-	const exportData = table.getRowModel().rows.map((x) => x.original as Person)
-	const currentRowData = currentRowId ? (table.getRow(currentRowId).original as Person) : undefined
+	const updateGrid = async () => setData(await db.getUsers())
+
+	useEffect(() => {
+		const asyncUseEffect = async () => updateGrid()
+		asyncUseEffect()
+	}, [])
+
+	const exportData = table?.getRowModel().rows.map((x) => x.original as User)
+	const currentRowData = currentRowId ? (table.getRow(currentRowId).original as User) : undefined
 
 	const resetTable = () => {
 		setGlobalFilter('')
@@ -138,18 +135,24 @@ export default function UserGrid() {
 		setShowAlert(true)
 	}
 
-	const confirmDeleteRow = () => {
+	const confirmDeleteRow = async () => {
+		const { id } = table.getRow(currentRowId).original as User
+		await db.deleteUser(id)
 		toast({ title: 'Row deleted', description: 'The row has been deleted', status: 'warning' })
 		closeAlert()
+		await updateGrid()
 	}
 
-	const confirmEditRow = () => {
+	const confirmEditRow = async (rowData: User) => {
 		if (currentRowId) {
+			await db.updateUser(rowData.id, rowData)
 			toast({ title: 'Row updated', description: 'The row has been updated', status: 'success' })
 		} else {
+			await db.createUser(rowData)
 			toast({ title: 'Row added', description: 'The row has been added', status: 'success' })
 		}
 		closeModal()
+		await updateGrid()
 	}
 
 	const closeModal = () => {
@@ -161,6 +164,8 @@ export default function UserGrid() {
 		setShowAlert(false)
 		setCurrentRowId('')
 	}
+
+	if (!data) return <Spinner />
 
 	return (
 		<VStack py={5} alignItems='center' w='100%' borderWidth='medium' borderRadius='lg'>
@@ -174,7 +179,7 @@ export default function UserGrid() {
 					<CloseButton onClick={resetTable} />
 				</HStack>
 				{/* Filter Chips/Buttons */}
-				{/* <HStack w='100%' overflow='auto'>
+				{/* <HStack w='100%' overflow='auto' css={{ '&::-webkit-scrollbar': { display: 'none' } }}>
 					{[...Array(50).keys()].map((x) => (
 						<Button flexShrink={0} variant='outline' borderRadius='full' key={x}>
 							{`Hello World ${x + 1}`}
@@ -224,11 +229,8 @@ export default function UserGrid() {
 					<ModalHeader>{currentRowData ? `Editing ${currentRowData?.firstName}` : 'Adding New User'}</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<Text>{currentRowData?.firstName}</Text>
+						<UserForm data={currentRowData} onSubmit={confirmEditRow} />
 					</ModalBody>
-					<ModalFooter>
-						<Button onClick={confirmEditRow}>Save</Button>
-					</ModalFooter>
 				</ModalContent>
 			</Modal>
 

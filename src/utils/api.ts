@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 import { User } from './types'
+export * as db from './db'
 
 export const updateUser = async (req: NextApiRequest, res: NextApiResponse, user: User) => {
 	req.session.user = user
@@ -17,7 +18,7 @@ export const fetcher = async <T>(input: RequestInfo | URL, init?: RequestInit): 
 
 const jsonRequestHeaders = { 'Content-Type': 'application/json' }
 
-const postJson = async <T>(input: RequestInfo | URL, body?: any, init?: RequestInit): Promise<T> => {
+export const postJson = async <T>(input: RequestInfo | URL, body?: any, init?: RequestInit): Promise<T> => {
 	return await fetcher(input, {
 		method: 'POST',
 		headers: jsonRequestHeaders,
@@ -26,9 +27,31 @@ const postJson = async <T>(input: RequestInfo | URL, body?: any, init?: RequestI
 	})
 }
 
-const getJson = async <T>(input: RequestInfo | URL, params?: any, init?: RequestInit): Promise<T> => {
+export const getJson = async <T>(input: RequestInfo | URL, params?: any, init?: RequestInit): Promise<T> => {
 	return await fetcher(`${input}?${new URLSearchParams(params)}`, {
 		method: 'GET',
+		headers: jsonRequestHeaders,
+		...init,
+	})
+}
+
+export const putJson = async <T>(
+	input: RequestInfo | URL,
+	params?: any,
+	body?: any,
+	init?: RequestInit,
+): Promise<T> => {
+	return await fetcher(`${input}?${new URLSearchParams(params)}`, {
+		method: 'PUT',
+		headers: jsonRequestHeaders,
+		body: JSON.stringify(body),
+		...init,
+	})
+}
+
+export const deleteJson = async <T>(input: RequestInfo | URL, params?: any, init?: RequestInit): Promise<T> => {
+	return await fetcher(`${input}?${new URLSearchParams(params)}`, {
+		method: 'DELETE',
 		headers: jsonRequestHeaders,
 		...init,
 	})

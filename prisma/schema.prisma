@@ -8,9 +8,9 @@ datasource db {
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
-  phone       String  @unique
+  id          Int      @id @default(autoincrement())
+  phone       String   @unique
   firstName   String
   lastName    String
-  isAttending Boolean
+  isAttending Boolean?
 }
