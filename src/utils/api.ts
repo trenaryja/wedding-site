@@ -39,7 +39,7 @@ export const getJson = async <T>(input: RequestInfo | URL, params?: unknown, ini
 export const putJson = async <T>(
 	input: RequestInfo | URL,
 	params?: unknown,
-	body?: never,
+	body?: unknown,
 	init?: RequestInit,
 ): Promise<T> => {
 	return await fetcher(`${input}?${new URLSearchParams(stringifyValues(params))}`, {

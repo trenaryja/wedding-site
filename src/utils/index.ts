@@ -16,6 +16,7 @@ declare global {
 			TWILIO_PHONE_NUMBER: string
 			RACHEL_PHONE_NUMBER: string
 			JUSTIN_PHONE_NUMBER: string
+			DATABASE_URL: string
 		}
 	}
 }
