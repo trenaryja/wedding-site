@@ -9,7 +9,7 @@ const _update = async (id: number, data: User) => await prisma.user.update({ whe
 const _delete = async (id: number) => await prisma.user.delete({ where: { id } })
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	if (['POST', 'DELETE'].includes(req.method) && !req.session.user?.isAdmin) {
+	if (['POST', 'DELETE'].includes(req.method) && !req.session.data?.isAdmin) {
 		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
 		return
 	}

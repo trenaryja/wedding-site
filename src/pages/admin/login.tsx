@@ -10,11 +10,11 @@ import {
 	VStack,
 } from '@chakra-ui/react'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
-import useUser from '../../hooks/useUser'
+import useSession from '../../hooks/useSession'
 import { login } from '../../utils'
 
 export default function Login() {
-	const { user, mutateUser } = useUser({
+	const { session, mutateSession } = useSession({
 		redirectTo: '/admin',
 		redirectIfAdmin: true,
 	})
@@ -25,13 +25,13 @@ export default function Login() {
 
 	useEffect(() => setError(null), [password])
 
-	if (!user) return <Spinner />
+	if (!session) return <Spinner />
 
 	const handleSubmit = async (e: BaseSyntheticEvent) => {
 		try {
 			e.preventDefault()
 			if (error) return
-			await mutateUser(await login(password, useHerPhoneNumber))
+			await mutateSession(await login(password, useHerPhoneNumber))
 			setError(null)
 		} catch (error) {
 			setError(error)

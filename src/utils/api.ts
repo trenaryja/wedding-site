@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
-import { User } from './types'
+import { Session } from './types'
 export * as db from './db'
 
-export const updateUser = async (req: NextApiRequest, res: NextApiResponse, user: User) => {
-	req.session.user = user
+export const updateSession = async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
+	req.session.data = session
 	await req.session.save()
-	res.json(user)
+	res.json(session)
 }
 
 export const fetcher = async <T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> => {
@@ -58,11 +58,11 @@ export const deleteJson = async <T>(input: RequestInfo | URL, params?: any, init
 }
 
 export const login = async (password: string, useHerPhoneNumber: boolean) => {
-	return await postJson<User>('/api/login', { password, useHerPhoneNumber })
+	return await postJson<Session>('/api/login', { password, useHerPhoneNumber })
 }
 
 export const logout = async () => {
-	return await postJson<User>('/api/logout')
+	return await postJson<Session>('/api/logout')
 }
 
 export const sendSms = async (to: string, body: string) => {
@@ -70,11 +70,11 @@ export const sendSms = async (to: string, body: string) => {
 }
 
 export const sendOtp = async (to: string) => {
-	return await postJson<User>('/api/sendOtp', { to })
+	return await postJson<Session>('/api/sendOtp', { to })
 }
 
 export const validateOtp = async (otp: string) => {
-	return await postJson<User>('/api/validateOtp', { otp })
+	return await postJson<Session>('/api/validateOtp', { otp })
 }
 
 export const getImages = async (albumId: string) => {

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { decrypt, updateUser, User, withSessionRoute } from '../../utils'
+import { decrypt, Session, updateSession, withSessionRoute } from '../../utils'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { otp } = req.body
 
 	if (!otp) {
@@ -9,19 +9,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<User | Error>) 
 		return
 	}
 
-	if (!req.session.user?.otp) {
+	if (!req.session.data?.otp) {
 		res.status(400).json({ message: 'Passcode timed out. Go back and try again' } as Error)
 		return
 	}
 
-	if (decrypt(req.session.user.otp) !== otp) {
+	if (decrypt(req.session.data.otp) !== otp) {
 		res.status(400).json({ message: 'Passcode incorrect. Try again' } as Error)
 		return
 	}
 
-	const { otp: oldOtp, ...currentUser } = req.session.user
-	const user = { ...currentUser, isLoggedIn: true }
-	await updateUser(req, res, user)
+	const { otp: oldOtp, ...currentSession } = req.session.data
+	const session: Session = { ...currentSession, isLoggedIn: true }
+	await updateSession(req, res, session)
 }
 
 export default withSessionRoute(handler)

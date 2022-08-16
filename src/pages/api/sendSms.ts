@@ -6,7 +6,7 @@ import { twilioClient, twilioPhoneNumber } from '../../utils/twilio'
 const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance | Error>) => {
 	const { to, body } = req.body
 
-	if (!req.session.user?.isAdmin) {
+	if (!req.session.data?.isAdmin) {
 		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
 		return
 	}

@@ -1,24 +1,25 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import {
-	defaultUser,
+	defaultSession,
 	encrypt,
 	generateOtp,
-	updateUser,
-	User,
+	Session,
+	updateSession,
 	validateE164PhoneNumber,
 	withSessionRoute,
 } from '../../utils'
 import { twilioClient, twilioPhoneNumber } from '../../utils/twilio'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<User | Error>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { to } = req.body
+	const formattedTo = `+1${to}`
 
 	if (!to) {
 		res.status(400).json({ message: 'Missing phone number' } as Error)
 		return
 	}
 
-	if (!validateE164PhoneNumber(to)) {
+	if (!validateE164PhoneNumber(formattedTo)) {
 		res.status(400).json({ message: 'Not a valid E.164 formatted US phone number' } as Error)
 		return
 	}
@@ -33,11 +34,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<User | Error>) 
 	console.log('OTP:', otp)
 
 	const body = `Your One-Time Passcode (OTP) is: ${otp}`
-	await twilioClient.messages.create({ from: twilioPhoneNumber, to, body })
+	await twilioClient.messages.create({ from: twilioPhoneNumber, to: formattedTo, body })
 
-	const currentUser = req.session.user || defaultUser
-	const user: User = { ...currentUser, phone: to, otp: encrypt(otp) }
-	await updateUser(req, res, user)
+	const currentSession = req.session.data || defaultSession
+	const session: Session = { ...currentSession, otp: encrypt(otp), user: { ...currentSession.user, phone: to } }
+	await updateSession(req, res, session)
 }
 
 export default withSessionRoute(handler)

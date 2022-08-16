@@ -26,7 +26,7 @@ export default function SmsForm(props: BoxProps) {
 			e.preventDefault()
 			if (error) return
 			setLoading(true)
-			await sendSms(`+1${to}`, body)
+			await sendSms(to, body)
 			toast({ title: 'SMS sent!', status: 'success' })
 		} catch (error) {
 			setError(error)

@@ -1,13 +1,15 @@
+import { User } from '@prisma/client'
+
 export type HttpRequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'TRACE' | 'CONNECT'
 
-export interface User {
+export interface Session {
 	isLoggedIn: boolean
 	isAdmin: boolean
-	phone?: string
 	otp?: string
+	user?: Partial<User>
 }
 
-export const defaultUser: User = {
+export const defaultSession: Session = {
 	isLoggedIn: false,
 	isAdmin: false,
 }

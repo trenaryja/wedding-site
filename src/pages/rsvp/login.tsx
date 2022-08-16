@@ -20,15 +20,15 @@ import { intervalToDuration } from 'date-fns'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
 import OtpInput from '../../components/OtpInput'
 import PhoneInput from '../../components/PhoneInput'
-import useUser from '../../hooks/useUser'
+import useSession from '../../hooks/useSession'
 import { logout, padStart, sendOtp, validateOtp } from '../../utils'
 
 export default function Login() {
-	const { user, mutateUser } = useUser({
+	const { session, mutateSession } = useSession({
 		redirectTo: '/rsvp',
 		redirectIfLoggedIn: true,
 	})
-	const hasOtp = !!user?.otp
+	const hasOtp = !!session?.otp
 	const [phone, setPhone] = useState('')
 	const [otp, setOtp] = useState('')
 	const [error, setError] = useState<Error | null>(null)
@@ -44,26 +44,24 @@ export default function Login() {
 			}
 			if (hasOtp) {
 				setError(new Error('OTP expired. Please try again.'))
-				await mutateUser(await logout())
+				await mutateSession(await logout())
 			}
 		}, 1000)
 		return () => clearInterval(interval)
-	}, [hasOtp, mutateUser, remainingTime])
-
-	if (!user) return <Spinner />
+	}, [hasOtp, mutateSession, remainingTime])
 
 	const handleValidatePhone = () => {
 		setError(null)
 		if (phone && phone.length < 10) setError(new Error('Please enter a valid phone number'))
 	}
 
-	const handleCancel = async () => await mutateUser(await logout())
+	const handleCancel = async () => await mutateSession(await logout())
 
 	const handleSubmitPhone = async (e: BaseSyntheticEvent) => {
 		try {
 			e.preventDefault()
 			if (error) return
-			await mutateUser(await sendOtp(`+1${phone}`))
+			await mutateSession(await sendOtp(phone))
 			setRemainingTime(2 * 60 * 1000)
 			setError(null)
 		} catch (error) {
@@ -78,7 +76,7 @@ export default function Login() {
 			e.preventDefault()
 			if (error) return
 			setLoading(true)
-			await mutateUser(await validateOtp(otp))
+			await mutateSession(await validateOtp(otp))
 			setError(null)
 		} catch (error) {
 			setError(error)
@@ -95,6 +93,8 @@ export default function Login() {
 	const submitButtonText = hasOtp ? 'Submit Passcode' : 'Send Passcode'
 	const duration = intervalToDuration({ start: 0, end: remainingTime })
 	const formattedRemainingTime = `${padStart(duration.minutes, 2)}:${padStart(duration.seconds, 2)}`
+
+	if (!session) return <Spinner />
 
 	return (
 		<form onSubmit={handleSubmitForm}>

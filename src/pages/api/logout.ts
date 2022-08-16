@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { defaultUser, User, withSessionRoute } from '../../utils'
+import { defaultSession, Session, withSessionRoute } from '../../utils'
 
-const logoutRoute = (req: NextApiRequest, res: NextApiResponse<User>) => {
+const logoutRoute = (req: NextApiRequest, res: NextApiResponse<Session>) => {
 	req.session.destroy()
-	res.json(defaultUser)
+	res.json(defaultSession)
 }
 
 export default withSessionRoute(logoutRoute)

@@ -1,20 +1,20 @@
 import { Button, Spinner, Text, VStack } from '@chakra-ui/react'
-import useUser from '../../hooks/useUser'
+import useSession from '../../hooks/useSession'
 import { logout } from '../../utils'
 
 export default function Index() {
-	const { user, mutateUser } = useUser({
+	const { session, mutateSession } = useSession({
 		redirectTo: '/rsvp/login',
 		redirectIfNotLoggedIn: true,
 	})
 
-	if (!user || !user.isLoggedIn) return <Spinner />
+	if (!session || !session.isLoggedIn) return <Spinner />
 
-	const handleLogout = async () => await mutateUser(await logout())
+	const handleLogout = async () => await mutateSession(await logout())
 
 	return (
 		<VStack>
-			<Text as='pre'>{JSON.stringify(user, null, 2)}</Text>
+			<Text as='pre'>{JSON.stringify(session, null, 2)}</Text>
 			<Button onClick={handleLogout}>Logout</Button>
 		</VStack>
 	)

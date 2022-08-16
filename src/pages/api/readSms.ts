@@ -5,7 +5,7 @@ import { withSessionRoute } from '../../utils'
 import { twilioClient } from '../../utils/twilio'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance[] | Error>) => {
-	if (!req.session.user?.isAdmin) {
+	if (!req.session.data?.isAdmin) {
 		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
 		return
 	}

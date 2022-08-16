@@ -2,18 +2,18 @@ import { Button, Spinner, VStack } from '@chakra-ui/react'
 import Conversation from '../../components/Conversation'
 import SmsForm from '../../components/SmsForm'
 import UserGrid from '../../components/UserGrid'
-import useUser from '../../hooks/useUser'
+import useSession from '../../hooks/useSession'
 import { logout } from '../../utils'
 
 export default function Index() {
-	const { user, mutateUser } = useUser({
+	const { session, mutateSession } = useSession({
 		redirectTo: '/admin/login',
 		redirectIfNotAdmin: true,
 	})
 
-	if (!user || !user.isAdmin) return <Spinner />
+	if (!session || !session.isAdmin) return <Spinner />
 
-	const handleLogout = async () => await mutateUser(await logout())
+	const handleLogout = async () => await mutateSession(await logout())
 
 	return (
 		<VStack w='100%'>
