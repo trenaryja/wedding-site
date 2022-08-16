@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import CryptoJS from 'crypto-js'
 
 export * from './api'
@@ -67,4 +68,13 @@ export const encrypt = (value: string) => {
 
 export const decrypt = (value: string) => {
 	return CryptoJS.AES.decrypt(value, process.env.IRON_SESSION_COOKIE_PW).toString(CryptoJS.enc.Utf8)
+}
+
+export const stringifyValues = <T>(input: T): { [key in keyof T]: string } => {
+	if ([null, undefined].includes(input)) return
+	const out: { [key in keyof T]: string } = {} as { [key in keyof T]: string }
+	for (const key of Object.keys(input) as (keyof T)[]) {
+		out[key] = input[key]?.toString()
+	}
+	return out
 }

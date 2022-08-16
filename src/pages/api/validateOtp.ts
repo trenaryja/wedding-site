@@ -19,6 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 		return
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { otp: oldOtp, ...currentSession } = req.session.data
 	const session: Session = { ...currentSession, isLoggedIn: true }
 	await updateSession(req, res, session)

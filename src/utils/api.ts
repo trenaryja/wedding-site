@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
+import { stringifyValues } from '.'
 import { Session } from './types'
 export * as db from './db'
 
@@ -18,7 +19,7 @@ export const fetcher = async <T>(input: RequestInfo | URL, init?: RequestInit): 
 
 const jsonRequestHeaders = { 'Content-Type': 'application/json' }
 
-export const postJson = async <T>(input: RequestInfo | URL, body?: any, init?: RequestInit): Promise<T> => {
+export const postJson = async <T>(input: RequestInfo | URL, body?: unknown, init?: RequestInit): Promise<T> => {
 	return await fetcher(input, {
 		method: 'POST',
 		headers: jsonRequestHeaders,
@@ -27,8 +28,8 @@ export const postJson = async <T>(input: RequestInfo | URL, body?: any, init?: R
 	})
 }
 
-export const getJson = async <T>(input: RequestInfo | URL, params?: any, init?: RequestInit): Promise<T> => {
-	return await fetcher(`${input}?${new URLSearchParams(params)}`, {
+export const getJson = async <T>(input: RequestInfo | URL, params?: unknown, init?: RequestInit): Promise<T> => {
+	return await fetcher(`${input}?${new URLSearchParams(stringifyValues(params))}`, {
 		method: 'GET',
 		headers: jsonRequestHeaders,
 		...init,
@@ -37,11 +38,11 @@ export const getJson = async <T>(input: RequestInfo | URL, params?: any, init?: 
 
 export const putJson = async <T>(
 	input: RequestInfo | URL,
-	params?: any,
-	body?: any,
+	params?: unknown,
+	body?: never,
 	init?: RequestInit,
 ): Promise<T> => {
-	return await fetcher(`${input}?${new URLSearchParams(params)}`, {
+	return await fetcher(`${input}?${new URLSearchParams(stringifyValues(params))}`, {
 		method: 'PUT',
 		headers: jsonRequestHeaders,
 		body: JSON.stringify(body),
@@ -49,8 +50,8 @@ export const putJson = async <T>(
 	})
 }
 
-export const deleteJson = async <T>(input: RequestInfo | URL, params?: any, init?: RequestInit): Promise<T> => {
-	return await fetcher(`${input}?${new URLSearchParams(params)}`, {
+export const deleteJson = async <T>(input: RequestInfo | URL, params?: unknown, init?: RequestInit): Promise<T> => {
+	return await fetcher(`${input}?${new URLSearchParams(stringifyValues(params))}`, {
 		method: 'DELETE',
 		headers: jsonRequestHeaders,
 		...init,
