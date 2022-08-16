@@ -111,7 +111,7 @@ export default function UserGrid() {
 	const updateGrid = async () => setData(await db.getUsers())
 
 	useEffect(() => {
-		const asyncUseEffect = async () => updateGrid()
+		const asyncUseEffect = async () => await updateGrid()
 		asyncUseEffect()
 	}, [])
 

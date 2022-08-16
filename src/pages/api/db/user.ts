@@ -29,6 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 		case 'DELETE': {
 			res.json(await _delete(parseInt(req.query.id as string)))
+			break
 		}
 	}
 }
