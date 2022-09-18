@@ -1,4 +1,4 @@
-import { AddIcon, DeleteIcon, DownloadIcon, EditIcon } from '@chakra-ui/icons'
+import { AddIcon, DeleteIcon, DownloadIcon, EditIcon, ViewIcon } from '@chakra-ui/icons'
 import {
 	AlertDialog,
 	AlertDialogBody,
@@ -42,9 +42,11 @@ import {
 	SortingState,
 	useReactTable,
 } from '@tanstack/react-table'
+import Router from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CSVLink } from 'react-csv'
-import { db } from '../utils'
+import useSession from '../hooks/useSession'
+import { db, setSession } from '../utils'
 import { globalFilterFn, sortComponents } from '../utils/table'
 import UserForm from './UserForm'
 
@@ -60,6 +62,7 @@ export default function UserGrid() {
 	const [showAlert, setShowAlert] = useState(false)
 	const cancelAlertRef = useRef()
 	const toast = useToast()
+	const { session, mutateSession } = useSession()
 
 	const columns = useMemo(() => {
 		return [
@@ -90,6 +93,7 @@ export default function UserGrid() {
 						<Checkbox isChecked={row.getIsSelected()} onChange={row.getToggleSelectedHandler()} />
 						<IconButton size='xs' icon={<EditIcon />} aria-label='Edit' onClick={() => beginEditRow(row.id)} />
 						<IconButton size='xs' icon={<DeleteIcon />} aria-label='Delete' onClick={() => beginDeleteRow(row.id)} />
+						<IconButton size='xs' icon={<ViewIcon />} aria-label='Impersonate' onClick={() => impersonateRow(row.id)} />
 					</HStack>
 				),
 			}),
@@ -133,6 +137,11 @@ export default function UserGrid() {
 	const beginDeleteRow = (rowId: string) => {
 		setCurrentRowId(rowId)
 		setShowAlert(true)
+	}
+
+	const impersonateRow = async (rowId: string) => {
+		await mutateSession(await setSession({ ...session, user: table.getRow(rowId).original as User }))
+		Router.push('/rsvp')
 	}
 
 	const confirmDeleteRow = async () => {

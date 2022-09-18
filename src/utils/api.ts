@@ -63,7 +63,7 @@ export const login = async (password: string, useHerPhoneNumber: boolean) => {
 }
 
 export const logout = async () => {
-	return await postJson<Session>('/api/logout')
+	return await deleteJson<Session>('/api/session')
 }
 
 export const sendSms = async (to: string, body: string) => {
@@ -84,4 +84,8 @@ export const getImages = async (albumId: string) => {
 
 export const getMessages = async () => {
 	return await getJson<MessageInstance[]>('/api/readSms')
+}
+
+export const setSession = async (session: Partial<Session>) => {
+	return await putJson<Session>('/api/session', session)
 }

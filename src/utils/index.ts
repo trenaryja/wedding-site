@@ -21,6 +21,8 @@ declare global {
 	}
 }
 
+export const exists = (x: unknown) => x !== undefined && x !== null
+
 export const padStart = (num: number, length: number, char = '0') => {
 	return `${char.repeat(length)}${num}`.slice(-length)
 }

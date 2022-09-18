@@ -1,14 +1,19 @@
-import { extendTheme, theme as defaultTheme, ThemeConfig, useTheme as defaultUseTheme } from '@chakra-ui/react'
+import { extendTheme, theme as defaultTheme, useTheme as defaultUseTheme } from '@chakra-ui/react'
 
-const config: ThemeConfig = {
-	initialColorMode: 'dark',
-}
+type Theme = typeof defaultTheme
 
-type Theme = typeof defaultTheme & {
-	// insert any additional values
-}
-
-export const theme = extendTheme(defaultTheme, { config }) as Theme
+export const theme = extendTheme(defaultTheme, {
+	config: {
+		initialColorMode: 'dark',
+	},
+	styles: {
+		global: {
+			body: {
+				bg: 'gray.900',
+			},
+		},
+	},
+} as Partial<Theme>) as Theme
 
 export const useTheme = () => {
 	return defaultUseTheme() as Theme

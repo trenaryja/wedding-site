@@ -1,6 +1,7 @@
 import { Box, BoxProps, Button, Checkbox, FormControl, FormErrorMessage, Input, Text, VStack } from '@chakra-ui/react'
 import { User } from '@prisma/client'
 import { BaseSyntheticEvent, useState } from 'react'
+import { exists } from '../utils'
 import PhoneInput from './PhoneInput'
 
 type UserFormProps = {
@@ -41,7 +42,7 @@ export default function UserForm({ data, onSubmit, ...props }: UserFormProps) {
 		}
 	}
 
-	const isAttendingMessage = isAttending === undefined ? 'Maybe' : isAttending ? 'Yes' : 'No'
+	const isAttendingMessage = !exists(isAttending) ? 'Maybe' : isAttending ? 'Yes' : 'No'
 
 	return (
 		<Box {...props}>
@@ -61,7 +62,7 @@ export default function UserForm({ data, onSubmit, ...props }: UserFormProps) {
 						<Checkbox
 							onChange={(e) => setIsAttending(e.target.checked)}
 							isChecked={isAttending}
-							isIndeterminate={isAttending === undefined}
+							isIndeterminate={!exists(isAttending)}
 						/>
 						<Text>{isAttendingMessage}</Text>
 					</FormControl>
