@@ -87,5 +87,5 @@ export const getMessages = async () => {
 }
 
 export const setSession = async (session: Partial<Session>) => {
-	return await putJson<Session>('/api/session', session)
+	return await postJson<Session>('/api/session', session)
 }

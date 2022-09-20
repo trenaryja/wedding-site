@@ -4,7 +4,7 @@ import { chunk, getImages } from '../utils'
 
 export default function Gallery() {
 	const [images, setImages] = useState<JSX.Element[]>()
-	const columnCount = useBreakpointValue({ base: 1, sm: 2, md: 3, lg: 4, xl: 5 })
+	const columnCount = useBreakpointValue({ base: 1, sm: 2, md: 3 })
 	const albumId = 'ZY34btqj5Fk1LZBt9'
 	const gap = 5
 
@@ -18,7 +18,7 @@ export default function Gallery() {
 					h='100%'
 					objectFit='cover'
 					src={src}
-					key={i}
+					key={src}
 					alt='Picture of Justin, Rachel, and Friends'
 					transition='all 0.5s ease-in-out'
 					filter='grayscale(1)'

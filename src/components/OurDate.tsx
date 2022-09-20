@@ -27,7 +27,7 @@ export default function OurDate(props: BoxProps) {
 	}, [])
 
 	return (
-		<Box w='100%' border='1px' p={5} boxShadow='dark-lg' {...props}>
+		<Box w='100%' border='1px' p={5} {...props}>
 			<SvgText fontWeight={900} value={format(WEDDING_DATE, 'M/d/y')} />
 			<SvgText fontWeight={100} value={format(WEDDING_DATE, 'EEEE')} />
 			<SvgText fontWeight={500} value={format(WEDDING_DATE, 'MMMM')} />
