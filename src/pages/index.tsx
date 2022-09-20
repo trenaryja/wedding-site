@@ -1,4 +1,4 @@
-import { Image, VStack } from '@chakra-ui/react'
+import { Image, Tab, TabList, TabPanel, TabPanels, Tabs, VStack } from '@chakra-ui/react'
 import Gallery from '../components/Gallery'
 import OurDate from '../components/OurDate'
 import OurNames from '../components/OurNames'
@@ -21,7 +21,20 @@ const Index = () => (
 			<OurNames />
 			<OurDate maxW='xs' zIndex={1} />
 		</VStack>
-		<Gallery />
+		<Tabs isFitted isLazy w='100%' colorScheme='gray'>
+			<TabList>
+				<Tab>Friends & Family</Tab>
+				<Tab>Just Us</Tab>
+			</TabList>
+			<TabPanels>
+				<TabPanel>
+					<Gallery albumId='ZY34btqj5Fk1LZBt9' />
+				</TabPanel>
+				<TabPanel>
+					<Gallery albumId='3E4AiRUXRaRi8GzGA' />
+				</TabPanel>
+			</TabPanels>
+		</Tabs>
 	</VStack>
 )
 

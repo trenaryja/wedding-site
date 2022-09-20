@@ -1,11 +1,14 @@
-import { Flex, Grid, Image, Spinner, useBreakpointValue } from '@chakra-ui/react'
+import { Flex, Grid, Image, Skeleton, useBreakpointValue } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { chunk, getImages } from '../utils'
 
-export default function Gallery() {
+type GalleryProps = {
+	albumId: string
+}
+
+export default function Gallery({ albumId }: GalleryProps) {
 	const [images, setImages] = useState<JSX.Element[]>()
 	const columnCount = useBreakpointValue({ base: 1, sm: 2, md: 3 })
-	const albumId = 'ZY34btqj5Fk1LZBt9'
 	const gap = 5
 
 	useEffect(() => {
@@ -35,9 +38,9 @@ export default function Gallery() {
 			setImages(results)
 		}
 		asyncUseEffect()
-	}, [])
+	}, [albumId])
 
-	if (!images) return <Spinner />
+	const skeletons = [...Array(20)].map((_x, i) => <Skeleton h={200} key={i} />)
 
 	return (
 		<Grid
@@ -52,7 +55,7 @@ export default function Gallery() {
 				},
 			}}
 		>
-			{chunk(images, columnCount).map((chunkOfImages, i) => (
+			{chunk(images ?? skeletons, columnCount).map((chunkOfImages, i) => (
 				<Flex gap={gap} key={i} direction='column' width='100%'>
 					{chunkOfImages}
 				</Flex>
