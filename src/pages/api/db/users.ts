@@ -1,7 +1,7 @@
 import { PrismaClient, User } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { withSessionRoute } from '../../../utils'
-export const prisma = new PrismaClient()
+const prisma = new PrismaClient()
 
 const _create = async (data: User[]) => await prisma.user.createMany({ data })
 const _read = async () => await prisma.user.findMany()

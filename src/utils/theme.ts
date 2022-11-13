@@ -13,6 +13,9 @@ export const theme = extendTheme(defaultTheme, {
 			},
 		},
 	},
+	fonts: {
+		...defaultTheme.fonts,
+	},
 } as Partial<Theme>) as Theme
 
 export const useTheme = () => {

@@ -27,10 +27,10 @@ const Index = () => (
 				<Tab>Just Us</Tab>
 			</TabList>
 			<TabPanels>
-				<TabPanel>
+				<TabPanel px={0} py={1}>
 					<Gallery albumId='ZY34btqj5Fk1LZBt9' />
 				</TabPanel>
-				<TabPanel>
+				<TabPanel px={0} py={1}>
 					<Gallery albumId='3E4AiRUXRaRi8GzGA' />
 				</TabPanel>
 			</TabPanels>

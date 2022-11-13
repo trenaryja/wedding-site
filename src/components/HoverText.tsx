@@ -9,7 +9,7 @@ export default function HoverText({ hoverBg, heading, children, ...props }: Hove
 			pos='relative'
 			textDecor='none'
 			_before={{
-				background: hoverBg,
+				background: hoverBg ?? 'gray.700',
 				content: '""',
 				inset: 0,
 				position: 'absolute',

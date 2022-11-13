@@ -2,7 +2,7 @@ import { VStack } from '@chakra-ui/react'
 import HoverText, { HoverTextProps } from './HoverText'
 
 const Line = ({ children }: HoverTextProps) => (
-	<HoverText heading hoverBg='gray.700' textAlign='center' size='4xl'>
+	<HoverText heading textAlign='center' size='4xl'>
 		{children}
 	</HoverText>
 )

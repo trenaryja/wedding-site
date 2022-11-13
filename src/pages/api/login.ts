@@ -1,5 +1,7 @@
+import { PrismaClient } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Session, updateSession, withSessionRoute } from '../../utils'
+const prisma = new PrismaClient()
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { password, useHerPhoneNumber } = await req.body
@@ -10,10 +12,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 	}
 
 	const phone = useHerPhoneNumber ? process.env.RACHEL_PHONE_NUMBER : process.env.JUSTIN_PHONE_NUMBER
-
-	// TODO: Lookup phone number in database to get additional user info. If no user, send error
-
-	const session: Session = { isLoggedIn: true, isAdmin: true, user: { phone } }
+	const user = await prisma.user.findUnique({ where: { phone } })
+	const session: Session = { isLoggedIn: true, isAdmin: true, user }
 	await updateSession(req, res, session)
 }
 

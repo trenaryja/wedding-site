@@ -1,3 +1,4 @@
+import { PrismaClient } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import {
 	defaultSession,
@@ -9,6 +10,7 @@ import {
 	withSessionRoute,
 } from '../../utils'
 import { twilioClient, twilioPhoneNumber } from '../../utils/twilio'
+const prisma = new PrismaClient()
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { to } = req.body
@@ -24,9 +26,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 		return
 	}
 
-	// TODO: Lookup phone number in database to get additional user info. If no user, send error
-	if (![process.env.RACHEL_PHONE_NUMBER, process.env.JUSTIN_PHONE_NUMBER].includes(to)) {
-		res.status(400).json({ message: 'Not a recognized phone number' } as Error)
+	const user = await prisma.user.findUnique({ where: { phone: to } })
+
+	if (!user) {
+		res.status(400).json({ message: 'This phone number did not match anyone on the invite list' } as Error)
 		return
 	}
 
@@ -37,7 +40,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 	await twilioClient.messages.create({ from: twilioPhoneNumber, to: formattedTo, body })
 
 	const currentSession = req.session.data || defaultSession
-	const session: Session = { ...currentSession, otp: encrypt(otp), user: { ...currentSession.user, phone: to } }
+	const session: Session = {
+		...currentSession,
+		otp: encrypt(otp),
+		user: { ...currentSession.user, ...user },
+	}
 	await updateSession(req, res, session)
 }
 
