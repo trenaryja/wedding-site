@@ -7,6 +7,9 @@ import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { fetcher, theme } from '../utils'
 
+import '@fontsource/limelight'
+import '@fontsource/raleway'
+
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>

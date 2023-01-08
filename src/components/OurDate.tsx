@@ -1,38 +1,36 @@
 import { Box, BoxProps } from '@chakra-ui/react'
-import { format } from 'date-fns'
-import { ReactNode, SVGProps, useEffect } from 'react'
-import { useTheme } from '../utils'
+import { useEffect, useRef } from 'react'
 import CountDown from './CountDown'
 
-const WEDDING_DATE = new Date('2023-11-18T05:00:00.000Z')
-
-const SvgText = ({ children, value, ...props }: SVGProps<SVGTextElement> & { value: ReactNode }) => {
-	const theme = useTheme()
-	return (
-		<svg className='svg-text'>
-			<text fill={theme.colors.white} {...props}>
-				{value ?? children}
-			</text>
-		</svg>
-	)
+export type OurDateProps = BoxProps & {
+	lines: (string | { text: string; props?: React.SVGProps<SVGTextElement> })[]
+	props?: React.SVGProps<SVGTextElement>
 }
 
-export default function OurDate(props: BoxProps) {
+export default function OurDate({ lines, props, ...rest }: OurDateProps) {
+	const refs = useRef<Array<SVGElement | null>>([])
+
 	useEffect(() => {
-		document.querySelectorAll('.svg-text').forEach((svg) => {
-			const text = svg.querySelector('text')
-			const bbox = text.getBBox()
-			svg.setAttribute('viewBox', [bbox.x, bbox.y, bbox.width, bbox.height].join(' '))
+		refs.current = refs.current.slice(0, lines.length)
+	}, [lines])
+
+	useEffect(() => {
+		refs.current.forEach((svg) => {
+			const text = svg?.querySelector('text')
+			const bbox = text?.getBBox()
+			svg?.setAttribute('viewBox', [bbox?.x, bbox?.y, bbox?.width, bbox?.height].join(' '))
 		})
-	}, [])
+	}, [lines])
 
 	return (
-		<Box w='100%' border='1px' p={5} {...props}>
-			<SvgText fontWeight={900} value={format(WEDDING_DATE, 'M/d/y')} />
-			<SvgText fontWeight={100} value={format(WEDDING_DATE, 'EEEE')} />
-			<SvgText fontWeight={500} value={format(WEDDING_DATE, 'MMMM')} />
-			<SvgText fontWeight={900} value={format(WEDDING_DATE, 'do')} />
-			<SvgText fontWeight={500} value={format(WEDDING_DATE, 'y')} />
+		<Box w='100%' border='1px' p={5} {...rest}>
+			{lines.map((line, i) => (
+				<svg key={i} ref={(svg) => (refs.current[i] = svg)}>
+					<text {...props} {...(typeof line === 'string' ? undefined : line.props)}>
+						{typeof line === 'string' ? line : line.text}
+					</text>
+				</svg>
+			))}
 			<CountDown />
 		</Box>
 	)

@@ -15,6 +15,8 @@ export const theme = extendTheme(defaultTheme, {
 	},
 	fonts: {
 		...defaultTheme.fonts,
+		heading: `'Limelight', sans-serif`,
+		body: `'Raleway', sans-serif`,
 	},
 } as Partial<Theme>) as Theme
 

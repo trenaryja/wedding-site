@@ -1,4 +1,4 @@
-import { Box, BoxProps, Grid, Heading, Image, useBreakpointValue } from '@chakra-ui/react'
+import { Box, BoxProps, Grid, Heading, Image, Text, useBreakpointValue } from '@chakra-ui/react'
 
 const flatHexApectRatio = 2 / Math.sqrt(3)
 const flatHexClipPath = `polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);`
@@ -30,12 +30,11 @@ const Person = ({ first, last, title }: PersonProps) => (
 				src={`/people/${first}.png`}
 			/>
 		</Grid>
-		<Heading textAlign='center'>
-			{first} {last}
-		</Heading>
-		<Heading textAlign='center' size='md'>
+		<Heading textAlign='center'>{first}</Heading>
+		<Heading textAlign='center'>{last}</Heading>
+		<Text textAlign='center' size='md'>
 			{title}
-		</Heading>
+		</Text>
 	</Box>
 )
 

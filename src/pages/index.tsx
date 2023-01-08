@@ -1,7 +1,10 @@
 import { Image, Tab, TabList, TabPanel, TabPanels, Tabs, VStack } from '@chakra-ui/react'
+import { format } from 'date-fns'
 import Gallery from '../components/Gallery'
-import OurDate from '../components/OurDate'
+import ScaledText from '../components/OurDate'
 import OurNames from '../components/OurNames'
+
+const WEDDING_DATE = new Date('2023-11-18T05:00:00.000Z')
 
 const Index = () => (
 	<VStack mt={20} gap={20} w='100%'>
@@ -19,7 +22,19 @@ const Index = () => (
 				filter='grayscale(1) brightness(.5)'
 			/>
 			<OurNames />
-			<OurDate maxW='xs' zIndex={1} />
+			<ScaledText
+				maxW='xs'
+				zIndex={1}
+				lines={[
+					{ text: format(WEDDING_DATE, 'M/d/y'), props: { fontWeight: 900 } },
+					{ text: format(WEDDING_DATE, 'EEEE'), props: { fontWeight: 50 } },
+					{ text: format(WEDDING_DATE, 'MMMM'), props: { fontWeight: 500 } },
+					{ text: format(WEDDING_DATE, 'do'), props: { fontWeight: 900 } },
+					{ text: format(WEDDING_DATE, 'y'), props: { fontWeight: 500 } },
+				]}
+				fill='white'
+				props={{ fontFamily: 'Limelight' }}
+			/>
 		</VStack>
 		<Tabs isFitted isLazy w='100%' colorScheme='gray'>
 			<TabList>
