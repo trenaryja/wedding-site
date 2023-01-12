@@ -1,6 +1,7 @@
 import { ChakraProvider, Container, Flex } from '@chakra-ui/react'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
+import Particles from 'react-tsparticles'
 import { SWRConfig } from 'swr'
 import BackToTop from '../components/BackToTop'
 import Footer from '../components/Footer'
@@ -20,6 +21,20 @@ function MyApp({ Component, pageProps }: AppProps) {
 			</Head>
 			<SWRConfig value={{ fetcher }}>
 				<ChakraProvider resetCSS theme={theme}>
+					<Particles
+						options={{
+							fullScreen: true,
+							fps_limit: 60,
+							particles: {
+								move: { enable: true, random: true, speed: 0.25 },
+								size: { value: { min: 1, max: 3 } },
+								opacity: {
+									animation: { enable: true, speed: 1, sync: false },
+									value: { min: 0, max: 1 },
+								},
+							},
+						}}
+					/>
 					<Flex minW='xs' overflowX='hidden' flexDir='column' minH='100vh'>
 						<Header />
 						<Container

@@ -3,8 +3,7 @@ import { format } from 'date-fns'
 import Gallery from '../components/Gallery'
 import ScaledText from '../components/OurDate'
 import OurNames from '../components/OurNames'
-
-const WEDDING_DATE = new Date('2023-11-18T05:00:00.000Z')
+import { WEDDING_DATE } from '../utils'
 
 const Index = () => (
 	<VStack mt={20} gap={20} w='100%'>
@@ -16,10 +15,10 @@ const Index = () => (
 				left={0}
 				width='100%'
 				height='100%'
-				src='engagement.jpg'
+				src='engagement.png'
 				objectFit='cover'
 				backgroundPosition='center'
-				filter='grayscale(1) brightness(.5)'
+				filter='grayscale(1) brightness(.75)'
 			/>
 			<OurNames />
 			<ScaledText

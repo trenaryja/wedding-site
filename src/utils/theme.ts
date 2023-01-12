@@ -9,7 +9,8 @@ export const theme = extendTheme(defaultTheme, {
 	styles: {
 		global: {
 			body: {
-				bg: 'black',
+				bg: 'transparent',
+				backgroundImage: 'url(https://www.toptal.com/designers/subtlepatterns/uploads/ep_naturalblack.png)',
 			},
 		},
 	},
