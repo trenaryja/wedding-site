@@ -6,7 +6,7 @@ export interface Session {
 	isLoggedIn: boolean
 	isAdmin: boolean
 	otp?: string
-	user?: Partial<User>
+	user?: User
 }
 
 export const defaultSession: Session = {

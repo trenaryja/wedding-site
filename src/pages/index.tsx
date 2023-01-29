@@ -7,7 +7,7 @@ import { WEDDING_DATE } from '../utils'
 
 const Index = () => (
 	<VStack mt={20} gap={20} w='100%'>
-		<VStack position='relative' w='100%' gap={10}>
+		<VStack position='relative' w='100%' gap={10} p={5}>
 			<Image
 				alt='Rachel & Justin'
 				position='absolute'
