@@ -18,11 +18,15 @@ export default function UserForm({ data, onSubmit, ...props }: UserFormProps) {
 	const [isAttending, setIsAttending] = useState(data?.isAttending)
 
 	const formData: User = {
-		id: data?.id,
+		id: data.id,
 		firstName,
 		lastName,
 		phone,
 		isAttending,
+		isPlusOneAllowed: null,
+		isPlusOneAttending: null,
+		messageToUs: null,
+		plusOneName: null,
 	}
 
 	// const handleValidate = () => {

@@ -2,7 +2,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next",
-		"build": "next build",
+		"build": " prisma generate && next build",
 		"start": "next start",
 		"prettier": "prettier --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx|json)\"",
 		"eslint": "eslint --ignore-path .gitignore \"**/*.+(js|jsx|ts|tsx)\"",
