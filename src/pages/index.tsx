@@ -1,8 +1,6 @@
 import { Image, Tab, TabList, TabPanel, TabPanels, Tabs, VStack } from '@chakra-ui/react'
 import { format } from 'date-fns'
-import Gallery from '../components/Gallery'
-import ScaledText from '../components/OurDate'
-import OurNames from '../components/OurNames'
+import { Gallery, OurDate, OurNames } from '../components'
 import { WEDDING_DATE } from '../utils'
 
 const Index = () => (
@@ -21,7 +19,7 @@ const Index = () => (
 				filter='grayscale(1) brightness(.75)'
 			/>
 			<OurNames />
-			<ScaledText
+			<OurDate
 				maxW='xs'
 				zIndex={1}
 				lines={[

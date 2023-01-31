@@ -1,13 +1,13 @@
 import { Box, BoxProps } from '@chakra-ui/react'
 import { useEffect, useRef } from 'react'
-import CountDown from './CountDown'
+import { CountDown } from '.'
 
 export type OurDateProps = BoxProps & {
 	lines: (string | { text: string; props?: React.SVGProps<SVGTextElement> })[]
 	props?: React.SVGProps<SVGTextElement>
 }
 
-export default function OurDate({ lines, props, ...rest }: OurDateProps) {
+export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 	const refs = useRef<Array<SVGElement | null>>([])
 
 	useEffect(() => {

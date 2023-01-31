@@ -9,7 +9,7 @@ const DateValue = ({ value, label }: { value: number | undefined; label: string 
 	</VStack>
 )
 
-export default function CountDown() {
+export const CountDown = () => {
 	const [days, hours, minutes] = useCountdown(WEDDING_DATE)
 	return (
 		<HStack justifyContent='space-around' divider={<Text px={2}>|</Text>}>

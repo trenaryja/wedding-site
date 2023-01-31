@@ -1,8 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import {
 	Button,
-	ButtonGroup,
-	ButtonProps,
 	FormControl,
 	Heading,
 	HStack,
@@ -15,18 +13,9 @@ import {
 } from '@chakra-ui/react'
 import { addMonths, format } from 'date-fns'
 import { useRef, useState } from 'react'
+import { NoMaybeYes } from '../../components'
 import useSession from '../../hooks/useSession'
 import { db, logout, setSession, WEDDING_DATE } from '../../utils'
-
-const SelectionButton = ({ isSelected, ...rest }: { isSelected: boolean } & ButtonProps) => (
-	<Button
-		mx={10}
-		outlineOffset={5}
-		outline={isSelected && 'solid'}
-		variant={isSelected ? 'solid' : 'outline'}
-		{...rest}
-	/>
-)
 
 export default function Index() {
 	const { session, mutateSession } = useSession({
@@ -91,7 +80,7 @@ export default function Index() {
 	const handleLogout = async () => await mutateSession(await logout())
 
 	return (
-		<FormControl isDisabled={isLoading}>
+		<FormControl isDisabled={isLoading} maxW='lg'>
 			<VStack textAlign='center' gap={10}>
 				<Heading>Hello {session.user.firstName}!</Heading>
 
@@ -103,20 +92,7 @@ export default function Index() {
 					</Text>
 				</Text>
 
-				<ButtonGroup>
-					<SelectionButton
-						onClick={() => handleChangeAttendance(false)}
-						isSelected={session.user.isAttending === false}
-					>
-						No
-					</SelectionButton>
-					<SelectionButton onClick={() => handleChangeAttendance(null)} isSelected={session.user.isAttending === null}>
-						Maybe
-					</SelectionButton>
-					<SelectionButton onClick={() => handleChangeAttendance(true)} isSelected={session.user.isAttending === true}>
-						Yes
-					</SelectionButton>
-				</ButtonGroup>
+				<NoMaybeYes onChange={handleChangeAttendance} value={session.user.isAttending} />
 
 				{session.user.isPlusOneAllowed && session.user.isAttending && (
 					<>
@@ -124,26 +100,8 @@ export default function Index() {
 							Amazing!!! We're so glad you're coming! We want as many people as possible to come and have a good time.
 							Did you have a Plus One in mind?{' '}
 						</Text>
-						<ButtonGroup>
-							<SelectionButton
-								onClick={() => handleChangeIsPlusOneAttending(false)}
-								isSelected={session.user.isPlusOneAttending === false}
-							>
-								No
-							</SelectionButton>
-							<SelectionButton
-								onClick={() => handleChangeIsPlusOneAttending(null)}
-								isSelected={session.user.isPlusOneAttending === null}
-							>
-								Maybe
-							</SelectionButton>
-							<SelectionButton
-								onClick={() => handleChangeIsPlusOneAttending(true)}
-								isSelected={session.user.isPlusOneAttending === true}
-							>
-								Yes
-							</SelectionButton>
-						</ButtonGroup>
+
+						<NoMaybeYes onChange={handleChangeIsPlusOneAttending} value={session.user.isPlusOneAttending} />
 					</>
 				)}
 
@@ -161,8 +119,8 @@ export default function Index() {
 					Any notes you'd like to share with us? We'll be sure to check these before the wedding And after, so feel free
 					to leave us any message you'd like
 				</Text>
-				<VStack alignItems='end'>
-					<Textarea w='lg' ref={messageToUsRef} defaultValue={session.user.messageToUs} />
+				<VStack alignItems='end' w='100%'>
+					<Textarea ref={messageToUsRef} defaultValue={session.user.messageToUs} />
 					<Button onClick={() => handleChangeMessageToUs(messageToUsRef.current.value)}>Submit</Button>
 				</VStack>
 

@@ -4,7 +4,7 @@ import { formatPhoneNumber } from '../utils'
 
 export type PhoneInputProps = Omit<InputProps, 'onChange'> & { onChange?: (value: string) => void }
 
-export default function PhoneInput(props: PhoneInputProps) {
+export const PhoneInput = (props: PhoneInputProps) => {
 	const { value, onChange } = props
 	const [displayValue, setDisplayValue] = useState(formatPhoneNumber(value as string))
 

@@ -45,14 +45,14 @@ import {
 import Router from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CSVLink } from 'react-csv'
+import { UserForm } from '.'
 import useSession from '../hooks/useSession'
 import { db, setSession } from '../utils'
 import { globalFilterFn, sortComponents } from '../utils/table'
-import UserForm from './UserForm'
 
 const columnHelper = createColumnHelper<User>()
 
-export default function UserGrid() {
+export const UserGrid = () => {
 	const [data, setData] = useState<User[]>([])
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [globalFilter, setGlobalFilter] = useState('')

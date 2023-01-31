@@ -19,7 +19,7 @@ const MenuItem = ({ children, to }: MenuItemProps) => {
 	)
 }
 
-export default function Header() {
+export const Header = () => {
 	return (
 		<Flex as='header' justifyContent='space-around'>
 			<MenuItem to='/'>home</MenuItem>

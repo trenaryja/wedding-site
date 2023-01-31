@@ -25,7 +25,7 @@ const MessageBubble = ({ message }: { message: MessageInstance }) => {
 	)
 }
 
-export default function Conversation() {
+export const Conversation = () => {
 	const [messages, setMessages] = useState<MessageInstance[]>()
 
 	const handleRefresh = async () => {

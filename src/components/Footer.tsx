@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react'
 
-export default function Footer() {
+export const Footer = () => {
 	return (
 		<Flex as='footer' justifyContent='space-around' alignItems='center' mt='auto'>
 			<Text my={10}>

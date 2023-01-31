@@ -2,7 +2,7 @@ import { Heading, Text, TextProps } from '@chakra-ui/react'
 
 export type HoverTextProps = TextProps & { hoverBg?: string; heading?: boolean }
 
-export default function HoverText({ hoverBg, heading, children, ...props }: HoverTextProps) {
+export const HoverText = ({ hoverBg, heading, children, ...props }: HoverTextProps) => {
 	const Wrapper = heading ? Heading : Text
 	return (
 		<Wrapper

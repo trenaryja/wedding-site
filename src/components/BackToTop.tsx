@@ -19,7 +19,7 @@ export const scrollToTop = () => {
 	})
 }
 
-export default function BackToTop() {
+export const BackToTop = () => {
 	const [isVisible, setIsVisible] = useState(false)
 	const toggleVisibility = () => setIsVisible(window.pageYOffset > 0)
 

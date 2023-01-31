@@ -9,10 +9,10 @@ import {
 	useToast,
 } from '@chakra-ui/react'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
+import { PhoneInput } from '.'
 import { sendSms } from '../utils'
-import PhoneInput from './PhoneInput'
 
-export default function SmsForm(props: BoxProps) {
+export const SmsForm = (props: BoxProps) => {
 	const [to, setTo] = useState('')
 	const [body, setBody] = useState('')
 	const [loading, setLoading] = useState(false)

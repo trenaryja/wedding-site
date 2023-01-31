@@ -6,7 +6,7 @@ type GalleryProps = {
 	albumId: string
 }
 
-export default function Gallery({ albumId }: GalleryProps) {
+export const Gallery = ({ albumId }: GalleryProps) => {
 	const [images, setImages] = useState<JSX.Element[]>()
 	const columnCount = useBreakpointValue({ base: 1, sm: 2, md: 3 })
 	const gap = 5

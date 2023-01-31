@@ -2,7 +2,7 @@ import { CloseButton, HStack, PinInput, PinInputField, PinInputProps } from '@ch
 
 export type OtpInputProps = Omit<PinInputProps, 'children'> & { isRequired?: boolean }
 
-export default function OtpInput(props: OtpInputProps) {
+export const OtpInput = (props: OtpInputProps) => {
 	const { onChange, isRequired } = props
 
 	return (

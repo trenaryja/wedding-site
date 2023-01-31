@@ -1,15 +1,15 @@
 import { Box, BoxProps, Button, Checkbox, FormControl, FormErrorMessage, Input, Text, VStack } from '@chakra-ui/react'
 import { User } from '@prisma/client'
 import { BaseSyntheticEvent, useState } from 'react'
+import { PhoneInput } from '.'
 import { exists } from '../utils'
-import PhoneInput from './PhoneInput'
 
 type UserFormProps = {
 	data: User
 	onSubmit: (user: User) => Promise<void>
 } & Omit<BoxProps, 'onSubmit'>
 
-export default function UserForm({ data, onSubmit, ...props }: UserFormProps) {
+export const UserForm = ({ data, onSubmit, ...props }: UserFormProps) => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<Error | null>()
 	const [phone, setPhone] = useState(data?.phone || '')

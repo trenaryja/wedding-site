@@ -18,8 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { intervalToDuration } from 'date-fns'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
-import OtpInput from '../../components/OtpInput'
-import PhoneInput from '../../components/PhoneInput'
+import { OtpInput, PhoneInput } from '../../components'
 import useSession from '../../hooks/useSession'
 import { logout, padStart, sendOtp, validateOtp } from '../../utils'
 
