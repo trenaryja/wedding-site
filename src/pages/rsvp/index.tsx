@@ -14,7 +14,7 @@ import {
 import { addMonths, format } from 'date-fns'
 import { useRef, useState } from 'react'
 import { NoMaybeYes } from '../../components'
-import useSession from '../../hooks/useSession'
+import { useSession } from '../../hooks'
 import { db, logout, setSession, WEDDING_DATE } from '../../utils'
 
 export default function Index() {

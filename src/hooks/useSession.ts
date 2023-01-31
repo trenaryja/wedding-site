@@ -3,13 +3,13 @@ import { useEffect } from 'react'
 import useSWR from 'swr'
 import { Session } from '../utils'
 
-export default function useSession({
+export const useSession = ({
 	redirectTo = '',
 	redirectIfNotLoggedIn = false,
 	redirectIfLoggedIn = false,
 	redirectIfNotAdmin = false,
 	redirectIfAdmin = false,
-} = {}) {
+} = {}) => {
 	const { data: session, mutate: mutateSession } = useSWR<Session>('/api/session')
 
 	useEffect(() => {

@@ -1,5 +1,5 @@
 import { Heading, HStack, Text, VStack } from '@chakra-ui/react'
-import useCountdown from '../hooks/useCountDown'
+import { useCountdown } from '../hooks'
 import { WEDDING_DATE } from '../utils'
 
 const DateValue = ({ value, label }: { value: number | undefined; label: string }) => (

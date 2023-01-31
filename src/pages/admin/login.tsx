@@ -10,7 +10,7 @@ import {
 	VStack,
 } from '@chakra-ui/react'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
-import useSession from '../../hooks/useSession'
+import { useSession } from '../../hooks'
 import { login } from '../../utils'
 
 export default function Login() {

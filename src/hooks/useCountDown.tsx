@@ -5,7 +5,7 @@ const msInMinute = 1000 * 60
 const msInHour = msInMinute * 60
 const msInDay = msInHour * 24
 
-export default function useCountdown(targetDate: Date) {
+export const useCountdown = (targetDate: Date) => {
 	const getDiff = () => differenceInMilliseconds(targetDate, new Date())
 	const [ms, setMs] = useState(getDiff())
 

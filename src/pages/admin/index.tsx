@@ -1,6 +1,6 @@
 import { Button, Spinner, VStack } from '@chakra-ui/react'
 import { Conversation, SmsForm, UserGrid } from '../../components'
-import useSession from '../../hooks/useSession'
+import { useSession } from '../../hooks'
 import { logout } from '../../utils'
 
 export default function Index() {

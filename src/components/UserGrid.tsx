@@ -46,7 +46,7 @@ import Router from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CSVLink } from 'react-csv'
 import { UserForm } from '.'
-import useSession from '../hooks/useSession'
+import { useSession } from '../hooks'
 import { db, setSession } from '../utils'
 import { globalFilterFn, sortComponents } from '../utils/table'
 
