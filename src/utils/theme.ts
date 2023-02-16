@@ -2,7 +2,7 @@ import { extendTheme, theme as defaultTheme, useTheme as defaultUseTheme } from 
 
 type Theme = typeof defaultTheme
 
-export const theme = extendTheme(defaultTheme, {
+export const theme = extendTheme({
 	config: {
 		initialColorMode: 'dark',
 	},
