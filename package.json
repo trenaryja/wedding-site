@@ -20,7 +20,10 @@
 			"next/core-web-vitals",
 			"eslint:recommended",
 			"plugin:@typescript-eslint/recommended"
-		]
+		],
+		"rules": {
+			"react/no-unescaped-entities": "off"
+		}
 	},
 	"prettier": {
 		"semi": false,
@@ -38,11 +41,15 @@
 		"@emotion/styled": "^11",
 		"@fontsource/limelight": "^4.5.11",
 		"@fontsource/raleway": "^4.5.12",
+		"@mantine/carousel": "^5.10.4",
+		"@mantine/core": "^5.10.4",
+		"@mantine/hooks": "^5.10.4",
 		"@prisma/client": "^4.10.1",
 		"@tanstack/match-sorter-utils": "^8.7.6",
 		"@tanstack/react-table": "^8.7.9",
 		"crypto-js": "^4.1.1",
 		"date-fns": "^2.29.3",
+		"embla-carousel-react": "^7.0.9",
 		"framer-motion": "^9",
 		"iron-session": "^6.3.1",
 		"next": "13.1.6",
