@@ -10,7 +10,9 @@ export const theme = extendTheme({
 		global: {
 			body: {
 				bg: 'transparent',
-				backgroundImage: 'url(https://www.toptal.com/designers/subtlepatterns/uploads/ep_naturalblack.png)',
+				backgroundBlendMode: 'saturation',
+				backgroundImage:
+					'linear-gradient(black, black), url(https://www.toptal.com/designers/subtlepatterns/uploads/ep_naturalblack.png)',
 			},
 		},
 	},

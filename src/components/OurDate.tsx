@@ -11,9 +11,7 @@ export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 	const refs = useRef<Array<SVGElement | null>>([])
 
 	useEffect(() => {
-		setTimeout(() => {
-			refs.current = refs.current.slice(0, lines.length)
-		})
+		refs.current = refs.current.slice(0, lines.length)
 	}, [lines])
 
 	useEffect(() => {
