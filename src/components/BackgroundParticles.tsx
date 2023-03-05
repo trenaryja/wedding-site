@@ -17,16 +17,17 @@ export const BackgroundParticles = () => {
 					filter: 'grayscale(1) brightness(.75)',
 				},
 				fpsLimit: 60,
+				fullScreen: true,
 				particles: {
 					move: { enable: true, random: true, speed: 0.25 },
 					size: { value: { min: 1, max: 3 } },
 					opacity: {
 						animation: { enable: true, speed: 1, sync: false },
-						value: { min: 0, max: 1 },
+						value: { min: 0, max: 0.5 },
 					},
 					number: {
 						density: { enable: true, area: 100 },
-						value: 10,
+						value: 50,
 					},
 				},
 			}}

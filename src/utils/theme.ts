@@ -7,6 +7,11 @@ export const chakraTheme = extendTheme({
 	config: {
 		initialColorMode: 'dark',
 	},
+	styles: {
+		global: {
+			body: { bg: 'transparent' },
+		},
+	},
 	fonts: {
 		...defaultTheme.fonts,
 		heading: `'Limelight', sans-serif`,
