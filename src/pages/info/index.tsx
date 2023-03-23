@@ -36,13 +36,7 @@ export default function Index() {
 						White
 					</Text>
 					and/or
-					<Text
-						as='span'
-						mx={2}
-						fontFamily='Limelight'
-						bgImage='linear-gradient(to top right, #333, #ccc)'
-						color='white'
-					>
+					<Text as='span' mx={2} fontFamily='Limelight' bg='linear-gradient(to top, black, white)' bgClip='text'>
 						Grayscale
 					</Text>
 					theme. This doesn't mean you can't wear colors though (except a white dress...maybe don't wear a white dress,

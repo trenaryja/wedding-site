@@ -27,7 +27,7 @@ const Person = ({ first, last, title }: PersonProps) => (
 				clipPath='polygon(0% 0%, 100% 0%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);'
 				filter='grayscale(.5) contrast(1.25)'
 				sx={{ aspectRatio: `${flatHexApectRatio}` }}
-				src={`/people/${first}.png`}
+				src={`/people/${first}.webp`}
 			/>
 		</Grid>
 		<Heading textAlign='center'>{first}</Heading>
