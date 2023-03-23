@@ -1,5 +1,5 @@
 import { Button, Heading, Link, Text, VStack } from '@chakra-ui/react'
-import { CarouselGallery } from '../../components/CarouselGallery'
+import { CarouselGallery } from '../../components'
 import { useTheme } from '../../utils'
 
 export default function Index() {

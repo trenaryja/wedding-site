@@ -1,5 +1,6 @@
 export * from './BackgroundParticles'
 export * from './BackToTop'
+export * from './CarouselGallery'
 export * from './Conversation'
 export * from './CountDown'
 export * from './Footer'

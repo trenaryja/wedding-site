@@ -1,6 +1,5 @@
-import { RepeatIcon } from '@chakra-ui/icons'
-import { Box, Button, HStack, Text, VStack } from '@chakra-ui/react'
-import { useState } from 'react'
+import { Box, Text, VStack } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 import { getMessages } from '../utils'
 
@@ -28,24 +27,18 @@ const MessageBubble = ({ message }: { message: MessageInstance }) => {
 export const Conversation = () => {
 	const [messages, setMessages] = useState<MessageInstance[]>()
 
-	const handleRefresh = async () => {
-		setMessages(await getMessages())
-	}
+	useEffect(() => {
+		const fetchMessages = async () => setMessages(await getMessages())
+		fetchMessages()
+	}, [])
 
 	return (
-		<VStack maxW='sm' borderWidth='medium' borderRadius='lg' p={5} w='100%'>
-			<HStack>
-				<Button leftIcon={<RepeatIcon />} onClick={handleRefresh}>
-					{messages ? 'Refresh' : 'Get Messages'}
-				</Button>
-			</HStack>
-			{messages && (
-				<VStack w='100%' p={1} gap={1} maxHeight={60} overflow='auto' flexDirection='column-reverse'>
-					{messages?.map((message) => (
-						<MessageBubble message={message} key={message.sid} />
-					))}
-				</VStack>
-			)}
-		</VStack>
+		messages && (
+			<VStack mt={10} w='100%' p={1} gap={1} maxHeight='50vh' overflow='auto' flexDirection='column-reverse'>
+				{messages?.map((message) => (
+					<MessageBubble message={message} key={message.sid} />
+				))}
+			</VStack>
+		)
 	)
 }

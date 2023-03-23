@@ -40,15 +40,16 @@ import {
 	getSortedRowModel,
 	RowSelectionState,
 	SortingState,
+	Table as TableType,
 	useReactTable,
 } from '@tanstack/react-table'
 import Router from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CSVLink } from 'react-csv'
-import { UserForm } from '.'
-import { useSession } from '../hooks'
-import { db, setSession } from '../utils'
-import { globalFilterFn, sortComponents } from '../utils/table'
+import { UserForm, UserGridCounts } from '..'
+import { useSession } from '../../hooks'
+import { db, formatPhoneNumber, setSession } from '../../utils'
+import { globalFilterFn, sortComponents } from '../../utils/table'
 
 const columnHelper = createColumnHelper<User>()
 
@@ -68,7 +69,9 @@ export const UserGrid = () => {
 		return [
 			columnHelper.accessor('firstName', {}),
 			columnHelper.accessor('lastName', {}),
-			columnHelper.accessor('phone', {}),
+			columnHelper.accessor('phone', {
+				cell: ({ getValue }) => <Text fontFamily='monospace'>{formatPhoneNumber(getValue())}</Text>,
+			}),
 			columnHelper.accessor('isAttending', {
 				header: () => 'Attending',
 				cell: ({ getValue }) => (
@@ -78,6 +81,9 @@ export const UserGrid = () => {
 						colorScheme={getValue() === null ? 'red' : undefined}
 					/>
 				),
+			}),
+			columnHelper.accessor('plusOneName', {
+				header: () => 'Plus One',
 			}),
 			columnHelper.display({
 				id: 'actions',
@@ -98,8 +104,10 @@ export const UserGrid = () => {
 				),
 			}),
 		]
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
-	const table = useReactTable({
+
+	const table: TableType<User> = useReactTable({
 		columns,
 		data,
 		globalFilterFn,
@@ -177,7 +185,7 @@ export const UserGrid = () => {
 	if (!data) return <Spinner />
 
 	return (
-		<VStack py={5} alignItems='center' w='100%' borderWidth='medium' borderRadius='lg'>
+		<VStack pt={5} alignItems='center' w='100%' borderWidth='thin' borderRadius='lg' bg='blackAlpha.500'>
 			<VStack w='100%' px={5} alignItems='flex-start'>
 				<HStack>
 					<IconButton icon={<AddIcon />} aria-label='Add' onClick={() => setShowModal(true)} />
@@ -187,15 +195,10 @@ export const UserGrid = () => {
 					<Input placeholder='Search' value={globalFilter} onChange={(e) => setGlobalFilter(e.target.value)} />
 					<CloseButton onClick={resetTable} />
 				</HStack>
-				{/* Filter Chips/Buttons */}
-				{/* <HStack w='100%' overflow='auto' css={{ '&::-webkit-scrollbar': { display: 'none' } }}>
-					{[...Array(50).keys()].map((x) => (
-						<Button flexShrink={0} variant='outline' borderRadius='full' key={x}>
-							{`Hello World ${x + 1}`}
-						</Button>
-					))}
-				</HStack> */}
 			</VStack>
+
+			<UserGridCounts table={table} />
+
 			<Box overflow='auto' w='100%'>
 				<Table>
 					<Thead>
@@ -230,7 +233,6 @@ export const UserGrid = () => {
 					</Tbody>
 				</Table>
 			</Box>
-			<Text>{table.getRowModel().rows.length} rows</Text>
 
 			<Modal isOpen={showModal} onClose={closeModal} isCentered closeOnOverlayClick={false}>
 				<ModalOverlay />
