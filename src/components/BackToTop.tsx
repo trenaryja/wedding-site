@@ -28,7 +28,9 @@ export const BackToTop = () => {
 		return () => window.removeEventListener('scroll', toggleVisibility)
 	}, [])
 
-	return isVisible ? (
+	if (!isVisible) return null
+
+	return (
 		<IconButton
 			pos='fixed'
 			bottom={5}
@@ -37,5 +39,5 @@ export const BackToTop = () => {
 			icon={<FaArrowUp />}
 			aria-label='Scroll Back To Top'
 		/>
-	) : null
+	)
 }
