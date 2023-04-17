@@ -1,10 +1,10 @@
-import { PrismaClient, User } from '@prisma/client'
+import { User } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '..'
 import { withSessionRoute } from '../../../utils'
-const prisma = new PrismaClient()
 
 const _create = async (data: User[]) => await prisma.user.createMany({ data })
-const _read = async () => await prisma.user.findMany()
+const _read = async () => (await prisma.user.findMany()).sort((a, b) => a.lastName.localeCompare(b.lastName))
 const _update = async (ids: number[], data: Partial<User>) =>
 	await prisma.user.updateMany({ where: { id: { in: ids } }, data })
 const _delete = async (ids: number[]) => await prisma.user.deleteMany({ where: { id: { in: ids } } })

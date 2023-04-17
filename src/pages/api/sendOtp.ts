@@ -1,16 +1,15 @@
-import { PrismaClient } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '.'
 import {
+	Session,
 	defaultSession,
 	encrypt,
 	generateOtp,
-	Session,
 	updateSession,
 	validateE164PhoneNumber,
 	withSessionRoute,
 } from '../../utils'
 import { twilioClient, twilioPhoneNumber } from '../../utils/twilio'
-const prisma = new PrismaClient()
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { to } = req.body

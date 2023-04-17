@@ -8,8 +8,8 @@ datasource db {
 }
 
 model User {
-  id                 Int      @id @default(autoincrement())
-  phone              String   @unique
+  id                 Int       @id @default(autoincrement())
+  phone              String    @unique
   firstName          String
   lastName           String
   isAttending        Boolean?
@@ -17,4 +17,5 @@ model User {
   isPlusOneAttending Boolean?
   plusOneName        String?
   messageToUs        String?
+  lastLogin          DateTime?
 }

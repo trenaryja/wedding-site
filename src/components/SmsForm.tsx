@@ -43,7 +43,7 @@ export const SmsForm = (props: BoxProps) => {
 		<Box maxW='sm' p={5} {...props}>
 			<form onSubmit={handleSendSms}>
 				<FormControl isInvalid={!!error}>
-					<PhoneInput value={to} onChange={(value) => setTo(value)} onBlur={handleValidate} isRequired />
+					<PhoneInput value={to} onChange={(e) => setTo(e.target.value)} onBlur={handleValidate} isRequired />
 					<FormErrorMessage>{error?.message}</FormErrorMessage>
 				</FormControl>
 				<FormControl my={5} display='flex' flexDirection='column'>

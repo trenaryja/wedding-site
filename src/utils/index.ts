@@ -46,7 +46,7 @@ export const chunk = <T>(a: Array<T>, n: number) => {
 	return result
 }
 
-export const formatPhoneNumber = (value: string) => {
+export const formatPhoneNumber = (value?: string) => {
 	if (!value) return value
 	const numberValue = value.replace(/[^\d]/g, '')
 

@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, ButtonProps } from '@chakra-ui/react'
+import { Button, ButtonGroup, ButtonProps, forwardRef } from '@chakra-ui/react'
 
 const SelectionButton = ({ isSelected, ...rest }: { isSelected: boolean } & ButtonProps) => (
 	<Button
@@ -15,8 +15,8 @@ export type NoMaybeYesProps = {
 	onChange: (value: boolean | null) => void
 }
 
-export const NoMaybeYes = ({ value, onChange }: NoMaybeYesProps) => (
-	<ButtonGroup>
+export const NoMaybeYes = forwardRef(({ value, onChange }: NoMaybeYesProps, ref) => (
+	<ButtonGroup ref={ref}>
 		<SelectionButton onClick={() => onChange(false)} isSelected={value === false}>
 			No
 		</SelectionButton>
@@ -27,4 +27,4 @@ export const NoMaybeYes = ({ value, onChange }: NoMaybeYesProps) => (
 			Yes
 		</SelectionButton>
 	</ButtonGroup>
-)
+))

@@ -15,11 +15,13 @@ export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 	}, [lines])
 
 	useEffect(() => {
-		refs.current.forEach((svg) => {
-			const text = svg?.querySelector('text')
-			const bbox = text?.getBBox()
-			svg?.setAttribute('viewBox', [bbox?.x, bbox?.y, bbox?.width, bbox?.height].join(' '))
-		})
+		setTimeout(() => {
+			refs.current.forEach((svg) => {
+				const text = svg?.querySelector('text')
+				const bbox = text?.getBBox()
+				svg?.setAttribute('viewBox', [bbox?.x, bbox?.y, bbox?.width, bbox?.height].join(' '))
+			})
+		}, 500)
 	}, [lines])
 
 	return (

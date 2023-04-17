@@ -1,7 +1,7 @@
-import { PrismaClient, User } from '@prisma/client'
+import { User } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '..'
 import { withSessionRoute } from '../../../utils'
-const prisma = new PrismaClient()
 
 const _create = async (data: User) => await prisma.user.create({ data })
 const _read = async (id: number) => await prisma.user.findUnique({ where: { id } })

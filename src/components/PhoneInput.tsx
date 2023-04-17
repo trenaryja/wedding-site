@@ -1,36 +1,43 @@
-import { CloseButton, HStack, Input, InputGroup, InputLeftAddon, InputProps } from '@chakra-ui/react'
-import { useState } from 'react'
+import { CloseButton, Input, InputGroup, InputLeftAddon, InputProps, forwardRef } from '@chakra-ui/react'
+import { ChangeEvent, useState } from 'react'
 import { formatPhoneNumber } from '../utils'
 
-export type PhoneInputProps = Omit<InputProps, 'onChange'> & { onChange?: (value: string) => void }
+export type PhoneInputProps = Omit<InputProps, 'value' | 'defaultValue'> & {
+	value?: string
+	defaultValue?: string
+	showClearButton?: boolean
+}
 
-export const PhoneInput = (props: PhoneInputProps) => {
-	const { value, onChange } = props
-	const [displayValue, setDisplayValue] = useState(formatPhoneNumber(value as string))
+export const PhoneInput = forwardRef(
+	({ value, defaultValue, onChange, showClearButton = true, ...props }: PhoneInputProps, ref) => {
+		const [displayValue, setDisplayValue] = useState(formatPhoneNumber(defaultValue ?? value ?? ''))
 
-	return (
-		<HStack>
-			<InputGroup>
+		return (
+			<InputGroup alignItems='center'>
 				<InputLeftAddon>🇺🇸 +1</InputLeftAddon>
 				<Input
-					placeholder='(XXX) XXX-XXXX'
-					{...props}
 					type='tel'
+					placeholder='(XXX) XXX-XXXX'
 					onChange={(e) => {
 						const formattedPhoneNumber = formatPhoneNumber(e.target.value)
 						setDisplayValue(formattedPhoneNumber)
 						const phoneNumber = formattedPhoneNumber.replace(/[^\d]/g, '')
-						onChange(phoneNumber)
+						onChange({ ...e, target: { ...e.target, value: phoneNumber } })
 					}}
+					ref={ref}
 					value={displayValue}
+					{...props}
 				/>
+				{showClearButton && (
+					<CloseButton
+						ml={1}
+						onClick={() => {
+							setDisplayValue('')
+							onChange({ target: { value: '' } } as ChangeEvent<HTMLInputElement>)
+						}}
+					/>
+				)}
 			</InputGroup>
-			<CloseButton
-				onClick={() => {
-					setDisplayValue('')
-					onChange('')
-				}}
-			/>
-		</HStack>
-	)
-}
+		)
+	},
+)

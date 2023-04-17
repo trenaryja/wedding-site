@@ -28,21 +28,22 @@ import {
 	Th,
 	Thead,
 	Tr,
-	useToast,
 	VStack,
+	useToast,
 } from '@chakra-ui/react'
 import { User } from '@prisma/client'
 import {
+	RowSelectionState,
+	SortingState,
+	Table as TableType,
 	createColumnHelper,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
 	getSortedRowModel,
-	RowSelectionState,
-	SortingState,
-	Table as TableType,
 	useReactTable,
 } from '@tanstack/react-table'
+import { formatDistance, parseISO } from 'date-fns'
 import Router from 'next/router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { CSVLink } from 'react-csv'
@@ -52,6 +53,7 @@ import { db, formatPhoneNumber, setSession } from '../../utils'
 import { globalFilterFn, sortComponents } from '../../utils/table'
 
 const columnHelper = createColumnHelper<User>()
+const today = new Date()
 
 export const UserGrid = () => {
 	const [data, setData] = useState<User[]>([])
@@ -76,27 +78,40 @@ export const UserGrid = () => {
 				header: () => 'Attending',
 				cell: ({ getValue }) => (
 					<Checkbox
-						isChecked={getValue()}
-						isIndeterminate={getValue() === null}
-						colorScheme={getValue() === null ? 'red' : undefined}
+						isChecked={getValue() ?? false}
+						isIndeterminate={getValue() === false}
+						readOnly
+						colorScheme={getValue() === false ? 'red' : undefined}
 					/>
 				),
 			}),
+			columnHelper.accessor('isPlusOneAllowed', {
+				header: () => '+1 Allowed',
+				cell: ({ getValue }) => <Checkbox isChecked={getValue() ?? false} />,
+			}),
 			columnHelper.accessor('plusOneName', {
-				header: () => 'Plus One',
+				header: () => '+1 Name',
+			}),
+			columnHelper.accessor('lastLogin', {
+				header: () => 'Last Login',
+				cell: ({ getValue }) => {
+					const date = getValue() as unknown as string
+					if (!date) return <Text>Never</Text>
+					return <Text>{formatDistance(parseISO(date), today)}</Text>
+				},
 			}),
 			columnHelper.display({
 				id: 'actions',
 				header: ({ table }) => (
 					<Checkbox
 						isIndeterminate={table.getIsSomeRowsSelected()}
-						isChecked={table.getIsAllRowsSelected()}
+						isChecked={table.getIsAllRowsSelected() ?? false}
 						onChange={table.getToggleAllRowsSelectedHandler()}
 					/>
 				),
 				cell: ({ row }) => (
 					<HStack>
-						<Checkbox isChecked={row.getIsSelected()} onChange={row.getToggleSelectedHandler()} />
+						<Checkbox isChecked={row.getIsSelected() ?? false} onChange={row.getToggleSelectedHandler()} />
 						<IconButton size='xs' icon={<EditIcon />} aria-label='Edit' onClick={() => beginEditRow(row.id)} />
 						<IconButton size='xs' icon={<DeleteIcon />} aria-label='Delete' onClick={() => beginDeleteRow(row.id)} />
 						<IconButton size='xs' icon={<ViewIcon />} aria-label='Impersonate' onClick={() => impersonateRow(row.id)} />
@@ -234,7 +249,7 @@ export const UserGrid = () => {
 				</Table>
 			</Box>
 
-			<Modal isOpen={showModal} onClose={closeModal} isCentered closeOnOverlayClick={false}>
+			<Modal isOpen={showModal} onClose={closeModal} isCentered closeOnOverlayClick={false} size='xl'>
 				<ModalOverlay />
 				<ModalContent>
 					<ModalHeader>{currentRowData ? `Editing ${currentRowData?.firstName}` : 'Adding New User'}</ModalHeader>

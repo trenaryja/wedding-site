@@ -116,7 +116,13 @@ export default function Login() {
 				<FormControl isInvalid={!!error}>
 					<VStack>
 						{!hasOtp && (
-							<PhoneInput value={phone} onChange={(value) => setPhone(value)} onBlur={handleValidatePhone} isRequired />
+							<PhoneInput
+								value={phone}
+								onChange={(e) => setPhone(e.target.value)}
+								onBlur={handleValidatePhone}
+								isRequired
+								showClearButton
+							/>
 						)}
 						{hasOtp && <OtpInput value={otp} onChange={(value) => setOtp(value)} isRequired />}
 						{hasOtp && <FormHelperText>{formattedRemainingTime}</FormHelperText>}
