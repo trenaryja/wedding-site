@@ -1,7 +1,7 @@
 import { Image, Tab, TabList, TabPanel, TabPanels, Tabs, VStack } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { Gallery, OurDate, OurNames } from '../components'
-import { WEDDING_DATE } from '../utils'
+import { WEDDING_DATE, limelight } from '../utils'
 
 const Index = () => (
 	<VStack mt={20} gap={20} w='100%'>
@@ -13,7 +13,7 @@ const Index = () => (
 				left={0}
 				width='100%'
 				height='100%'
-				src='engagement.png'
+				src='engagement.webp'
 				objectFit='cover'
 				backgroundPosition='center'
 				filter='grayscale(1) brightness(.75)'
@@ -30,7 +30,7 @@ const Index = () => (
 					{ text: format(WEDDING_DATE, 'y'), props: { fontWeight: 500 } },
 				]}
 				fill='white'
-				props={{ fontFamily: 'Limelight' }}
+				props={{ fontFamily: limelight.style.fontFamily }}
 			/>
 		</VStack>
 		<Tabs isFitted isLazy w='100%' colorScheme='gray'>

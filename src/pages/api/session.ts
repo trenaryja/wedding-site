@@ -1,12 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { defaultSession, Session, updateSession, withSessionRoute } from '../../utils'
+import { Session, defaultSession, updateSession, withSessionRoute } from '../../utils'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
-	if (['POST', 'PUT'].includes(req.method) && !req.session.data?.isAdmin) {
-		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
-		return
-	}
-
 	switch (req.method) {
 		case 'GET': {
 			if (req.session.data) {

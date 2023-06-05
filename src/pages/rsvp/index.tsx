@@ -23,7 +23,7 @@ export default function Index() {
 		redirectIfNotLoggedIn: true,
 	})
 	const [isLoading, setIsLoading] = useState(false)
-	const toast = useToast()
+	const toast = useToast({ duration: 2000 })
 	const plusOneNameRef = useRef<HTMLInputElement>(null)
 	const messageToUsRef = useRef<HTMLTextAreaElement>(null)
 

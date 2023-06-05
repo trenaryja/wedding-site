@@ -27,19 +27,17 @@ export default function Index() {
 				</Timeline.Item>
 			</Timeline>
 
-			<Image src='asanisimasa.webp' alt='asanisimasa' />
-
 			<Image src='dickarm.svg' alt='dick arm' p={10} w='100%' />
 
-			<Box maxW='720px' m='0 auto'>
-				<Box pos='relative' pb='75%' height={0}>
-					<iframe
-						style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-						src='https://www.youtube.com/embed/9jlaZL7CWHY'
-						allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-						allowFullScreen={true}
-					></iframe>
-				</Box>
+			<Box w='100%' sx={{ aspectRatio: '4 / 3	' }}>
+				<iframe
+					width='100%'
+					height='100%'
+					src='https://www.youtube.com/embed/9jlaZL7CWHY'
+					title='YouTube video player'
+					allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+					allowFullScreen={true}
+				></iframe>
 			</Box>
 		</VStack>
 	)

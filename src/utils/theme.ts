@@ -1,7 +1,11 @@
-import { extendTheme, theme as defaultTheme, useTheme as defaultUseTheme } from '@chakra-ui/react'
+import { theme as defaultTheme, useTheme as defaultUseTheme, extendTheme } from '@chakra-ui/react'
 import { MantineThemeOverride } from '@mantine/core'
+import { Limelight, Raleway } from 'next/font/google'
 
 type Theme = typeof defaultTheme
+
+export const raleWay = Raleway({ subsets: ['latin'] })
+export const limelight = Limelight({ weight: '400', subsets: ['latin'] })
 
 export const chakraTheme = extendTheme({
 	config: {
@@ -14,8 +18,8 @@ export const chakraTheme = extendTheme({
 	},
 	fonts: {
 		...defaultTheme.fonts,
-		heading: `'Limelight', sans-serif`,
-		body: `'Raleway', sans-serif`,
+		heading: limelight.style.fontFamily,
+		body: raleWay.style.fontFamily,
 	},
 } as Partial<Theme>) as Theme
 

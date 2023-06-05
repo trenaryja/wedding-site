@@ -3,11 +3,8 @@ import { MantineProvider } from '@mantine/core'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { SWRConfig } from 'swr'
-import { BackgroundParticles, BackToTop, Footer, Header } from '../components'
+import { BackToTop, BackgroundParticles, Footer, Header } from '../components'
 import { chakraTheme, fetcher, mantineTheme } from '../utils'
-
-import '@fontsource/limelight'
-import '@fontsource/raleway'
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
