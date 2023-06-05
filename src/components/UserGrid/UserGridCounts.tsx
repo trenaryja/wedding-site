@@ -1,6 +1,6 @@
 import { Grid, Heading, StackProps, Text, useBreakpointValue, VStack } from '@chakra-ui/react'
 import { User } from '@prisma/client'
-import { Table } from '@tanstack/table-core'
+import { Table } from '@tanstack/react-table'
 
 export type UserGridFooterProps = {
 	table: Table<User>
