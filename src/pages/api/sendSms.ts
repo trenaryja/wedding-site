@@ -22,8 +22,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance
 		return
 	}
 
-	const message = await twilioClient.messages.create({ from: twilioPhoneNumber, to: formattedTo, body })
-	res.json(message)
+	if (process.env.NODE_ENV !== 'development')
+		res.json(await twilioClient.messages.create({ from: twilioPhoneNumber, to: formattedTo, body }))
+	res.json(body)
 }
 
 export default withSessionRoute(handler)

@@ -82,7 +82,7 @@ export default function Index() {
 	return (
 		<FormControl isDisabled={isLoading} maxW='lg'>
 			<VStack textAlign='center' gap={10}>
-				<Heading>Hello {session.user.firstName}!</Heading>
+				<Heading>Hello {session.user.properties.Name.title[0].plain_text}!</Heading>
 
 				<Text maxW={'lg'}>
 					Please Let us know if you will be attending. Feel free to update at any time, but we would ask that you please

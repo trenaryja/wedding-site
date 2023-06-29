@@ -5,7 +5,7 @@ export interface BaseResult {
 	id: string
 }
 
-export interface Result extends BaseResult {
+export interface NotionUser extends BaseResult {
 	created_time?: string
 	last_edited_time?: string
 	last_edited_by?: BaseResult
@@ -46,6 +46,15 @@ export interface MultiSelectColumn extends Column {
 	}[]
 }
 
+export interface DateColumn extends Column {
+	type: 'date'
+	date: {
+		start: string
+		end?: string
+		time_zone?: string
+	}
+}
+
 export interface TextColumnInfo {
 	type: string
 	text: {
@@ -72,17 +81,7 @@ export interface Properties {
 	Phone: PhoneColumn
 	PlusOneName: RichTextColumn
 	Tags: MultiSelectColumn
-}
-
-export type NotionUser = {
-	id: string
-	isAttending: boolean
-	isPlusOneAttending: boolean
-	messageToUs: string
-	name: string
-	phone: string
-	plusOneName: string
-	tags: string[]
+	LastLogin: DateColumn
 }
 
 export const notionClient = new Client({ auth: process.env.NOTION_TOKEN })

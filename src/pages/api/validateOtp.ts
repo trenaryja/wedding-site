@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '.'
 import { Session, decrypt, updateSession, withSessionRoute } from '../../utils'
+import { updateNotionUser } from './notion'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { otp } = req.body
@@ -20,12 +20,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 		return
 	}
 
-	await prisma.user.update({
-		where: { id: req.session.data.user.id },
-		data: {
-			lastLogin: new Date(),
-		},
-	})
+	req.session.data.user.properties.LastLogin.date = { start: new Date().toISOString() }
+	await updateNotionUser(req.session.data.user)
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { otp: oldOtp, ...currentSession } = req.session.data
