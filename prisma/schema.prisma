@@ -8,14 +8,17 @@ datasource db {
 }
 
 model User {
-  id                 Int       @id @default(autoincrement())
-  phone              String    @unique
-  firstName          String
-  lastName           String
-  isAttending        Boolean?
-  isPlusOneAllowed   Boolean?
-  isPlusOneAttending Boolean?
-  plusOneName        String?
-  messageToUs        String?
-  lastLogin          DateTime?
+  id                       Int       @id @default(autoincrement())
+  phone                    String    @unique
+  firstName                String
+  lastName                 String
+  isAttending              Boolean?
+  isPlusOneAllowed         Boolean?
+  isPlusOneAttending       Boolean?
+  isInvitedToRehearsal     Boolean?
+  isInvitedToBachelorParty Boolean?
+  isInWeddingParty         Boolean?
+  plusOneName              String?
+  messageToUs              String?
+  lastLogin                DateTime?
 }

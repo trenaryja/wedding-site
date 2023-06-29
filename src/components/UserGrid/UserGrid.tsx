@@ -138,12 +138,14 @@ export const UserGrid = () => {
 	const updateGrid = async () => setData(await db.getUsers())
 
 	useEffect(() => {
-		const asyncUseEffect = async () => await updateGrid()
+		const asyncUseEffect = async () => {
+			await updateGrid()
+		}
 		asyncUseEffect()
 	}, [])
 
-	const exportData = table?.getRowModel().rows.map((x) => x.original as User)
-	const currentRowData = currentRowId ? (table.getRow(currentRowId).original as User) : undefined
+	const exportableData = table?.getRowModel().rows.map((x) => x.original)
+	const currentRowData = currentRowId ? table.getRow(currentRowId).original : undefined
 
 	const resetTable = () => {
 		setGlobalFilter('')
@@ -163,12 +165,12 @@ export const UserGrid = () => {
 	}
 
 	const impersonateRow = async (rowId: string) => {
-		await mutateSession(await setSession({ ...session, user: table.getRow(rowId).original as User }))
+		await mutateSession(await setSession({ ...session, user: table.getRow(rowId).original }))
 		Router.push('/rsvp')
 	}
 
 	const confirmDeleteRow = async () => {
-		const { id } = table.getRow(currentRowId).original as User
+		const { id } = table.getRow(currentRowId).original
 		await db.deleteUser(id)
 		toast({ title: 'Row deleted', description: 'The row has been deleted', status: 'warning' })
 		closeAlert()
@@ -204,7 +206,7 @@ export const UserGrid = () => {
 			<VStack w='100%' px={5} alignItems='flex-start'>
 				<HStack>
 					<IconButton icon={<AddIcon />} aria-label='Add' onClick={() => setShowModal(true)} />
-					<CSVLink data={exportData} filename='users.csv'>
+					<CSVLink data={exportableData} filename='users.csv'>
 						<IconButton icon={<DownloadIcon />} aria-label='Download' />
 					</CSVLink>
 					<Input placeholder='Search' value={globalFilter} onChange={(e) => setGlobalFilter(e.target.value)} />
