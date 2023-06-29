@@ -15,7 +15,7 @@ import { addMonths, format } from 'date-fns'
 import { useRef, useState } from 'react'
 import { NoMaybeYes } from '../../components'
 import { useSession } from '../../hooks'
-import { db, logout, setSession, WEDDING_DATE } from '../../utils'
+import { logout, WEDDING_DATE } from '../../utils'
 
 export default function Index() {
 	const { session, mutateSession } = useSession({
@@ -31,8 +31,8 @@ export default function Index() {
 
 	const handleChangeAttendance = async (isAttending: boolean | null) => {
 		setIsLoading(true)
-		const updated = await db.updateUser(session.user.id, { ...session.user, isAttending })
-		await mutateSession(await setSession({ ...session, user: updated }))
+		// const updated = await db.updateUser(session.user.id, { ...session.user, isAttending })
+		// await mutateSession(await setSession({ ...session, user: updated }))
 		toast({
 			title: 'Attendance Updated',
 			description: 'We saved your selection, thanks for for keeping us up to date!',
@@ -43,8 +43,8 @@ export default function Index() {
 
 	const handleChangeIsPlusOneAttending = async (isPlusOneAttending: boolean | null) => {
 		setIsLoading(true)
-		const updated = await db.updateUser(session.user.id, { ...session.user, isPlusOneAttending })
-		await mutateSession(await setSession({ ...session, user: updated }))
+		// const updated = await db.updateUser(session.user.id, { ...session.user, isPlusOneAttending })
+		// await mutateSession(await setSession({ ...session, user: updated }))
 		toast({
 			title: 'Plus One Attendance Updated',
 			description: 'We saved your selection, thanks for for keeping us up to date!',
@@ -55,8 +55,8 @@ export default function Index() {
 
 	const handleChangePlusOneName = async (plusOneName: string) => {
 		setIsLoading(true)
-		const updated = await db.updateUser(session.user.id, { ...session.user, plusOneName })
-		await mutateSession(await setSession({ ...session, user: updated }))
+		// const updated = await db.updateUser(session.user.id, { ...session.user, plusOneName })
+		// await mutateSession(await setSession({ ...session, user: updated }))
 		toast({
 			title: 'Plus One Name Updated',
 			description: 'We saved your selection, thanks for for keeping us up to date!',
@@ -67,8 +67,8 @@ export default function Index() {
 
 	const handleChangeMessageToUs = async (messageToUs: string) => {
 		setIsLoading(true)
-		const updated = await db.updateUser(session.user.id, { ...session.user, messageToUs })
-		await mutateSession(await setSession({ ...session, user: updated }))
+		// const updated = await db.updateUser(session.user.id, { ...session.user, messageToUs })
+		// await mutateSession(await setSession({ ...session, user: updated }))
 		toast({
 			title: 'Message Updated',
 			description: 'We saved your current message. Thanks for taking the time to write us something!',
@@ -82,7 +82,7 @@ export default function Index() {
 	return (
 		<FormControl isDisabled={isLoading} maxW='lg'>
 			<VStack textAlign='center' gap={10}>
-				<Heading>Hello {session.user.properties.Name.title[0].plain_text}!</Heading>
+				<Heading>Hello {session.user.properties.Name?.title?.[0]?.plain_text}!</Heading>
 
 				<Text maxW={'lg'}>
 					Please Let us know if you will be attending. Feel free to update at any time, but we would ask that you please
@@ -92,24 +92,31 @@ export default function Index() {
 					</Text>
 				</Text>
 
-				<NoMaybeYes onChange={handleChangeAttendance} value={session.user.isAttending} />
+				<NoMaybeYes onChange={handleChangeAttendance} value={session.user.properties.IsAttending?.checkbox} />
 
-				{session.user.isPlusOneAllowed && session.user.isAttending && (
-					<>
-						<Text maxW={'lg'}>
-							Amazing!!! We're so glad you're coming! We want as many people as possible to come and have a good time.
-							Did you have a Plus One in mind?{' '}
-						</Text>
+				{session.user.properties.IsAttending?.checkbox &&
+					session.user.properties.Tags?.multi_select?.find((x) => x.name === '+1') && (
+						<>
+							<Text maxW={'lg'}>
+								Amazing!!! We're so glad you're coming! We want as many people as possible to come and have a good time.
+								Did you have a Plus One in mind?{' '}
+							</Text>
 
-						<NoMaybeYes onChange={handleChangeIsPlusOneAttending} value={session.user.isPlusOneAttending} />
-					</>
-				)}
+							<NoMaybeYes
+								onChange={handleChangeIsPlusOneAttending}
+								value={session.user.properties.IsPlusOneAttending?.checkbox}
+							/>
+						</>
+					)}
 
-				{session.user.isPlusOneAttending && (
+				{session.user.properties.IsPlusOneAttending?.checkbox && (
 					<>
 						<Text maxW='lg'>Even better news! Would you mind letting us know their name?</Text>
 						<HStack>
-							<Input ref={plusOneNameRef} defaultValue={session.user.plusOneName} />
+							<Input
+								ref={plusOneNameRef}
+								defaultValue={session.user.properties.PlusOneName?.rich_text?.[0]?.plain_text}
+							/>
 							<Button onClick={() => handleChangePlusOneName(plusOneNameRef.current.value)}>Submit</Button>
 						</HStack>
 					</>
@@ -120,7 +127,10 @@ export default function Index() {
 					to leave us any message you'd like
 				</Text>
 				<VStack alignItems='end' w='100%'>
-					<Textarea ref={messageToUsRef} defaultValue={session.user.messageToUs} />
+					<Textarea
+						ref={messageToUsRef}
+						defaultValue={session.user.properties.MessageToUs?.rich_text?.[0]?.plain_text}
+					/>
 					<Button onClick={() => handleChangeMessageToUs(messageToUsRef.current.value)}>Submit</Button>
 				</VStack>
 
