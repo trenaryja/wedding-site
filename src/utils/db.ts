@@ -10,4 +10,5 @@ export const updateUser = async (id: number, data: User) => await putJson<User>(
 export const deleteUser = async (id: number) => await deleteJson<User>('/api/db/user', { id })
 
 export const getNotionUsers = async () => await getJson<NotionUser[]>('/api/notion')
-export const updateNotionUser = async (id: string, data: NotionUser) => await putJson('/api/notion', { id }, { data })
+export const updateNotionUser = async (id: string, data: NotionUser) =>
+	await putJson<NotionUser>('/api/notion', { id }, { data })

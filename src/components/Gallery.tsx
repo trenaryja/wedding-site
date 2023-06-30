@@ -8,7 +8,7 @@ type GalleryProps = {
 
 export const Gallery = ({ albumId }: GalleryProps) => {
 	const [images, setImages] = useState<JSX.Element[]>()
-	const columnCount = useBreakpointValue({ base: 1, sm: 2, md: 3 })
+	const columnCount = useBreakpointValue({ base: 1, sm: 2, md: 3, lg: 4, xl: 5 })
 	const gap = 5
 
 	useEffect(() => {
@@ -46,7 +46,6 @@ export const Gallery = ({ albumId }: GalleryProps) => {
 		<Grid
 			gridTemplateColumns={`repeat(${columnCount}, 1fr)`}
 			overflow='auto'
-			maxH='container.sm'
 			justifyContent='center'
 			gap={gap}
 			css={{

@@ -1,10 +1,25 @@
-import { ChakraProvider, Container, Flex } from '@chakra-ui/react'
+import { ChakraProvider, Grid, GridProps } from '@chakra-ui/react'
 import { MantineProvider } from '@mantine/core'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { SWRConfig } from 'swr'
 import { BackToTop, BackgroundParticles, Footer, Header } from '../components'
-import { chakraTheme, fetcher, mantineTheme } from '../utils'
+import { chakraTheme, contentWidth, fetcher, mantineTheme } from '../utils'
+
+const PageWrapper = (props: GridProps) => (
+	<Grid
+		minH='100vh'
+		position='relative'
+		templateRows='auto 1fr auto'
+		sx={{
+			'> *': { gridColumn: 2 },
+			'> .full-bleed': { gridColumn: '1/-1', width: '100%' },
+		}}
+		templateColumns={`1fr ${contentWidth} 1fr`}
+		rowGap={5}
+		{...props}
+	/>
+)
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -18,23 +33,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 				<MantineProvider theme={mantineTheme} withGlobalStyles withNormalizeCSS>
 					<ChakraProvider resetCSS theme={chakraTheme}>
 						<BackgroundParticles />
-						<Flex position='relative' minW='xs' overflowX='hidden' flexDir='column' minH='100vh'>
+						<PageWrapper>
 							<Header />
-							<Container
-								display='flex'
-								flexDirection='column'
-								flex={1}
-								py='1rem'
-								justifyContent='center'
-								alignItems='center'
-								maxW='container.xl'
-								as='main'
-							>
-								<Component {...pageProps} />
-							</Container>
+							<Component {...pageProps} />
 							<BackToTop />
 							<Footer />
-						</Flex>
+						</PageWrapper>
 					</ChakraProvider>
 				</MantineProvider>
 			</SWRConfig>

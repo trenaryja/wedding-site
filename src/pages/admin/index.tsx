@@ -1,14 +1,4 @@
-import {
-	Button,
-	HStack,
-	Modal,
-	ModalBody,
-	ModalCloseButton,
-	ModalContent,
-	ModalOverlay,
-	Spinner,
-	VStack,
-} from '@chakra-ui/react'
+import { Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Spinner } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Conversation, SmsForm, UserGrid } from '../../components'
 import { useSession } from '../../hooks'
@@ -29,14 +19,7 @@ export default function Index() {
 	const handleLogout = async () => await mutateSession(await logout())
 
 	return (
-		<VStack w='100%'>
-			<HStack>
-				<Button onClick={() => setModal('twilio')}>View Twilio Log</Button>
-				<Button onClick={() => setModal('sms')}>Send SMS</Button>
-			</HStack>
-			<UserGrid />
-			<Button onClick={handleLogout}>Logout</Button>
-
+		<>
 			<Modal isOpen={!!modal} onClose={() => setModal(null)} isCentered closeOnOverlayClick={false}>
 				<ModalOverlay />
 				<ModalContent bg='blackAlpha.900' border={'1px'} borderColor='whiteAlpha.300'>
@@ -47,6 +30,15 @@ export default function Index() {
 					</ModalBody>
 				</ModalContent>
 			</Modal>
-		</VStack>
+
+			<Flex gap={2} justifyContent='center'>
+				<Button onClick={() => setModal('twilio')}>View Twilio Log</Button>
+				<Button onClick={() => setModal('sms')}>Send SMS</Button>
+			</Flex>
+
+			<UserGrid />
+
+			<Button onClick={handleLogout}>Logout</Button>
+		</>
 	)
 }

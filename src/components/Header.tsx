@@ -21,7 +21,7 @@ const MenuItem = ({ children, to }: MenuItemProps) => {
 
 export const Header = () => {
 	return (
-		<Flex as='header' justifyContent='space-around'>
+		<Flex as='header' justifyContent='space-around' className='full-bleed' bg='blackAlpha.500' p={5} mb={10}>
 			<MenuItem to='/'>home</MenuItem>
 			<MenuItem to='/info'>info</MenuItem>
 			<MenuItem to='/people'>people</MenuItem>

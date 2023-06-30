@@ -53,7 +53,7 @@ const people: PersonProps[] = [
 export default function Index() {
 	const columnCount = useBreakpointValue({ base: 1, sm: 2, md: 3 })
 	return (
-		<Grid gap={10} pt={10} gridTemplateColumns={`repeat(${columnCount}, 1fr)`}>
+		<Grid className='full-bleed' px={10} gap={10} gridTemplateColumns={`repeat(${columnCount}, 1fr)`}>
 			{people.map((person) => (
 				<Person key={person.first} {...person} />
 			))}

@@ -4,6 +4,7 @@ import {
 	Checkbox,
 	CloseButton,
 	Flex,
+	Grid,
 	HStack,
 	IconButton,
 	Input,
@@ -15,7 +16,6 @@ import {
 	Th,
 	Thead,
 	Tr,
-	VStack,
 } from '@chakra-ui/react'
 import {
 	RowSelectionState,
@@ -68,17 +68,15 @@ export const UserGrid = () => {
 				id: 'phone',
 				cell: ({ getValue }) => <pre>{getValue()}</pre>,
 			}),
-			columnHelper.accessor((row) => row.properties.Tags.multi_select, {
+			columnHelper.accessor((row) => row.properties.Tags.multi_select.sort((a, z) => a.name.localeCompare(z.name)), {
 				id: 'tags',
 				cell: ({ getValue }) => (
 					<Flex gap={2}>
-						{getValue()
-							.sort((a, z) => a.name.localeCompare(z.name))
-							.map((x) => (
-								<Tag color={x.color} key={x.id}>
-									{x.name}
-								</Tag>
-							))}
+						{getValue().map((x) => (
+							<Tag color={x.color} key={x.id}>
+								{x.name}
+							</Tag>
+						))}
 					</Flex>
 				),
 			}),
@@ -121,19 +119,20 @@ export const UserGrid = () => {
 
 	if (!data) return <Spinner />
 
-	return (
-		<VStack pt={5} alignItems='center' w='100%' borderWidth='thin' borderRadius='lg' bg='blackAlpha.500'>
-			<VStack w='100%' px={5} alignItems='flex-start'>
-				<HStack>
-					<Input placeholder='Search' value={globalFilter} onChange={(e) => setGlobalFilter(e.target.value)} />
-					<CloseButton onClick={resetTable} />
-				</HStack>
-			</VStack>
+	// TODO: Filter Buttons: Confirmed Yes, Never Logged In,
+	// Button to send invite text for an individual
 
+	return (
+		<Grid className='full-bleed' gap={5}>
 			<UserGridCounts table={table} />
 
-			<Box overflow='auto' w='100%'>
-				<Table>
+			<HStack justifySelf='center'>
+				<Input placeholder='Search' value={globalFilter} onChange={(e) => setGlobalFilter(e.target.value)} />
+				<CloseButton onClick={resetTable} />
+			</HStack>
+
+			<Box overflow='auto'>
+				<Table overflow='auto'>
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
@@ -166,6 +165,6 @@ export const UserGrid = () => {
 					</Tbody>
 				</Table>
 			</Box>
-		</VStack>
+		</Grid>
 	)
 }

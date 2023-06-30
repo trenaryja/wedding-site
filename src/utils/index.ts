@@ -25,6 +25,7 @@ declare global {
 
 export const WEDDING_DATE = new Date('2023-11-18T05:00:00.000Z')
 export const BACHELOR_PARTY_DATE = new Date('2023-09-01T05:00:00.000Z')
+export const contentWidth = 'min(70ch, calc(100% - 2rem))'
 
 export const exists = (x: unknown) => x !== undefined && x !== null
 

@@ -10,20 +10,17 @@ const SelectionButton = ({ isSelected, ...rest }: { isSelected: boolean } & Butt
 	/>
 )
 
-export type NoMaybeYesProps = {
+export type NoYes = {
 	value: boolean | null
 	onChange: (value: boolean | null) => void
 }
 
-export const NoMaybeYes = forwardRef(({ value, onChange }: NoMaybeYesProps, ref) => (
+export const NoYes = forwardRef(({ value, onChange }: NoYes, ref) => (
 	<ButtonGroup ref={ref}>
-		<SelectionButton onClick={() => onChange(false)} isSelected={value === false}>
+		<SelectionButton onClick={() => onChange(false)} isSelected={!value}>
 			No
 		</SelectionButton>
-		<SelectionButton onClick={() => onChange(null)} isSelected={value === null}>
-			Maybe
-		</SelectionButton>
-		<SelectionButton onClick={() => onChange(true)} isSelected={value === true}>
+		<SelectionButton onClick={() => onChange(true)} isSelected={!!value}>
 			Yes
 		</SelectionButton>
 	</ButtonGroup>

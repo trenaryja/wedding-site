@@ -1,23 +1,22 @@
-import { Image, Tab, TabList, TabPanel, TabPanels, Tabs, VStack } from '@chakra-ui/react'
+import { Grid, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { Gallery, OurDate, OurNames } from '../components'
 import { WEDDING_DATE, limelight } from '../utils'
 
 const Index = () => (
-	<VStack mt={20} gap={20} w='100%'>
-		<VStack position='relative' w='100%' gap={10} p={5}>
-			<Image
-				alt='Rachel & Justin'
-				position='absolute'
-				top={0}
-				left={0}
-				width='100%'
-				height='100%'
-				src='engagement.webp'
-				objectFit='cover'
-				backgroundPosition='center'
-				filter='grayscale(1) brightness(.75)'
-			/>
+	<>
+		<Grid
+			pt={30}
+			filter='grayscale(1)'
+			backgroundImage='url(engagement.webp)'
+			backgroundSize='cover'
+			backgroundPosition='top'
+			className='full-bleed'
+			position='relative'
+			placeItems='center'
+			gap={10}
+			p={5}
+		>
 			<OurNames />
 			<OurDate
 				maxW='xs'
@@ -32,8 +31,8 @@ const Index = () => (
 				fill='white'
 				props={{ fontFamily: limelight.style.fontFamily }}
 			/>
-		</VStack>
-		<Tabs isFitted isLazy w='100%' colorScheme='gray'>
+		</Grid>
+		<Tabs isFitted colorScheme='gray' className='full-bleed' p={5}>
 			<TabList>
 				<Tab>Friends & Family</Tab>
 				<Tab>Just Us</Tab>
@@ -47,7 +46,7 @@ const Index = () => (
 				</TabPanel>
 			</TabPanels>
 		</Tabs>
-	</VStack>
+	</>
 )
 
 export default Index
