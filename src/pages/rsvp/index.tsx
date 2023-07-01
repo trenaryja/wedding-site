@@ -1,8 +1,20 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Button, Flex, FormControl, Grid, Heading, Input, Spinner, Text, Textarea, useToast } from '@chakra-ui/react'
+import {
+	Button,
+	Flex,
+	FormControl,
+	Grid,
+	Heading,
+	Input,
+	Link,
+	Spinner,
+	Text,
+	Textarea,
+	useToast,
+} from '@chakra-ui/react'
 import { addMonths, format } from 'date-fns'
 import { useRef, useState } from 'react'
-import { NoYes } from '../../components'
+import { FadeGallery, NoYes } from '../../components'
 import { useSession } from '../../hooks'
 import { WEDDING_DATE, db, logout, setSession } from '../../utils'
 
@@ -130,6 +142,31 @@ export default function Index() {
 					/>
 					<Button onClick={() => handleChangeMessageToUs(messageToUsRef.current.value)}>Submit</Button>
 				</Flex>
+
+				{session.user.properties.Tags.multi_select.find((x) => x.name === 'Bachelor') && (
+					<Grid placeItems='center'>
+						<FadeGallery
+							urls={[
+								'https://media3.giphy.com/media/oRQzOUbz5Pxy2zG22R/200w.webp?cid=ecf05e47v3h77qy1pwie8v0enlefg08cgmqqomsuq3c1s8ob&ep=v1_stickers_search&rid=200w.webp&ct=s',
+								'https://media4.giphy.com/media/pceVybjkyv4fX8B5el/giphy.webp?cid=ecf05e47v3h77qy1pwie8v0enlefg08cgmqqomsuq3c1s8ob&ep=v1_stickers_search&rid=giphy.webp&ct=s',
+								'https://media1.giphy.com/media/lTVae8rm9lT4oixG1k/200.webp?cid=ecf05e47v3h77qy1pwie8v0enlefg08cgmqqomsuq3c1s8ob&ep=v1_stickers_search&rid=200.webp&ct=s',
+								'https://media3.giphy.com/media/J4tmAD8ncNhZwnLjm5/200w.webp?cid=ecf05e47v3h77qy1pwie8v0enlefg08cgmqqomsuq3c1s8ob&ep=v1_stickers_search&rid=200w.webp&ct=s',
+								'https://media2.giphy.com/media/XE1JgG82ZMcIyEh9OW/200.webp?cid=ecf05e47bb98agk543gacxlbflqdc66gi857muf5rrt5k5vs&ep=v1_stickers_search&rid=200.webp&ct=s',
+								'https://media2.giphy.com/media/5VhsZMaZH0Do0UHEJr/200w.webp?cid=ecf05e47bb98agk543gacxlbflqdc66gi857muf5rrt5k5vs&ep=v1_stickers_search&rid=200w.webp&ct=s',
+								'https://media4.giphy.com/media/7zSETlBLKcjJo8XHeW/200w.webp?cid=ecf05e478pqa294giabes2dc8v67uqieobo50k0evauvd3re&ep=v1_stickers_search&rid=200w.webp&ct=s',
+								'https://media4.giphy.com/media/4Zkj0ytwxhNw2cMhmU/200w.webp?cid=ecf05e477lelxgr6vuxjqu5z33lb4v5649589jbneh17we07&ep=v1_stickers_search&rid=200w.webp&ct=s',
+								'https://giphy.com/stickers/host-wjh-wjhonfox-S9VyMlgJ4DXjhVmT64',
+							]}
+						/>
+						<Link href='/bachelor'>
+							<Button height='auto' display='grid' p={3}>
+								<Text fontSize='2xl'>Bachelor Party Info</Text>
+								<Text fontSize='2xl'>Click Here</Text>
+							</Button>
+						</Link>
+					</Grid>
+				)}
+
 				<Button onClick={handleLogout}>Logout</Button>
 			</Grid>
 		</FormControl>
