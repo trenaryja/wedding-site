@@ -119,8 +119,11 @@ export const UserGrid = () => {
 
 	if (!data) return <Spinner />
 
-	// TODO: Filter Buttons: Confirmed Yes, Never Logged In,
+	// TODO:
+	// Filter Buttons: Confirmed Yes, Never Logged In, Rehearsals, etc.
+	// Button to send out text to all selected users
 	// Button to send invite text for an individual
+	// Create prompts for RSVP, Reminders, Day of, Thank you
 
 	return (
 		<Grid className='full-bleed' gap={5}>

@@ -1,28 +1,50 @@
-import { Button, Heading, Image, Link, Text } from '@chakra-ui/react'
-import { CarouselGallery } from '../../components'
-import { useTheme } from '../../utils'
+import { Button, HStack, Heading, Image, Link, Text } from '@chakra-ui/react'
+import { format } from 'date-fns'
+import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa'
+import { IoLogoVenmo } from 'react-icons/io5'
+import { CarouselGallery } from '../components'
+import { JUSTIN_VENMO, RACHEL_VENMO, WEDDING_DATE, useTheme } from '../utils'
 
 // TODO: Headings:
 // - Schedule - Timing
-// - Location
-// - Parking info
 // - Where to stay
-// - Shuttle info
-// - What to Wear
-// - What to Bring / Gifts
+// - Shuttle/Transportation info
 // - What will the food/drinks be
 // - What will the music be
 // - What will the after party be
 
 export default function Index() {
 	const theme = useTheme()
+
 	return (
 		<>
-			<Heading>Location:</Heading>
+			<Image
+				w='100%'
+				borderRadius='3xl'
+				src='https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExeGJmazI1cnR5bjQ2cG93Nnh5ZHE2dGFydTJienkwbGhvNGk4dzJuciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3otPoKL4aHT3npyLGU/giphy.gif'
+				alt='dancing'
+			/>
+
+			<Heading>When?</Heading>
+			<Text>
+				<Text fontSize='2xl' fontWeight='bold'>
+					{format(WEDDING_DATE, 'MM/dd/yyyy')}: The Saturday before Thanksgiving
+				</Text>
+				(exact time TBD, but things will likely start around around 4-5pm)
+			</Text>
+
+			<Link
+				target='_blank'
+				href='https://calendar.google.com/calendar/event?action=TEMPLATE&amp;tmeid=MDZ2MzJxNmRjM3RpN2trYnVrOWNsMXYzbTAgdHJlbmFyeS5sb3ZlQG0&amp;tmsrc=trenary.love%40gmail.com'
+			>
+				<Button leftIcon={<FaCalendar />}>Click here to add to your Calendar</Button>
+			</Link>
+
+			<Heading>Where?</Heading>
 			<Text>The ceremony and reception will both be held at the Roxian Theatre</Text>
 			<Text>Address: 425 Chartiers Ave, McKees Rocks, PA 15136</Text>
 			<Link href='https://goo.gl/maps/hkVZ9aS4jdGXyFKR8' target='_blank'>
-				<Button>Get Directions</Button>
+				<Button leftIcon={<FaMapMarkerAlt />}>Click here to get directions</Button>
 			</Link>
 
 			<iframe
@@ -76,6 +98,32 @@ export default function Index() {
 					'https://images.unsplash.com/photo-1630667208073-82d53b1db540?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=75	',
 				]}
 			/>
+
+			<Heading>What to Expect?</Heading>
+			<Text>TBD</Text>
+
+			<Heading>What to Bring?</Heading>
+			<Text>
+				We're only asking for you to attend, we promise that we do not want actual gifts. We aren't registered anywhere.
+				We don't have an Amazon wishlist. We don't want things. The best gift you could give us is your presence. If you
+				feel inclined to give us something, then we would love a card with a personal note inside, or just feel free to
+				leave a message in the RSVP page of the website!
+			</Text>
+			<Text>
+				If you can't be convinced to not give a gift, we sincerely request that you don't get us any physical gifts. If
+				you've seen our apartment, you know we're pretty minimal. Through the 10 years we've been together, we've
+				accumulated all the home things we need. We are linking our Venmo accounts below. Please do not feel obligated
+				to give us anything, we are just happy to have you there!
+			</Text>
+
+			<HStack w='100%' justify='center'>
+				<Link target='_blank' href={RACHEL_VENMO}>
+					<Button leftIcon={<IoLogoVenmo />}>Rachel's Venmo</Button>
+				</Link>
+				<Link target='_blank' href={JUSTIN_VENMO}>
+					<Button leftIcon={<IoLogoVenmo />}>Justin's Venmo</Button>
+				</Link>
+			</HStack>
 		</>
 	)
 }

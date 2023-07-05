@@ -4,7 +4,7 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { SWRConfig } from 'swr'
 import { BackToTop, BackgroundParticles, Footer, Header } from '../components'
-import { chakraTheme, contentWidth, fetcher, mantineTheme } from '../utils'
+import { CONTENT_WIDTH, chakraTheme, fetcher, mantineTheme } from '../utils'
 
 const PageWrapper = (props: GridProps) => (
 	<Grid
@@ -15,7 +15,7 @@ const PageWrapper = (props: GridProps) => (
 			'> *': { gridColumn: 2 },
 			'> .full-bleed': { gridColumn: '1/-1', width: '100%' },
 		}}
-		templateColumns={`1fr ${contentWidth} 1fr`}
+		templateColumns={`1fr ${CONTENT_WIDTH} 1fr`}
 		rowGap={5}
 		{...props}
 	/>

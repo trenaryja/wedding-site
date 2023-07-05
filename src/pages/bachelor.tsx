@@ -2,7 +2,7 @@ import { Box, Button, Heading, Image, Link, Text, useTheme } from '@chakra-ui/re
 import { Timeline } from '@mantine/core'
 import { addDays, format } from 'date-fns'
 import { FaGolfBall, FaPlaneArrival, FaPlaneDeparture, FaShip } from 'react-icons/fa'
-import { BACHELOR_PARTY_DATE } from '../../utils'
+import { BACHELOR_PARTY_DATE } from '../utils'
 
 const waiverUrl = 'https://stbd.io/pzSvcR'
 
@@ -29,8 +29,8 @@ export default function Index() {
 			<Text>If you're reading this, you're invited. Should be about 10 dudes. No more than 14.</Text>
 
 			<Heading>Where?</Heading>
-			<Text>Address: 300 Lowenhill Ave, Pittsburgh, PA 15216</Text>
-			<Link href='https://goo.gl/maps/TCiZWKn5joHdCo3U7' target='_blank'>
+			<Text>Address: 424 Gold Way, Pittsburgh, PA 15213</Text>
+			<Link href='https://goo.gl/maps/6KRqE1pG43pYxsFF6' target='_blank'>
 				<Button>Get Directions</Button>
 			</Link>
 			<iframe
@@ -41,7 +41,7 @@ export default function Index() {
 					filter: 'grayscale(.5)',
 				}}
 				title='map'
-				src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d921.4977242401352!2d-80.02116290042503!3d40.41986633327779!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8834f6c5f14696f7%3A0x9950c2208b1b28cd!2s300%20Lowenhill%20Ave%2C%20Pittsburgh%2C%20PA%2015216!5e0!3m2!1sen!2sus!4v1688188269527!5m2!1sen!2sus'
+				src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46301.45127581743!2d-80.0202433251226!3d40.44505316425516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8834f230a43f9069%3A0x7c7b29a10c8a6816!2s424%20Gold%20Way%2C%20Pittsburgh%2C%20PA%2015213!5e1!3m2!1sen!2sus!4v1688438777795!5m2!1sen!2sus'
 			/>
 
 			<Heading>What's the plan?</Heading>
