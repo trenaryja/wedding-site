@@ -7,6 +7,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const url = `https://photos.app.goo.gl/${albumId}`
 
   const browser = await puppeteer.connect({
+    defaultViewport: { width: 1920, height: 99999 },
     browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BLESS_TOKEN}`,
   })
 
