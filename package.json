@@ -53,6 +53,7 @@
 		"framer-motion": "^10.12.17",
 		"iron-session": "^6.3.1",
 		"next": "13.4.4",
+		"puppeteer": "^20.8.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.45.1",

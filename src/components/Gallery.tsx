@@ -27,6 +27,7 @@ export const Gallery = ({ albumId }: GalleryProps) => {
 					filter='grayscale(1)'
 					transform='scale(.975)'
 					onError={(e) => {
+						e.currentTarget.style.display = 'none'
 						e.currentTarget.src = `https://picsum.photos/id/${i + 1}/200/300`
 					}}
 					_hover={{
