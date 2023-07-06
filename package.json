@@ -20,7 +20,8 @@
 		"extends": [
 			"next/core-web-vitals",
 			"eslint:recommended",
-			"plugin:@typescript-eslint/recommended"
+			"plugin:@typescript-eslint/recommended",
+			"prettier"
 		],
 		"rules": {
 			"react/no-unescaped-entities": "off"
@@ -54,7 +55,7 @@
 		"framer-motion": "^10.12.17",
 		"iron-session": "^6.3.1",
 		"next": "13.4.4",
-		"puppeteer": "^20.8.0",
+		"puppeteer-core": "^20.8.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.45.1",
@@ -75,6 +76,7 @@
 		"@typescript-eslint/parser": "^5.60.1",
 		"eslint": "^8.43.0",
 		"eslint-config-next": "^13.4.7",
+		"eslint-config-prettier": "^8.8.0",
 		"prettier": "^2.8.8",
 		"prisma": "^4.16.1",
 		"typescript": "^5.1.6"
