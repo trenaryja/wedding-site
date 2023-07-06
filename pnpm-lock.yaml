@@ -39,8 +39,8 @@ dependencies:
     specifier: ^8.9.3
     version: 8.9.3(react-dom@18.2.0)(react@18.2.0)
   chrome-aws-lambda:
-    specifier: ^10.1.0
-    version: 10.1.0(puppeteer-core@20.8.0)
+    specifier: ^6
+    version: 6.0.0(puppeteer-core@20.8.0)
   crypto-js:
     specifier: ^4.1.1
     version: 4.1.1
@@ -2711,11 +2711,11 @@ packages:
       supports-color: 7.2.0
     dev: true
 
-  /chrome-aws-lambda@10.1.0(puppeteer-core@20.8.0):
-    resolution: {integrity: sha512-NZQVf+J4kqG4sVhRm3WNmOfzY0OtTSm+S8rg77pwePa9RCYHzhnzRs8YvNI6L9tALIW6RpmefWiPURt3vURXcw==}
+  /chrome-aws-lambda@6.0.0(puppeteer-core@20.8.0):
+    resolution: {integrity: sha512-XnFo6AaE5ZYpHYmOmMoj1yCYFeRTx6uFCpJnVuDREWzXevzZvo3gzkyQ6qSKsPW91VGWeQI7wQgnOpW50e+Dzg==}
     engines: {node: '>= 10.16'}
     peerDependencies:
-      puppeteer-core: ^10.1.0
+      puppeteer-core: 6.0.x
     dependencies:
       lambdafs: 2.1.1
       puppeteer-core: 20.8.0(typescript@5.1.6)
