@@ -1,6 +1,7 @@
-import { ViewIcon } from '@chakra-ui/icons'
+import { ChevronDownIcon, ViewIcon } from '@chakra-ui/icons'
 import {
 	Box,
+	Button,
 	Checkbox,
 	CloseButton,
 	Flex,
@@ -8,6 +9,10 @@ import {
 	HStack,
 	IconButton,
 	Input,
+	Menu,
+	MenuButton,
+	MenuItem,
+	MenuList,
 	Spinner,
 	Table,
 	Tag,
@@ -30,6 +35,7 @@ import {
 } from '@tanstack/react-table'
 import Router from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
+import { FaFilter } from 'react-icons/fa'
 import { useSession } from '../../hooks'
 import { db, formatPhoneNumber, setSession } from '../../utils'
 import { NotionUser } from '../../utils/notion'
@@ -64,6 +70,7 @@ export const UserGrid = () => {
 				),
 			}),
 			columnHelper.accessor((row) => row.properties.Name.title[0].plain_text, { id: 'name' }),
+			columnHelper.accessor((row) => row.properties.PlusOneName.rich_text[0]?.plain_text, { id: 'Plus One Name' }),
 			columnHelper.accessor((row) => formatPhoneNumber(row.properties.Phone.phone_number), {
 				id: 'phone',
 				cell: ({ getValue }) => <pre>{getValue()}</pre>,
@@ -117,7 +124,7 @@ export const UserGrid = () => {
 		Router.push('/rsvp')
 	}
 
-	if (!data) return <Spinner />
+	if (!data) return <Spinner placeSelf='center' />
 
 	// TODO:
 	// Filter Buttons: Confirmed Yes, Never Logged In, Rehearsals, etc.
@@ -130,6 +137,15 @@ export const UserGrid = () => {
 			<UserGridCounts table={table} />
 
 			<HStack justifySelf='center'>
+				<Menu>
+					<MenuButton as={Button} leftIcon={<FaFilter />} rightIcon={<ChevronDownIcon />} />
+					<MenuList>
+						<MenuItem>Confirmed Yes</MenuItem>
+						<MenuItem>Never Logged In</MenuItem>
+						<MenuItem>Rehearsals</MenuItem>
+						<MenuItem>Bachelor</MenuItem>
+					</MenuList>
+				</Menu>
 				<Input placeholder='Search' value={globalFilter} onChange={(e) => setGlobalFilter(e.target.value)} />
 				<CloseButton onClick={resetTable} />
 			</HStack>

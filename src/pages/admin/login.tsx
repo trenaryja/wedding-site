@@ -25,7 +25,7 @@ export default function Login() {
 
 	useEffect(() => setError(null), [password])
 
-	if (!session) return <Spinner />
+	if (!session) return <Spinner placeSelf='center' />
 
 	const handleSubmit = async (e: BaseSyntheticEvent) => {
 		try {

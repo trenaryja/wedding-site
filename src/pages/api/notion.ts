@@ -26,7 +26,9 @@ export const getNotionUsers = async () => {
 		results.push(...(query.results as NotionUser[]))
 	}
 
-	return results
+	return results.sort((a, b) =>
+		a.properties.Name.title[0].text.content.localeCompare(b.properties.Name.title[0].text.content),
+	)
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

@@ -28,7 +28,7 @@ export default function Index() {
 	const plusOneNameRef = useRef<HTMLInputElement>(null)
 	const messageToUsRef = useRef<HTMLTextAreaElement>(null)
 
-	if (!session || !session.isLoggedIn) return <Spinner />
+	if (!session || !session.isLoggedIn) return <Spinner placeSelf='center' />
 
 	const handleChangeAttendance = async (isAttending: boolean) => {
 		setIsLoading(true)

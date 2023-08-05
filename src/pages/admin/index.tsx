@@ -14,7 +14,7 @@ export default function Index() {
 
 	const [modal, setModal] = useState<ModalOption | null>(null)
 
-	if (!session || !session.isAdmin) return <Spinner />
+	if (!session || !session.isAdmin) return <Spinner placeSelf='center' />
 
 	const handleLogout = async () => await mutateSession(await logout())
 

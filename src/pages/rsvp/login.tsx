@@ -93,7 +93,7 @@ export default function Login() {
 	const duration = intervalToDuration({ start: 0, end: remainingTime })
 	const formattedRemainingTime = `${padStart(duration.minutes, 2)}:${padStart(duration.seconds, 2)}`
 
-	if (!session) return <Spinner />
+	if (!session) return <Spinner placeSelf='center' />
 
 	return (
 		<form onSubmit={handleSubmitForm}>

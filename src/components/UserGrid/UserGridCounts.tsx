@@ -1,4 +1,4 @@
-import { Flex, Heading, StackProps, Text, VStack } from '@chakra-ui/react'
+import { Grid, Heading, StackProps, Text, VStack } from '@chakra-ui/react'
 import { Table } from '@tanstack/react-table'
 import { NotionUser } from '../../utils/notion'
 
@@ -15,7 +15,13 @@ const Count = ({ label, value, ...rest }: { label: string; value: number } & Sta
 
 export const UserGridCounts = ({ table }: UserGridFooterProps) => {
 	return (
-		<Flex px={5} columnGap={20} rowGap={5} wrap='wrap' justifyContent='space-around'>
+		<Grid
+			px={5}
+			columnGap={20}
+			rowGap={5}
+			templateColumns={['repeat(2, 1fr)', 'repeat(4, 1fr)']}
+			justifyContent='space-around'
+		>
 			<Count label='Invites' value={table.getRowModel().rows.length} />
 			<Count
 				label='Plus Ones'
@@ -51,6 +57,6 @@ export const UserGridCounts = ({ table }: UserGridFooterProps) => {
 						0,
 					)}
 			/>
-		</Flex>
+		</Grid>
 	)
 }

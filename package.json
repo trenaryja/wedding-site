@@ -31,7 +31,8 @@
     "semi": false,
     "jsxSingleQuote": true,
     "printWidth": 120,
-    "singleQuote": true
+    "singleQuote": true,
+    "useTabs": true
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
