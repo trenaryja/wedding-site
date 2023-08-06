@@ -1,4 +1,4 @@
-import { ChakraProvider, Grid, GridProps } from '@chakra-ui/react'
+import { ChakraProvider, Grid, GridProps, useTheme } from '@chakra-ui/react'
 import { MantineProvider } from '@mantine/core'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
@@ -6,20 +6,26 @@ import { SWRConfig } from 'swr'
 import { BackToTop, BackgroundParticles, Footer, Header } from '../components'
 import { CONTENT_WIDTH, chakraTheme, fetcher, mantineTheme } from '../utils'
 
-const PageWrapper = (props: GridProps) => (
-	<Grid
-		minH='100vh'
-		position='relative'
-		templateRows='auto 1fr auto'
-		sx={{
-			'> *': { gridColumn: 2 },
-			'> .full-bleed': { gridColumn: '1/-1', width: '100%' },
-		}}
-		templateColumns={`1fr ${CONTENT_WIDTH} 1fr`}
-		rowGap={5}
-		{...props}
-	/>
-)
+const PageWrapper = (props: GridProps) => {
+	const theme = useTheme()
+	return (
+		<Grid
+			minH='100vh'
+			position='relative'
+			templateRows='auto 1fr auto'
+			sx={{
+				'> *': { gridColumn: 2 },
+				'> .full-bleed': { gridColumn: '1/-1', width: '100%' },
+				ul: {
+					paddingLeft: theme.space[5],
+				},
+			}}
+			templateColumns={`1fr ${CONTENT_WIDTH} 1fr`}
+			rowGap={5}
+			{...props}
+		/>
+	)
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (

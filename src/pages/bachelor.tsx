@@ -2,11 +2,12 @@ import { Box, Button, Heading, Image, Link, Text, useTheme } from '@chakra-ui/re
 import { Timeline } from '@mantine/core'
 import { addDays, format } from 'date-fns'
 import { FaGolfBall, FaPlaneArrival, FaPlaneDeparture, FaShip } from 'react-icons/fa'
+import { SleepingArrangements } from '../components'
 import { BACHELOR_PARTY_DATE } from '../utils'
 
 const waiverUrl = 'https://stbd.io/pzSvcR'
 
-const titleFormat = (date: Date) => format(date, 'M/d - eeee').toUpperCase()
+const titleFormat = (date: Date) => format(date, 'eeee - M/d').toUpperCase()
 
 export default function Index() {
 	const theme = useTheme()
@@ -44,14 +45,12 @@ export default function Index() {
 				src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d46301.45127581743!2d-80.0202433251226!3d40.44505316425516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8834f230a43f9069%3A0x7c7b29a10c8a6816!2s424%20Gold%20Way%2C%20Pittsburgh%2C%20PA%2015213!5e1!3m2!1sen!2sus!4v1688438777795!5m2!1sen!2sus'
 			/>
 
+			<Heading>Sleeping Arrangements?</Heading>
+			<Text>Subject to change, this is just a guess. Get ready to get cozy my dudes.</Text>
+			<SleepingArrangements />
+
 			<Heading>What do I need to do?</Heading>
-			<Box
-				sx={{
-					ul: {
-						paddingLeft: theme.space[8],
-					},
-				}}
-			>
+			<Box>
 				<ul>
 					<li>
 						<Link href={waiverUrl}>Click here to sign the boat waiver</Link>
@@ -74,7 +73,10 @@ export default function Index() {
 			<Heading>What's the plan?</Heading>
 
 			<Timeline bulletSize={32} lineWidth={0}>
-				<Timeline.Item bullet={<FaPlaneArrival size={16} />} title={titleFormat(BACHELOR_PARTY_DATE)}>
+				<Timeline.Item
+					bullet={<FaPlaneArrival size={16} />}
+					title={<Heading size='md'>{titleFormat(BACHELOR_PARTY_DATE)}</Heading>}
+				>
 					<ul>
 						<li>
 							04:00pm: Get to the Airbnb. Let me or Ross know if you need picked up from the airport and we'll figure
@@ -86,7 +88,10 @@ export default function Index() {
 					</ul>
 				</Timeline.Item>
 
-				<Timeline.Item bullet={<FaShip size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 1))}>
+				<Timeline.Item
+					bullet={<FaShip size={16} />}
+					title={<Heading size='md'>{titleFormat(addDays(BACHELOR_PARTY_DATE, 1))}</Heading>}
+				>
 					<ul>
 						<li>09:00am: Wake up</li>
 						<li>09:30am: Jay makes breakfast</li>
@@ -112,7 +117,10 @@ export default function Index() {
 					</ul>
 				</Timeline.Item>
 
-				<Timeline.Item bullet={<FaGolfBall size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 2))}>
+				<Timeline.Item
+					bullet={<FaGolfBall size={16} />}
+					title={<Heading size='md'>{titleFormat(addDays(BACHELOR_PARTY_DATE, 2))}</Heading>}
+				>
 					<ul>
 						<li>10:00am: Wake up</li>
 						<li>11:15pm: Carpool to TopGolf</li>
@@ -133,7 +141,10 @@ export default function Index() {
 					</ul>
 				</Timeline.Item>
 
-				<Timeline.Item bullet={<FaPlaneDeparture size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 3))}>
+				<Timeline.Item
+					bullet={<FaPlaneDeparture size={16} />}
+					title={<Heading size='md'>{titleFormat(addDays(BACHELOR_PARTY_DATE, 3))}</Heading>}
+				>
 					<ul>
 						<li>09:30am: Clean up Airbnb</li>
 						<li>11:00am: Checkout of Airbnb</li>
@@ -163,9 +174,6 @@ export default function Index() {
 			</Box>
 
 			<Heading>Random 💩:</Heading>
-			{/* <video controls>
-				<source src='PartyElephant.mp4' type='video/webm' />
-			</video> */}
 
 			<Image src='dickarm.svg' alt='dick arm' p={10} w='100%' />
 			<Box w='100%' sx={{ aspectRatio: '4 / 3	' }}>
@@ -178,6 +186,9 @@ export default function Index() {
 					allowFullScreen={true}
 				></iframe>
 			</Box>
+			<video controls>
+				<source src='PartyElephant.webm' type='video/webm' />
+			</video>
 		</>
 	)
 }
