@@ -172,6 +172,15 @@ export default function Index() {
 					allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
 				></iframe>
 			</Box>
+			<Box w='100%' sx={{ aspectRatio: '1' }} borderRadius='12px' overflow='hidden'>
+				<iframe
+					src='https://open.spotify.com/embed/playlist/0NtmLAIC2FXFVAe5rlIKlX?utm_source=generator&theme=0'
+					width='100%'
+					height='150%'
+					allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
+					loading='lazy'
+				></iframe>
+			</Box>
 
 			<Heading>Random 💩:</Heading>
 
