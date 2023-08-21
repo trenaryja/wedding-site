@@ -37,13 +37,20 @@ export interface RichTextColumn extends Column {
 	type?: 'rich_text'
 }
 
-export interface MultiSelectColumn extends Column {
+export type SelectOption<TName> = {
+	id?: string
+	name?: TName | null
+	color?: string
+}
+
+export interface SelectColumn<TOptions> extends Column {
+	type?: 'select'
+	select?: SelectOption<TOptions>
+}
+
+export interface MultiSelectColumn<TOptions> extends Column {
 	type?: 'multi_select'
-	multi_select?: {
-		name?: string
-		id?: string
-		color?: string
-	}[]
+	multi_select?: SelectOption<TOptions>[]
 }
 
 export interface DateColumn extends Column {
@@ -73,6 +80,16 @@ export interface TextColumnInfo {
 	href?: string
 }
 
+export const SUIT_STATUSES = ['Not Started', 'Booked Fitting', 'Fitted', 'Ordered/Paid', 'Picked Up', 'Dropped Off']
+export type SuitStatus =
+	| 'Not Started'
+	| 'Booked Fitting'
+	| 'Fitted'
+	| 'Ordered/Paid'
+	| 'Picked Up'
+	| 'Dropped Off'
+	| ((string & NonNullable<unknown>) | null)
+
 export interface Properties {
 	IsAttending?: CheckboxColumn
 	IsPlusOneAttending?: CheckboxColumn
@@ -80,8 +97,9 @@ export interface Properties {
 	Name?: TitleColumn
 	Phone?: PhoneColumn
 	PlusOneName?: RichTextColumn
-	Tags?: MultiSelectColumn
+	Tags?: MultiSelectColumn<string>
 	LastLogin?: DateColumn
+	SuitStatus?: SelectColumn<SuitStatus>
 }
 
 export const notionClient = new Client({ auth: process.env.NOTION_TOKEN })

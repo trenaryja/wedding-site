@@ -23,6 +23,7 @@ export const getNotionUsers = async () => {
 			database_id: process.env.NOTION_GUEST_DB_ID,
 			start_cursor: query.next_cursor,
 		})
+		// console.log(query.results[0].properties)
 		results.push(...(query.results as NotionUser[]))
 	}
 

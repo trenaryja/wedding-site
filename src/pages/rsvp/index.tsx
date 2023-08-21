@@ -7,6 +7,8 @@ import {
 	Heading,
 	Input,
 	Link,
+	Radio,
+	RadioGroup,
 	Spinner,
 	Text,
 	Textarea,
@@ -17,6 +19,7 @@ import { useRef, useState } from 'react'
 import { FadeGallery, NoYes } from '../../components'
 import { useSession } from '../../hooks'
 import { WEDDING_DATE, db, logout, setSession } from '../../utils'
+import { SUIT_STATUSES, SuitStatus } from '../../utils/notion'
 
 export default function Index() {
 	const { session, mutateSession } = useSession({
@@ -29,6 +32,7 @@ export default function Index() {
 	const messageToUsRef = useRef<HTMLTextAreaElement>(null)
 
 	if (!session || !session.isLoggedIn) return <Spinner placeSelf='center' />
+	const suitStatus = session.user.properties.SuitStatus.select?.name || 'Not Started'
 
 	const handleChangeAttendance = async (isAttending: boolean) => {
 		setIsLoading(true)
@@ -85,6 +89,19 @@ export default function Index() {
 		setIsLoading(false)
 	}
 
+	const handleChangeSuitStatus = async (suitStatus: SuitStatus) => {
+		setIsLoading(true)
+		session.user.properties.SuitStatus.select = { name: suitStatus }
+		const updated = await db.updateNotionUser(session.user.id, session.user)
+		await mutateSession(await setSession({ ...session, user: updated }))
+		toast({
+			title: 'Suit Status Updated',
+			description: 'We saved your latest suit status. Thank you!',
+			status: 'success',
+		})
+		setIsLoading(false)
+	}
+
 	const handleLogout = async () => await mutateSession(await logout())
 
 	return (
@@ -127,6 +144,28 @@ export default function Index() {
 							/>
 							<Button onClick={() => handleChangePlusOneName(plusOneNameRef.current.value)}>Submit</Button>
 						</Flex>
+					</>
+				)}
+
+				{session.user.properties.Tags.multi_select.find((x) => x.name === 'Suit') && (
+					<>
+						<Text>
+							Looks like we've asked you to wear a suit! Please keep us in the loop on where you're at in the process.
+							I'll try to update this when I have a deadline, but I'm guessing we should get fitted at least a month
+							before the wedding, so let's say by{' '}
+							<Text as='span' textDecoration='underline'>
+								{format(addMonths(WEDDING_DATE, -1), 'MM/dd/yyyy')}
+							</Text>
+						</Text>
+						<RadioGroup value={suitStatus} onChange={handleChangeSuitStatus}>
+							<Grid gap={3}>
+								{SUIT_STATUSES.map((x) => (
+									<Radio key={x} value={x} size='lg'>
+										<Heading size='md'>{x}</Heading>
+									</Radio>
+								))}
+							</Grid>
+						</RadioGroup>
 					</>
 				)}
 
