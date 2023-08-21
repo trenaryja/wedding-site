@@ -7,6 +7,7 @@ export interface Session {
 	isAdmin: boolean
 	otp?: string
 	user?: NotionUser
+	timeout?: string
 }
 
 export const defaultSession: Session = {
