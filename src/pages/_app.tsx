@@ -16,6 +16,7 @@ const PageWrapper = (props: GridProps) => {
 			sx={{
 				'> *': { gridColumn: 2 },
 				'> .full-bleed': { gridColumn: '1/-1', width: '100%' },
+				a: { textDecoration: 'underline' },
 				ul: {
 					paddingLeft: theme.space[5],
 				},
