@@ -1,6 +1,7 @@
-import { Button, HStack, Heading, Image, Link, Text } from '@chakra-ui/react'
+import { Button, Grid, HStack, Heading, Image, Link, Text } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa'
+import { GoNorthStar } from 'react-icons/go'
 import { IoLogoVenmo } from 'react-icons/io5'
 import { CarouselGallery } from '../components'
 import { JUSTIN_VENMO, RACHEL_VENMO, WEDDING_DATE, useTheme } from '../utils'
@@ -30,7 +31,7 @@ export default function Index() {
 				<Text fontSize='2xl' fontWeight='bold'>
 					{format(WEDDING_DATE, 'MM/dd/yyyy')}: The Saturday before Thanksgiving
 				</Text>
-				(exact time TBD, but things will likely start around around 4-5pm)
+				Exact time TBD, but the venue will likely be open at 5pm, with the ceremony will start at 6pm.
 			</Text>
 
 			<Link
@@ -47,6 +48,8 @@ export default function Index() {
 				<Button leftIcon={<FaMapMarkerAlt />}>Click here to get directions</Button>
 			</Link>
 
+			{/* TODO: image carousel of Roxian */}
+
 			<iframe
 				style={{
 					borderRadius: theme.radii['3xl'],
@@ -59,13 +62,70 @@ export default function Index() {
 			/>
 
 			<Text>
-				There will be a shuttle available to get take you from the hotel to the wedding venue, but if you'd rather drive
-				yourself there will be plenty of free parking available! There will be signs as well as staff on site to help
-				direct you to the front doors. Below is an aerial view of the venue, and the areas highlighted in green are
-				available for parking:
+				There will be a shuttle available to transport you from the{' '}
+				<Link href='#hotel'>Sheraton Pittsburgh Hotel at Station Square</Link> to the wedding venue (and back), but if
+				you'd rather drive yourself there will be plenty of free parking available! Below is an aerial view of the
+				venue, and the areas highlighted in green are available for parking:
 			</Text>
 
 			<Image src='parking-map.webp' alt='parking map' borderRadius='3xl' />
+
+			<Heading id='hotel'>What Hotel?</Heading>
+
+			<Text>Sheraton Pittsburgh Hotel at Station Square</Text>
+			<Text>Address: 300 W Station Square Dr, Pittsburgh, PA 15219</Text>
+			<Link href='https://goo.gl/maps/uLaMmEuRCvS9Vb5Q7' target='_blank'>
+				<Button leftIcon={<FaMapMarkerAlt />}>Click here to get directions</Button>
+			</Link>
+
+			{/* TODO: add gcal link: */}
+			<Text>
+				Reserve your room by calling <Link href='tel:4122612000'>412-261-2000</Link> & requesting a room in the
+				Hamilton/Trenary Wedding Room Block. This hotel fills up quick so be sure to call soon and lock your room in
+				before{' '}
+				<Text as='span' display='inline-flex' alignItems='center' gap={1}>
+					<GoNorthStar />
+					October 10th!
+					<GoNorthStar />
+				</Text>
+			</Text>
+
+			<Text>
+				If you miss the block or just prefer a different vibe of a hotel, no worries! A few of our favorites are below
+				to help you narrow your search.
+			</Text>
+
+			<Grid px={10} gap={5}>
+				<Grid gap={2}>
+					<Text>Joinery Hotel Pittsburgh, Curio Collection by Hilton</Text>
+					<Text>453 Boulevard of the Allies, Pittsburgh, PA 15219</Text>
+					<Link href='https://maps.app.goo.gl/13Yanqds3C43puLt8' target='_blank'>
+						<Button size='sm' leftIcon={<FaMapMarkerAlt />}>
+							Click here to get directions
+						</Button>
+					</Link>
+				</Grid>
+				<Grid gap={2}>
+					<Text>Even Hotel Pittsburgh Downtown, an IHG Hotel</Text>
+					<Text>425 Forbes Ave, Pittsburgh, PA 15219 </Text>
+					<Link href='https://maps.app.goo.gl/CfGNModu5GwaBJXE8' target='_blank'>
+						<Button size='sm' leftIcon={<FaMapMarkerAlt />}>
+							Click here to get directions
+						</Button>
+					</Link>
+				</Grid>
+				<Grid gap={2}>
+					<Text>SpringHill Suites by Marriott Pittsburgh Southside Works</Text>
+					<Text>2950 S Water St, Pittsburgh, PA 15203</Text>
+					<Link href='https://maps.app.goo.gl/1SWcJ22oojoHX4G68' target='_blank'>
+						<Button size='sm' leftIcon={<FaMapMarkerAlt />}>
+							Click here to get directions
+						</Button>
+					</Link>
+				</Grid>
+			</Grid>
+
+			{/* TODO: Image carousel of hotel */}
 
 			<Heading>What to Wear?</Heading>
 
@@ -75,7 +135,7 @@ export default function Index() {
 				color here and there! The theme is only a suggestion, and you probably already have something that will work. We
 				want you to feel and look your best, and we plan on taking lots of group photos. Dresses, rompers, gowns, suits,
 				fancy sweaters, button up shirts, are encouraged. Here are some inspiration pics that we grouped together to
-				help share the vibe:
+				help share the vibe!
 			</Text>
 
 			<CarouselGallery
@@ -100,7 +160,32 @@ export default function Index() {
 			/>
 
 			<Heading>What to Expect?</Heading>
-			<Text>TBD</Text>
+
+			<Text>
+				We're so excited for you to join us for our big day! Expect our venue to open about an hour before our ceremony
+				starts for snacks, drinks, and mingling. Heads up, since this is a LiveNation concert venue, there will be a
+				quick security check when you arrive, just to be sure everyone is safe. After the ceremony, expect to grab a few
+				apps and drinks during a cocktail hour while we take pictures of the wedding party.
+			</Text>
+			<Text>
+				Our reception is next, with a photo booth, food stations, and a DJ playing music. You better dance. Dance like
+				you've never danced before. And (another heads up) while we'll have a few tables and chairs, we're not assigning
+				seats. We prefer to have folks moving and grooving as much as possible, but you will be able to rest and set
+				your belongings down. Expect a few speeches. Expect Justin to cry. And lastly, expect this section to get
+				updates as we get closer to the day, so please check back often!
+			</Text>
+
+			<Text>Here's a very loose agenda for the evening. Keep in mind, these times are also subject to change.</Text>
+
+			<ul>
+				<li>05:00pm: Doors open at Roxian Theatre, and first shuttle picks up at the Sheraton</li>
+				<li>05:30pm: Second shuttle picks up at the Sheraton</li>
+				<li>06:00pm: Ceremony</li>
+				<li>06:30pm: Cocktail Hour</li>
+				<li>07:30pm: Reception with dinner, drinks, and dancing!</li>
+				<li>10:30pm: First shuttle picks up at Roxian Theatre</li>
+				<li>11:00pm: Last shuttle picks up at the Roxian Theatre</li>
+			</ul>
 
 			<Heading>What to Bring?</Heading>
 			<Text>
