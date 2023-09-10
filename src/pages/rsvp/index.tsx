@@ -112,7 +112,7 @@ export default function Index() {
 					<Heading>Hello {session.user.properties.Name?.title?.[0]?.plain_text}!</Heading>
 
 					<Text>
-						Please Let us know if you will be attending. Feel free to update at any time, but we would ask that you
+						Please let us know if you will be attending. Feel free to update at any time, but we would ask that you
 						please finalize your info by:{' '}
 						<Text as='span' textDecoration='underline'>
 							{format(addMonths(WEDDING_DATE, -1), 'MM/dd/yyyy')}
@@ -182,7 +182,7 @@ export default function Index() {
 					)}
 
 					<Text>
-						Any notes you'd like to share with us? We'll be sure to check these before the wedding And after, so feel
+						Any notes you'd like to share with us? We'll be sure to check these before the wedding and after, so feel
 						free to leave us any message you'd like
 					</Text>
 
