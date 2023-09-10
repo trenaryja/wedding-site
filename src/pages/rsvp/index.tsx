@@ -113,7 +113,7 @@ export default function Index() {
 
 					<Text>
 						Please Let us know if you will be attending. Feel free to update at any time, but we would ask that you
-						please finalize finalize your info by:{' '}
+						please finalize your info by:{' '}
 						<Text as='span' textDecoration='underline'>
 							{format(addMonths(WEDDING_DATE, -1), 'MM/dd/yyyy')}
 						</Text>
