@@ -1,3 +1,4 @@
+import { addMinutes } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
 import {
 	Session,
@@ -25,8 +26,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 		return
 	}
 
-	// const user = await prisma.user.findUnique({ where: { phone: to } })
-
 	const user = (await getNotionUsers()).find((u) => u.properties.Phone.phone_number === to)
 
 	if (!user) {
@@ -41,12 +40,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 	if (process.env.NODE_ENV !== 'development')
 		await twilioClient.messages.create({ from: twilioPhoneNumber, to: formattedTo, body })
 
+	const timeout = addMinutes(new Date(), 2).toISOString()
 	const currentSession = req.session.data || defaultSession
 	const session: Session = {
 		...currentSession,
 		otp: encrypt(otp),
-		user: { ...currentSession.user, ...user },
+		user,
+		timeout,
 	}
+
 	await updateSession(req, res, session)
 }
 

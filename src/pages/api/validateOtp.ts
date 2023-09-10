@@ -1,4 +1,4 @@
-import { format } from 'date-fns'
+import { addMinutes, format } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Session, decrypt, updateSession, withSessionRoute } from '../../utils'
 import { updateNotionUser } from './notion'
@@ -22,12 +22,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 	}
 
 	req.session.data.user.properties.LastLogin.date = { start: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx") }
-	// req.session.data.user.properties.LastLogin.date = { start: new Date().toISOString() }
 	await updateNotionUser(req.session.data.user)
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { otp: oldOtp, ...currentSession } = req.session.data
-	const session: Session = { ...currentSession, isLoggedIn: true }
+	const timeout = addMinutes(new Date(), 2).toISOString()
+	const session: Session = { ...currentSession, isLoggedIn: true, timeout }
 	await updateSession(req, res, session)
 }
 

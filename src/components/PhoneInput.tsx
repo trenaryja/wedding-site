@@ -13,10 +13,11 @@ export const PhoneInput = forwardRef(
 		const [displayValue, setDisplayValue] = useState(formatPhoneNumber(defaultValue ?? value ?? ''))
 
 		return (
-			<InputGroup alignItems='center'>
+			<InputGroup justifyContent='center' placeItems='center'>
 				<InputLeftAddon>🇺🇸 +1</InputLeftAddon>
 				<Input
 					type='tel'
+					width='auto'
 					placeholder='(XXX) XXX-XXXX'
 					onChange={(e) => {
 						const formattedPhoneNumber = formatPhoneNumber(e.target.value)

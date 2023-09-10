@@ -11,7 +11,7 @@ declare module 'iron-session' {
 
 export const sessionOptions: IronSessionOptions = {
 	password: process.env.IRON_SESSION_COOKIE_PW,
-	cookieName: 'trenary.netlify.app',
+	cookieName: 'trenary.love',
 	cookieOptions: {
 		secure: process.env.NODE_ENV === 'production',
 	},

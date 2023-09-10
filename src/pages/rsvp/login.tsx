@@ -1,9 +1,11 @@
 import { InfoIcon } from '@chakra-ui/icons'
 import {
 	Button,
+	Flex,
 	FormControl,
 	FormErrorMessage,
 	FormHelperText,
+	Grid,
 	Heading,
 	HStack,
 	Link,
@@ -14,11 +16,10 @@ import {
 	PopoverTrigger,
 	Spinner,
 	Text,
-	VStack,
 } from '@chakra-ui/react'
 import { intervalToDuration } from 'date-fns'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
-import { OtpInput, PhoneInput } from '../../components'
+import { FullScreenLoader, OtpInput, PhoneInput } from '../../components'
 import { useSession } from '../../hooks'
 import { logout, padStart, sendOtp, validateOtp } from '../../utils'
 
@@ -60,6 +61,7 @@ export default function Login() {
 		try {
 			e.preventDefault()
 			if (error) return
+			setLoading(true)
 			await mutateSession(await sendOtp(phone))
 			setRemainingTime(2 * 60 * 1000)
 			setError(null)
@@ -96,46 +98,49 @@ export default function Login() {
 	if (!session) return <Spinner placeSelf='center' />
 
 	return (
-		<form onSubmit={handleSubmitForm}>
-			<VStack gap={10}>
-				<HStack gap={3} alignItems='baseline'>
-					<Heading>{heading}</Heading>
-					<Popover>
-						<PopoverTrigger>
-							<InfoIcon cursor='pointer' />
-						</PopoverTrigger>
-						<PopoverContent>
-							<PopoverArrow />
-							<PopoverBody>
-								<Text mb={5}>{popoverMessage}</Text>
-								<Link href='/rsvp/info'>Click here for more info</Link>
-							</PopoverBody>
-						</PopoverContent>
-					</Popover>
-				</HStack>
-				<FormControl isInvalid={!!error}>
-					<VStack>
-						{!hasOtp && (
-							<PhoneInput
-								value={phone}
-								onChange={(e) => setPhone(e.target.value)}
-								onBlur={handleValidatePhone}
-								isRequired
-								showClearButton
-							/>
-						)}
-						{hasOtp && <OtpInput value={otp} onChange={(value) => setOtp(value)} isRequired />}
-						{hasOtp && <FormHelperText>{formattedRemainingTime}</FormHelperText>}
-						<FormErrorMessage>{error?.message}</FormErrorMessage>
-					</VStack>
-				</FormControl>
-				<HStack>
-					{hasOtp && <Button onClick={handleCancel}>Cancel</Button>}
-					<Button disabled={loading || !!error} type='submit'>
-						{submitButtonText}
-					</Button>
-				</HStack>
-			</VStack>
-		</form>
+		<>
+			<FullScreenLoader visible={loading} />
+			<form onSubmit={handleSubmitForm} style={{ display: 'grid', placeItems: 'center' }}>
+				<Grid gap={10} placeItems='center'>
+					<Flex gap={3} alignItems='baseline'>
+						<Heading>{heading}</Heading>
+						<Popover>
+							<PopoverTrigger>
+								<InfoIcon cursor='pointer' />
+							</PopoverTrigger>
+							<PopoverContent>
+								<PopoverArrow />
+								<PopoverBody>
+									<Text mb={5}>{popoverMessage}</Text>
+									<Link href='/rsvp/info'>Click here for more info</Link>
+								</PopoverBody>
+							</PopoverContent>
+						</Popover>
+					</Flex>
+					<FormControl isInvalid={!!error} isDisabled={loading}>
+						<Grid placeItems='center'>
+							{!hasOtp && (
+								<PhoneInput
+									value={phone}
+									onChange={(e) => setPhone(e.target.value)}
+									onBlur={handleValidatePhone}
+									isRequired
+									showClearButton
+								/>
+							)}
+							{hasOtp && <OtpInput value={otp} onChange={(value) => setOtp(value)} isRequired />}
+							{hasOtp && <FormHelperText>{formattedRemainingTime}</FormHelperText>}
+							<FormErrorMessage>{error?.message}</FormErrorMessage>
+						</Grid>
+					</FormControl>
+					<HStack>
+						{hasOtp && <Button onClick={handleCancel}>Cancel</Button>}
+						<Button disabled={loading || !!error} type='submit'>
+							{submitButtonText}
+						</Button>
+					</HStack>
+				</Grid>
+			</form>
+		</>
 	)
 }

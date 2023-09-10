@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 				console.log('User data is stale, refreshing')
 				const phone = session.user?.properties.Phone.phone_number
 				const user = (await getNotionUsers()).find((u) => u.properties.Phone.phone_number === phone)
-				const timeout = addMinutes(new Date(), 1).toISOString()
+				const timeout = addMinutes(new Date(), 2).toISOString()
 				await updateSession(req, res, { ...session, user, timeout })
 				return
 			}
