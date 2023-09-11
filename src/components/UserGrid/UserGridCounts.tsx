@@ -57,6 +57,18 @@ export const UserGridCounts = ({ table }: UserGridFooterProps) => {
 						0,
 					)}
 			/>
+			<Count
+				label='Invited'
+				value={table.getRowModel().rows.reduce((total, x) => {
+					return total + (x.original.properties.LastContacted.date !== null ? 1 : 0)
+				}, 0)}
+			/>
+			<Count
+				label='Missing #'
+				value={table.getRowModel().rows.reduce((total, x) => {
+					return total + (x.original.properties.Phone.phone_number === null ? 1 : 0)
+				}, 0)}
+			/>
 		</Grid>
 	)
 }

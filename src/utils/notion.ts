@@ -99,6 +99,7 @@ export interface Properties {
 	PlusOneName?: RichTextColumn
 	Tags?: MultiSelectColumn<string>
 	LastLogin?: DateColumn
+	LastContacted?: DateColumn
 	SuitStatus?: SelectColumn<SuitStatus>
 }
 
