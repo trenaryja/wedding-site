@@ -14,6 +14,14 @@ import { JUSTIN_VENMO, RACHEL_VENMO, WEDDING_DATE, useTheme } from '../utils'
 // - What will the music be
 // - What will the after party be
 
+const StarInfo = ({ children }: { children: string }) => (
+	<Text as='span' display='inline-flex' alignItems='center' gap={1}>
+		<GoNorthStar />
+		{children}
+		<GoNorthStar />
+	</Text>
+)
+
 export default function Index() {
 	const theme = useTheme()
 
@@ -82,12 +90,7 @@ export default function Index() {
 			<Text>
 				Reserve your room by calling <Link href='tel:4122612000'>412-261-2000</Link> & requesting a room in the
 				Hamilton/Trenary Wedding Room Block. This hotel fills up quick so be sure to call soon and lock your room in
-				before{' '}
-				<Text as='span' display='inline-flex' alignItems='center' gap={1}>
-					<GoNorthStar />
-					October 10th!
-					<GoNorthStar />
-				</Text>
+				before <StarInfo>October 10th!</StarInfo>
 			</Text>
 
 			<Text>
@@ -127,6 +130,37 @@ export default function Index() {
 
 			{/* TODO: Image carousel of hotel */}
 
+			<Heading>What to Expect?</Heading>
+			<Text>
+				We love your kids, but heads up: this is an adult-only event. <StarInfo>21+ ONLY!</StarInfo>
+			</Text>
+
+			<Text>
+				We're so excited for you to join us for our big day! Expect our venue to open about an hour before our ceremony
+				starts for snacks, drinks, and mingling. Heads up, since this is a LiveNation concert venue, there will be a
+				quick security check when you arrive, just to be sure everyone is safe. After the ceremony, expect to grab a few
+				apps and drinks during a cocktail hour while we take pictures of the wedding party.
+			</Text>
+			<Text>
+				Our reception is next, with a photo booth, food stations, and a DJ playing music. You better dance. Dance like
+				you've never danced before. And (another heads up) while we'll have a few tables and chairs, we're not assigning
+				seats. We prefer to have folks moving and grooving as much as possible, but you will be able to rest and set
+				your belongings down. Expect a few speeches. Expect Justin to cry. And lastly, expect this section to get
+				updates as we get closer to the day, so please check back often!
+			</Text>
+
+			<Text>Here's a very loose agenda for the evening. Keep in mind, these times are also subject to change.</Text>
+
+			<ul>
+				<li>05:00pm: Doors open at Roxian Theatre, and first shuttle picks up at the Sheraton</li>
+				<li>05:30pm: Second shuttle picks up at the Sheraton</li>
+				<li>06:00pm: Ceremony</li>
+				<li>06:30pm: Cocktail Hour</li>
+				<li>07:30pm: Reception with dinner, drinks, and dancing!</li>
+				<li>10:30pm: First shuttle picks up at Roxian Theatre</li>
+				<li>11:00pm: Last shuttle picks up at the Roxian Theatre</li>
+			</ul>
+
 			<Heading>What to Wear?</Heading>
 
 			<Text>
@@ -158,34 +192,6 @@ export default function Index() {
 					'https://images.unsplash.com/photo-1630667208073-82d53b1db540?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=75	',
 				]}
 			/>
-
-			<Heading>What to Expect?</Heading>
-
-			<Text>
-				We're so excited for you to join us for our big day! Expect our venue to open about an hour before our ceremony
-				starts for snacks, drinks, and mingling. Heads up, since this is a LiveNation concert venue, there will be a
-				quick security check when you arrive, just to be sure everyone is safe. After the ceremony, expect to grab a few
-				apps and drinks during a cocktail hour while we take pictures of the wedding party.
-			</Text>
-			<Text>
-				Our reception is next, with a photo booth, food stations, and a DJ playing music. You better dance. Dance like
-				you've never danced before. And (another heads up) while we'll have a few tables and chairs, we're not assigning
-				seats. We prefer to have folks moving and grooving as much as possible, but you will be able to rest and set
-				your belongings down. Expect a few speeches. Expect Justin to cry. And lastly, expect this section to get
-				updates as we get closer to the day, so please check back often!
-			</Text>
-
-			<Text>Here's a very loose agenda for the evening. Keep in mind, these times are also subject to change.</Text>
-
-			<ul>
-				<li>05:00pm: Doors open at Roxian Theatre, and first shuttle picks up at the Sheraton</li>
-				<li>05:30pm: Second shuttle picks up at the Sheraton</li>
-				<li>06:00pm: Ceremony</li>
-				<li>06:30pm: Cocktail Hour</li>
-				<li>07:30pm: Reception with dinner, drinks, and dancing!</li>
-				<li>10:30pm: First shuttle picks up at Roxian Theatre</li>
-				<li>11:00pm: Last shuttle picks up at the Roxian Theatre</li>
-			</ul>
 
 			<Heading>What to Bring?</Heading>
 			<Text>
