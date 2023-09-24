@@ -101,6 +101,7 @@ export interface Properties {
 	LastLogin?: DateColumn
 	LastContacted?: DateColumn
 	SuitStatus?: SelectColumn<SuitStatus>
+	IsNotAttending?: CheckboxColumn
 }
 
 export const notionClient = new Client({ auth: process.env.NOTION_TOKEN })
