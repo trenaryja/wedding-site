@@ -35,9 +35,7 @@ export const Conversation = () => {
 	return (
 		messages && (
 			<VStack mt={10} w='100%' p={1} gap={1} maxHeight='50vh' overflow='auto' flexDirection='column-reverse'>
-				{messages?.map((message) => (
-					<MessageBubble message={message} key={message.sid} />
-				))}
+				{messages?.map((message) => <MessageBubble message={message} key={message.sid} />)}
 			</VStack>
 		)
 	)
