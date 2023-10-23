@@ -89,3 +89,7 @@ export const getMessages = async () => {
 export const setSession = async (session: Partial<Session>) => {
 	return await postJson<Session>('/api/session', session)
 }
+
+export const getMarkdown = async (path: string) => {
+	return await getJson<string>('/api/markdown', { path })
+}

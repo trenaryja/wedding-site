@@ -19,6 +19,7 @@ declare global {
 			DATABASE_URL: string
 			NOTION_TOKEN: string
 			NOTION_GUEST_DB_ID: string
+			GITFRONT_MARKDOWN_URL: string
 		}
 	}
 }
@@ -89,4 +90,11 @@ export const stringifyValues = <T>(input: T): { [key in keyof T]: string } => {
 		out[key] = input[key]?.toString()
 	}
 	return out
+}
+
+export const combinePaths = (...segments: string[]): string => {
+	return segments
+		.map((segment) => segment?.trim())
+		.filter((segment) => segment !== '')
+		.join('/')
 }

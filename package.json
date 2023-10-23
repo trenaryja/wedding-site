@@ -57,6 +57,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.1",
     "react-icons": "^4.11.0",
+    "react-markdown": "^9.0.0",
     "react-tsparticles": "^2.12.2",
     "swr": "^2.2.2",
     "tsparticles": "^2.12.0",
