@@ -1,6 +1,6 @@
 import { Button, Grid, HStack, Heading, Image, Link, Text } from '@chakra-ui/react'
 import { format } from 'date-fns'
-import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaMapMarkerAlt } from 'react-icons/fa'
 import { GoNorthStar } from 'react-icons/go'
 import { IoLogoVenmo } from 'react-icons/io5'
 import { CarouselGallery } from '../components'
@@ -41,13 +41,6 @@ export default function Index() {
 				</Text>
 				Exact time TBD, but the venue will likely be open at 5pm, with the ceremony will start at 6pm.
 			</Text>
-
-			<Link
-				target='_blank'
-				href='https://calendar.google.com/calendar/event?action=TEMPLATE&amp;tmeid=MDZ2MzJxNmRjM3RpN2trYnVrOWNsMXYzbTAgdHJlbmFyeS5sb3ZlQG0&amp;tmsrc=trenary.love%40gmail.com'
-			>
-				<Button leftIcon={<FaCalendar />}>Click here to add to your Calendar</Button>
-			</Link>
 
 			<Heading>Where?</Heading>
 			<Text>The ceremony and reception will both be held at the Roxian Theatre</Text>

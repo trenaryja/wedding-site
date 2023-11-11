@@ -1,5 +1,5 @@
 import { Button, Grid, Heading, Image, Link, Text } from '@chakra-ui/react'
-import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaMapMarkerAlt } from 'react-icons/fa'
 
 export default function Index() {
 	return (
@@ -13,25 +13,12 @@ export default function Index() {
 				<Button leftIcon={<FaMapMarkerAlt />}>Click here to get directions</Button>
 			</Link>
 
-			<Link
-				target='_blank'
-				href='https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=N24ydmZzOHM5dmk3aGhxMzcydmgzZGVobGogdHJlbmFyeS5sb3ZlQG0&tmsrc=trenary.love%40gmail.com'
-			>
-				<Button leftIcon={<FaCalendar />}>Click here to add the Rehearsal to your Calendar</Button>
-			</Link>
-
 			<Heading pt={10}>Rehearsal Dinner Details</Heading>
 			<Text>After our rehearsal, we would like to treat everyone to dinner at the Grand Concourse restaurant on</Text>
 			<Text fontWeight='bold'>Friday, Novemeber 17th from 8:00pm - 10:00pm.</Text>
 			<Text>Address: 100 W Station Square Dr, Pittsburgh, PA 15219</Text>
 			<Link href='https://maps.app.goo.gl/cRSXe7twaWyGFb5t9' target='_blank'>
 				<Button leftIcon={<FaMapMarkerAlt />}>Click here to get directions</Button>
-			</Link>
-			<Link
-				target='_blank'
-				href='https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=MG9uZ2JhcXVzMTl2dTVuZ3JxaGM5NGgwcmggdHJlbmFyeS5sb3ZlQG0&tmsrc=trenary.love%40gmail.com'
-			>
-				<Button leftIcon={<FaCalendar />}>Click here to add the Rehearsal Dinner to your Calendar</Button>
 			</Link>
 
 			<Heading pt={10}>What to Expect?</Heading>
