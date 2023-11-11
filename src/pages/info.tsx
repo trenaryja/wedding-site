@@ -6,14 +6,6 @@ import { IoLogoVenmo } from 'react-icons/io5'
 import { CarouselGallery } from '../components'
 import { JUSTIN_VENMO, RACHEL_VENMO, WEDDING_DATE, useTheme } from '../utils'
 
-// TODO: Headings:
-// - Schedule - Timing
-// - Where to stay
-// - Shuttle/Transportation info
-// - What will the food/drinks be
-// - What will the music be
-// - What will the after party be
-
 const StarInfo = ({ children }: { children: string }) => (
 	<Text as='span' display='inline-flex' alignItems='center' gap={1}>
 		<GoNorthStar />
@@ -35,11 +27,8 @@ export default function Index() {
 			/>
 
 			<Heading>When?</Heading>
-			<Text>
-				<Text fontSize='2xl' fontWeight='bold'>
-					{format(WEDDING_DATE, 'MM/dd/yyyy')}: The Saturday before Thanksgiving
-				</Text>
-				Exact time TBD, but the venue will likely be open at 5pm, with the ceremony will start at 6pm.
+			<Text fontSize='2xl' fontWeight='bold'>
+				{format(WEDDING_DATE, 'MM/dd/yyyy')}: The Saturday before Thanksgiving
 			</Text>
 
 			<Heading>Where?</Heading>
@@ -145,13 +134,19 @@ export default function Index() {
 			<Text>Here's a very loose agenda for the evening. Keep in mind, these times are also subject to change.</Text>
 
 			<ul>
-				<li>05:00pm: Doors open at Roxian Theatre, and first shuttle picks up at the Sheraton</li>
-				<li>05:30pm: Second shuttle picks up at the Sheraton</li>
+				<li>04:45pm: First shuttle picks up at the Sheraton hotel</li>
+				<li>05:00pm: Doors open at Roxian Theatre, and first shuttle drops off</li>
+				<li>05:25pm: Second shuttle picks up at the Sheraton hotel</li>
+				<li>05:45pm: Second shuttle drops off at Roxian Theatre</li>
 				<li>06:00pm: Ceremony</li>
 				<li>06:30pm: Cocktail Hour</li>
 				<li>07:30pm: Reception with dinner, drinks, and dancing!</li>
-				<li>10:30pm: First shuttle picks up at Roxian Theatre</li>
+				<li>09:45pm: First shuttle picks up at Roxian Theatre</li>
+				<li>10:00pm: First shuttle drops off at Sheraton hotel</li>
+				<li>10:30pm: Second shuttle picks up at Roxian Theatre</li>
+				<li>10:45pm: Second shuttle drops off at Sheraton hotel</li>
 				<li>11:00pm: Last shuttle picks up at the Roxian Theatre</li>
+				<li>11:15pm: Last shuttle drops off at Sheraton hotel</li>
 			</ul>
 
 			<Heading>What to Wear?</Heading>
