@@ -42,7 +42,7 @@ const people: PersonProps[] = [
 	{ first: 'Rachel', last: 'Hamilton', title: 'Bride' },
 	{ first: 'Justin', last: 'Trenary', title: 'Groom' },
 	{ first: 'Janice', last: 'Turton', title: 'Officiant ' },
-	{ first: 'Emily', last: 'Western', title: 'Maid of Honor' },
+	{ first: 'Emily', last: 'Western', title: 'Matron of Honor' },
 	{ first: 'Amanda', last: 'Glines', title: 'Bridesmaid' },
 	{ first: 'Chase', last: 'Canterberry', title: 'Bridesman' },
 	{ first: 'Ross', last: 'Combs', title: 'Best Man' },
