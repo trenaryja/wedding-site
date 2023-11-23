@@ -1,5 +1,4 @@
 import { theme as defaultTheme, useTheme as defaultUseTheme, extendTheme } from '@chakra-ui/react'
-import { MantineThemeOverride } from '@mantine/core'
 import { Limelight, Raleway } from 'next/font/google'
 
 type Theme = typeof defaultTheme
@@ -55,22 +54,4 @@ export const chakraTheme = extendTheme({
 
 export const useTheme = () => {
 	return defaultUseTheme() as Theme
-}
-
-export const mantineTheme: MantineThemeOverride = {
-	colorScheme: 'dark',
-	colors: {
-		dark: Object.values(blackAnchored) as [
-			string,
-			string,
-			string,
-			string,
-			string,
-			string,
-			string,
-			string,
-			string,
-			string,
-		],
-	},
 }

@@ -72,10 +72,10 @@ export const UserGridCounts = ({ table }: UserGridFooterProps) => {
 									? 2
 									: 1
 								: x.original.properties.IsAttending.checkbox === true &&
-								  x.original.properties.IsPlusOneAttending.checkbox === false &&
-								  x.original.properties.Tags.multi_select.some((x) => x.name === '+1')
-								? 1
-								: 0),
+								    x.original.properties.IsPlusOneAttending.checkbox === false &&
+								    x.original.properties.Tags.multi_select.some((x) => x.name === '+1')
+								  ? 1
+								  : 0),
 						0,
 					)}
 			/>

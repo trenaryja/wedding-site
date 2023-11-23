@@ -1,27 +1,37 @@
-import { Image } from '@chakra-ui/react'
-import { Carousel } from '@mantine/carousel'
+import { Image, useBreakpointValue } from '@chakra-ui/react'
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick-theme.css'
+import 'slick-carousel/slick/slick.css'
 
 export type CarouselGalleryProps = {
 	images: string[]
 }
 
-export const CarouselGallery = ({ images }: CarouselGalleryProps) => (
-	<Carousel slideSize='50%' slideGap='xl' loop align='center'>
-		{images.map((item) => (
-			<Carousel.Slide key={item}>
+export const CarouselGallery = ({ images }: CarouselGalleryProps) => {
+	const slidesToShow = useBreakpointValue({ base: 1, md: 3 })
+	return (
+		<Slider
+			infinite
+			// nextArrow={<FaArrowRight color='white' size='2rem' />}
+			// prevArrow={<FaArrowLeft color='white' size='2rem' />}
+			slidesToShow={slidesToShow}
+			slidesToScroll={1}
+			centerMode={true}
+		>
+			{images.map((item) => (
 				<Image
-					alt=''
+					key={item}
 					src={item}
-					shadow='md'
-					p='xl'
-					borderRadius='md'
+					rounded='3xl'
+					aspectRatio={2 / 3}
+					px={2}
+					alt=''
 					objectFit='cover'
-					height='100%'
 					filter='grayscale(1)'
 					transition='all 0.5s ease-in-out'
 					_hover={{ filter: 'grayscale(0)' }}
 				/>
-			</Carousel.Slide>
-		))}
-	</Carousel>
-)
+			))}
+		</Slider>
+	)
+}

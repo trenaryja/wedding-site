@@ -1,13 +1,11 @@
-import { ChakraProvider, Grid, GridProps, useTheme } from '@chakra-ui/react'
-import { MantineProvider } from '@mantine/core'
+import { ChakraProvider, Grid, GridProps } from '@chakra-ui/react'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { SWRConfig } from 'swr'
 import { BackToTop, BackgroundParticles, Footer, Header } from '../components'
-import { CONTENT_WIDTH, chakraTheme, fetcher, mantineTheme } from '../utils'
+import { CONTENT_WIDTH, chakraTheme, fetcher } from '../utils'
 
 const PageWrapper = (props: GridProps) => {
-	const theme = useTheme()
 	return (
 		<Grid
 			minH='100vh'
@@ -18,7 +16,7 @@ const PageWrapper = (props: GridProps) => {
 				'> .full-bleed': { gridColumn: '1/-1', width: '100%' },
 				a: { textDecoration: 'underline' },
 				ul: {
-					paddingLeft: theme.space[5],
+					paddingLeft: 5,
 				},
 			}}
 			templateColumns={`1fr ${CONTENT_WIDTH} 1fr`}
@@ -37,17 +35,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 				<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 			</Head>
 			<SWRConfig value={{ fetcher }}>
-				<MantineProvider theme={mantineTheme} withGlobalStyles withNormalizeCSS>
-					<ChakraProvider resetCSS theme={chakraTheme}>
-						<BackgroundParticles />
-						<PageWrapper>
-							<Header />
-							<Component {...pageProps} />
-							<BackToTop />
-							<Footer />
-						</PageWrapper>
-					</ChakraProvider>
-				</MantineProvider>
+				<ChakraProvider resetCSS theme={chakraTheme}>
+					<BackgroundParticles />
+					<PageWrapper>
+						<Header />
+						<Component {...pageProps} />
+						<BackToTop />
+						<Footer />
+					</PageWrapper>
+				</ChakraProvider>
 			</SWRConfig>
 		</>
 	)
