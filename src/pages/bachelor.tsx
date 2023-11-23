@@ -1,8 +1,7 @@
-import { Box, Button, Heading, Image, Link, Text, useTheme } from '@chakra-ui/react'
-import { Timeline } from '@mantine/core'
+import { Box, Button, Grid, Heading, Image, Link, Text, useTheme } from '@chakra-ui/react'
 import { addDays, format } from 'date-fns'
 import { FaGolfBall, FaPlaneArrival, FaPlaneDeparture, FaShip } from 'react-icons/fa'
-import { SleepingArrangements } from '../components'
+import { SleepingArrangements, TimelineItem } from '../components'
 import { BACHELOR_PARTY_DATE } from '../utils'
 
 const waiverUrl = 'https://stbd.io/pzSvcR'
@@ -72,11 +71,8 @@ export default function Index() {
 
 			<Heading>What's the plan?</Heading>
 
-			<Timeline bulletSize={32} lineWidth={0}>
-				<Timeline.Item
-					bullet={<FaPlaneArrival size={16} />}
-					title={<Heading size='md'>{titleFormat(BACHELOR_PARTY_DATE)}</Heading>}
-				>
+			<Grid>
+				<TimelineItem icon={<FaPlaneArrival size={16} />} title={titleFormat(BACHELOR_PARTY_DATE)}>
 					<ul>
 						<li>
 							04:00pm: Get to the Airbnb. Let me or Ross know if you need picked up from the airport and we'll figure
@@ -86,12 +82,9 @@ export default function Index() {
 						<li>07:00pm: Games. So many games. WV Rules</li>
 						<li>??:??am: Sleep</li>
 					</ul>
-				</Timeline.Item>
+				</TimelineItem>
 
-				<Timeline.Item
-					bullet={<FaShip size={16} />}
-					title={<Heading size='md'>{titleFormat(addDays(BACHELOR_PARTY_DATE, 1))}</Heading>}
-				>
+				<TimelineItem icon={<FaShip size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 1))}>
 					<ul>
 						<li>09:00am: Wake up</li>
 						<li>09:30am: Jay makes breakfast</li>
@@ -115,12 +108,9 @@ export default function Index() {
 						<li>11:00pm: Games</li>
 						<li>??:??am: Sleep</li>
 					</ul>
-				</Timeline.Item>
+				</TimelineItem>
 
-				<Timeline.Item
-					bullet={<FaGolfBall size={16} />}
-					title={<Heading size='md'>{titleFormat(addDays(BACHELOR_PARTY_DATE, 2))}</Heading>}
-				>
+				<TimelineItem icon={<FaGolfBall size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 2))}>
 					<ul>
 						<li>10:00am: Wake up</li>
 						<li>11:15pm: Carpool to TopGolf</li>
@@ -139,18 +129,15 @@ export default function Index() {
 						<li>??:??pm: Ride the Bus</li>
 						<li>??:??pm: Taskmaster/Minute to win it</li>
 					</ul>
-				</Timeline.Item>
+				</TimelineItem>
 
-				<Timeline.Item
-					bullet={<FaPlaneDeparture size={16} />}
-					title={<Heading size='md'>{titleFormat(addDays(BACHELOR_PARTY_DATE, 3))}</Heading>}
-				>
+				<TimelineItem icon={<FaPlaneDeparture size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 3))}>
 					<ul>
 						<li>09:30am: Clean up Airbnb</li>
 						<li>11:00am: Checkout of Airbnb</li>
 					</ul>
-				</Timeline.Item>
-			</Timeline>
+				</TimelineItem>
+			</Grid>
 
 			<Heading>How much will this cost?</Heading>
 
