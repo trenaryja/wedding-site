@@ -16,15 +16,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			prefix: 'wedding',
 			max_results: 500,
 		})
-	).resources as CloudinaryImage[]
+	).resources.sort(
+		(a: CloudinaryImage, z: CloudinaryImage) => new Date(a.created_at).getTime() - new Date(z.created_at).getTime(),
+	) as CloudinaryImage[]
 
-	res
-		.status(200)
-		.json(
-			results
-				.toSorted((a, z) => new Date(a.created_at).getTime() - new Date(z.created_at).getTime())
-				.map(({ width, height, url }) => ({ width, height, url })),
-		)
+	res.status(200).json(results.map(({ width, height, url }) => ({ width, height, url })))
 }
 
 export default withSessionRoute(handler)
