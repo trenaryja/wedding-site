@@ -26,6 +26,7 @@ export const Header = () => {
 			<MenuItem to='/info'>info</MenuItem>
 			<MenuItem to='/people'>people</MenuItem>
 			<MenuItem to='/rsvp'>rsvp</MenuItem>
+			<MenuItem to='/photos'>photos</MenuItem>
 		</Flex>
 	)
 }

@@ -20,6 +20,9 @@ declare global {
 			NOTION_TOKEN: string
 			NOTION_GUEST_DB_ID: string
 			GITFRONT_MARKDOWN_URL: string
+			CLOUDINARY_API_KEY: string
+			CLOUDINARY_API_SECRET: string
+			CLOUDINARY_API_CLOUD_NAME: string
 		}
 	}
 }

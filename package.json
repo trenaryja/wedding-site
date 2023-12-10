@@ -38,6 +38,7 @@
 		"@tanstack/match-sorter-utils": "^8.8.4",
 		"@tanstack/react-table": "^8.10.7",
 		"@types/react-slick": "^0.23.12",
+		"cloudinary": "^1.41.0",
 		"crypto-js": "^4.2.0",
 		"date-fns": "^2.30.0",
 		"framer-motion": "^10.16.16",
