@@ -1,10 +1,6 @@
-import CryptoJS from 'crypto-js'
-
 export * from './api'
 export * from './notion'
-export * from './session'
 export * from './theme'
-export * from './twilio'
 export * from './types'
 
 declare global {
@@ -32,8 +28,6 @@ export const RACHEL_VENMO = 'https://account.venmo.com/u/rachel-hamilton-23'
 export const JUSTIN_VENMO = 'https://account.venmo.com/u/trenaryja'
 export const CONTENT_WIDTH = 'min(70ch, calc(100% - 2rem))'
 export const FACTORIAL_52 = 80658175170943878571660636856403766975289505440883277824000000000000n
-
-export const exists = (x: unknown) => x !== undefined && x !== null
 
 export const padStart = (num: number, length: number, char = '0') => {
 	return `${char.repeat(length)}${num}`.slice(-length)
@@ -64,27 +58,6 @@ export const formatPhoneNumber = (value?: string) => {
 	return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3, 6)}-${numberValue.slice(6, 10)}`
 }
 
-export const validateE164PhoneNumber = (value: string) => {
-	return /^\+1\d{10}$/.test(value)
-}
-
-export const generateOtp = (length = 4) => {
-	const dict = '0123456789'
-	let OTP = ''
-	for (let i = 0; i < length; i++) {
-		OTP += dict[Math.floor(Math.random() * dict.length)]
-	}
-	return OTP
-}
-
-export const encrypt = (value: string) => {
-	return CryptoJS.AES.encrypt(value, process.env.IRON_SESSION_COOKIE_PW).toString()
-}
-
-export const decrypt = (value: string) => {
-	return CryptoJS.AES.decrypt(value, process.env.IRON_SESSION_COOKIE_PW).toString(CryptoJS.enc.Utf8)
-}
-
 export const stringifyValues = <T>(input: T): { [key in keyof T]: string } => {
 	if ([null, undefined].includes(input)) return
 	const out: { [key in keyof T]: string } = {} as { [key in keyof T]: string }
@@ -92,11 +65,4 @@ export const stringifyValues = <T>(input: T): { [key in keyof T]: string } => {
 		out[key] = input[key]?.toString()
 	}
 	return out
-}
-
-export const combinePaths = (...segments: string[]): string => {
-	return segments
-		.map((segment) => segment?.trim())
-		.filter((segment) => segment !== '')
-		.join('/')
 }

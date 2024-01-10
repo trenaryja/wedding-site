@@ -1,4 +1,5 @@
-import { NotionUser, notionClient, withSessionRoute } from '@/utils'
+import { NotionUser } from '@/utils'
+import { notionClient, withSessionRoute } from '@/utils/server'
 import { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
 import { NextApiRequest, NextApiResponse } from 'next'
 

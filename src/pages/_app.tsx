@@ -26,7 +26,7 @@ const PageWrapper = (props: GridProps) => {
 	)
 }
 
-function MyApp({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
 	return (
 		<>
 			<Head>
@@ -49,4 +49,4 @@ function MyApp({ Component, pageProps }: AppProps) {
 	)
 }
 
-export default MyApp
+export default App

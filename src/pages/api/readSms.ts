@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { twilioClient, withSessionRoute } from '@/utils'
+import { twilioClient, withSessionRoute } from '@/utils/server'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance[] | Error>) => {

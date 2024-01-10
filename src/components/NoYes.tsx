@@ -10,12 +10,12 @@ const SelectionButton = ({ isSelected, ...rest }: { isSelected: boolean } & Butt
 	/>
 )
 
-export type NoYes = Omit<ButtonProps, 'onChange' | 'value'> & {
+export type NoYesProps = Omit<ButtonProps, 'onChange' | 'value'> & {
 	value: boolean | null
 	onChange: (value: boolean | null) => void
 }
 
-export const NoYes = forwardRef(({ value, onChange, ...props }: NoYes, ref) => (
+export const NoYes = forwardRef(({ value, onChange, ...props }: NoYesProps, ref) => (
 	<ButtonGroup ref={ref}>
 		<SelectionButton {...props} onClick={() => onChange(false)} isSelected={!value}>
 			No

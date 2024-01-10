@@ -1,4 +1,5 @@
-import { Session, defaultSession, getNotionUsers, updateSession, withSessionRoute } from '@/utils'
+import { Session, defaultSession, getNotionUsers } from '@/utils'
+import { updateSession, withSessionRoute } from '@/utils/server'
 import { addMinutes } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
 

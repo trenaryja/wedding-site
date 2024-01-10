@@ -1,15 +1,12 @@
+import { Session, defaultSession, getNotionUsers } from '@/utils'
 import {
-	Session,
-	defaultSession,
 	encrypt,
 	generateOtp,
-	getNotionUsers,
 	twilioClient,
-	twilioPhoneNumber,
 	updateSession,
 	validateE164PhoneNumber,
 	withSessionRoute,
-} from '@/utils'
+} from '@/utils/server'
 import { addMinutes } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -39,7 +36,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 
 	const body = `Your One-Time Passcode (OTP) is: ${otp}`
 	if (process.env.NODE_ENV !== 'development')
-		await twilioClient.messages.create({ from: twilioPhoneNumber, to: formattedTo, body })
+		await twilioClient.messages.create({ from: process.env.TWILIO_PHONE_NUMBER, to: formattedTo, body })
 
 	const timeout = addMinutes(new Date(), 2).toISOString()
 	const currentSession = req.session.data || defaultSession

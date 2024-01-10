@@ -1,12 +1,5 @@
 import { NotionUser, Session, stringifyValues } from '@/utils'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
-
-export const updateSession = async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
-	req.session.data = session
-	await req.session.save()
-	res.json(session)
-}
 
 export const fetcher = async <T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> => {
 	const response = await fetch(input, init)

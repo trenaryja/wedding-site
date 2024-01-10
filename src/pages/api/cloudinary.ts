@@ -1,4 +1,5 @@
-import { CloudinaryImage, withSessionRoute } from '@/utils'
+import { CloudinaryImage } from '@/utils'
+import { withSessionRoute } from '@/utils/server'
 import cloudinary from 'cloudinary'
 import { NextApiRequest, NextApiResponse } from 'next'
 

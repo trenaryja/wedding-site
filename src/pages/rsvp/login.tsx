@@ -1,7 +1,7 @@
 import { FullScreenLoader, OtpInput, PhoneInput } from '@/components'
 import { useSession } from '@/hooks'
 import { logout, padStart, sendOtp, validateOtp } from '@/utils'
-import { Button, FormControl, FormErrorMessage, FormHelperText, Grid, Heading, HStack, Spinner } from '@chakra-ui/react'
+import { Button, FormControl, FormErrorMessage, FormHelperText, Grid, HStack, Heading, Spinner } from '@chakra-ui/react'
 import { intervalToDuration } from 'date-fns'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
 

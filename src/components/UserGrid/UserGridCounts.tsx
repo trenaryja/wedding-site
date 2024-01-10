@@ -2,7 +2,7 @@ import { NotionUser } from '@/utils'
 import { Grid, Heading, StackProps, Text, VStack } from '@chakra-ui/react'
 import { Table } from '@tanstack/react-table'
 
-export type UserGridFooterProps = {
+export type UserGridCountsProps = {
 	table: Table<NotionUser>
 }
 
@@ -13,7 +13,7 @@ const Count = ({ label, value, ...rest }: { label: string; value: number } & Sta
 	</VStack>
 )
 
-export const UserGridCounts = ({ table }: UserGridFooterProps) => (
+export const UserGridCounts = ({ table }: UserGridCountsProps) => (
 	<Grid
 		px={5}
 		columnGap={20}

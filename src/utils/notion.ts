@@ -1,5 +1,3 @@
-import { Client } from '@notionhq/client'
-
 export interface BaseResult {
 	object?: string
 	id?: string
@@ -103,5 +101,3 @@ export interface Properties {
 	SuitStatus?: SelectColumn<SuitStatus>
 	IsNotAttending?: CheckboxColumn
 }
-
-export const notionClient = new Client({ auth: process.env.NOTION_TOKEN })

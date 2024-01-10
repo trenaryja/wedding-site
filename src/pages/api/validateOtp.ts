@@ -1,4 +1,5 @@
-import { Session, decrypt, notionClient, updateSession, withSessionRoute } from '@/utils'
+import { Session } from '@/utils'
+import { decrypt, notionClient, updateSession, withSessionRoute } from '@/utils/server'
 import { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
 import { addMinutes, format } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'

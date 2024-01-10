@@ -1,4 +1,4 @@
-import { withSessionRoute } from '@/utils'
+import { withSessionRoute } from '@/utils/server'
 import { fetchImageUrls } from 'google-photos-album-image-url-fetch'
 import { NextApiRequest, NextApiResponse } from 'next'
 
