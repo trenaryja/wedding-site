@@ -1,7 +1,7 @@
+import { Session } from '@/utils'
 import { IronSessionOptions } from 'iron-session'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiHandler } from 'next'
-import { Session } from './types'
 
 declare module 'iron-session' {
 	interface IronSessionData {

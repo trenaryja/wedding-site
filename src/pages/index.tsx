@@ -1,7 +1,7 @@
+import { Gallery, OurDate, OurNames } from '@/components'
+import { WEDDING_DATE, limelight } from '@/utils'
 import { Grid, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import { format } from 'date-fns'
-import { Gallery, OurDate, OurNames } from '../components'
-import { WEDDING_DATE, limelight } from '../utils'
 
 const Index = () => (
 	<>

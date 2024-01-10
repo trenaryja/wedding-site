@@ -1,6 +1,6 @@
+import { NotionUser } from '@/utils'
 import { Grid, Heading, StackProps, Text, VStack } from '@chakra-ui/react'
 import { Table } from '@tanstack/react-table'
-import { NotionUser } from '../../utils/notion'
 
 export type UserGridFooterProps = {
 	table: Table<NotionUser>

@@ -1,7 +1,6 @@
+import { NotionUser, notionClient, withSessionRoute } from '@/utils'
 import { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { withSessionRoute } from '../../utils'
-import { NotionUser, notionClient } from '../../utils/notion'
 
 export const getNotionUsers = async () => {
 	const results: NotionUser[] = []

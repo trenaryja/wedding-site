@@ -1,7 +1,7 @@
+import { Session } from '@/utils'
 import Router from 'next/router'
 import { useEffect } from 'react'
 import useSWR from 'swr'
-import { Session } from '../utils'
 
 export const useSession = ({
 	redirectTo = '',

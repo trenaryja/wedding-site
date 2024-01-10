@@ -1,15 +1,11 @@
-import Particles, { initParticlesEngine } from '@tsparticles/react'
+import { initParticlesEngine, Particles } from '@tsparticles/react'
 import { loadSlim } from '@tsparticles/slim'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 export const BackgroundParticles = () => {
-	const [init, setInit] = useState(false)
-
 	useEffect(() => {
-		initParticlesEngine(async (engine) => await loadSlim(engine)).then(() => setInit(true))
+		initParticlesEngine(async (engine) => await loadSlim(engine))
 	}, [])
-
-	if (!init) return null
 
 	return (
 		<Particles

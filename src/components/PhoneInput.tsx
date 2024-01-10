@@ -1,6 +1,6 @@
+import { formatPhoneNumber } from '@/utils'
 import { CloseButton, Input, InputGroup, InputLeftAddon, InputProps, forwardRef } from '@chakra-ui/react'
 import { ChangeEvent, useState } from 'react'
-import { formatPhoneNumber } from '../utils'
 
 export type PhoneInputProps = Omit<InputProps, 'value' | 'defaultValue'> & {
 	value?: string

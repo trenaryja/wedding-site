@@ -1,3 +1,4 @@
+import { sendSms } from '@/utils'
 import {
 	Box,
 	BoxProps,
@@ -10,7 +11,6 @@ import {
 } from '@chakra-ui/react'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
 import { PhoneInput } from '.'
-import { sendSms } from '../utils'
 
 export const SmsForm = (props: BoxProps) => {
 	const [to, setTo] = useState('')

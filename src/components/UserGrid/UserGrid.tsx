@@ -1,3 +1,5 @@
+import { useSession } from '@/hooks'
+import { NotionUser, formatPhoneNumber, getNotionUsers, setSession } from '@/utils'
 import { Box, Grid, HStack, IconButton, Spinner, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import {
 	SortingState,
@@ -11,10 +13,7 @@ import {
 import Router from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { FaSortDown, FaSortUp, FaUserSecret } from 'react-icons/fa'
-import { useSession } from '../../hooks'
-import { formatPhoneNumber, getNotionUsers, setSession } from '../../utils'
-import { NotionUser } from '../../utils/notion'
-import { UserGridCounts } from './UserGridCounts'
+import { UserGridCounts } from '.'
 
 const columnHelper = createColumnHelper<NotionUser>()
 

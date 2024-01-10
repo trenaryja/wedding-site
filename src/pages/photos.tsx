@@ -1,7 +1,7 @@
+import { CloudinaryImage } from '@/utils'
 import { Box, Grid, useBreakpointValue } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { CloudinaryImage } from '../utils'
 
 export default function Index() {
 	const [photos, setPhotos] = useState<CloudinaryImage[]>([])

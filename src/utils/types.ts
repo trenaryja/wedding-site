@@ -1,4 +1,4 @@
-import { NotionUser } from './notion'
+import { NotionUser } from '@/utils'
 
 export type HttpRequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'TRACE' | 'CONNECT'
 

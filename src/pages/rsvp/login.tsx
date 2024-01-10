@@ -1,9 +1,9 @@
+import { FullScreenLoader, OtpInput, PhoneInput } from '@/components'
+import { useSession } from '@/hooks'
+import { logout, padStart, sendOtp, validateOtp } from '@/utils'
 import { Button, FormControl, FormErrorMessage, FormHelperText, Grid, Heading, HStack, Spinner } from '@chakra-ui/react'
 import { intervalToDuration } from 'date-fns'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
-import { FullScreenLoader, OtpInput, PhoneInput } from '../../components'
-import { useSession } from '../../hooks'
-import { logout, padStart, sendOtp, validateOtp } from '../../utils'
 
 export default function Login() {
 	const { session, mutateSession } = useSession({

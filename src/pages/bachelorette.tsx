@@ -1,7 +1,7 @@
+import { BACHELOR_PARTY_DATE } from '@/utils'
 import { Grid, Heading, Image, Link, List, ListIcon, ListItem, Text } from '@chakra-ui/react'
 import { addDays, format } from 'date-fns'
 import { PiDiamondsFourFill, PiPaperPlaneRightFill, PiSquareFill } from 'react-icons/pi'
-import { BACHELOR_PARTY_DATE } from '../utils'
 
 export default function Index() {
 	return (

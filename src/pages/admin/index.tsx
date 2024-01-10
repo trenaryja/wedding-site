@@ -1,8 +1,8 @@
+import { Conversation, SmsForm, UserGrid } from '@/components'
+import { useSession } from '@/hooks'
+import { logout } from '@/utils'
 import { Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Spinner } from '@chakra-ui/react'
 import { useState } from 'react'
-import { Conversation, SmsForm, UserGrid } from '../../components'
-import { useSession } from '../../hooks'
-import { logout } from '../../utils'
 
 type ModalOption = 'twilio' | 'user' | 'sms'
 

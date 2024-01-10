@@ -1,6 +1,6 @@
+import { chunk, getImages } from '@/utils'
 import { Flex, Grid, Image, Skeleton, useBreakpointValue } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { chunk, getImages } from '../utils'
 
 type GalleryProps = {
 	albumId: string

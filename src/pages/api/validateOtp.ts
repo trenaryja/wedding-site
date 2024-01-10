@@ -1,8 +1,7 @@
+import { Session, decrypt, notionClient, updateSession, withSessionRoute } from '@/utils'
 import { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
 import { addMinutes, format } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Session, decrypt, updateSession, withSessionRoute } from '../../utils'
-import { notionClient } from '../../utils/notion'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { otp } = req.body

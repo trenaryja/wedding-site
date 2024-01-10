@@ -1,6 +1,6 @@
+import { CloudinaryImage, withSessionRoute } from '@/utils'
 import cloudinary from 'cloudinary'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { CloudinaryImage, withSessionRoute } from '../../utils'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	cloudinary.v2.config({

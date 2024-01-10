@@ -1,7 +1,6 @@
+import { Session, defaultSession, getNotionUsers, updateSession, withSessionRoute } from '@/utils'
 import { addMinutes } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Session, defaultSession, updateSession, withSessionRoute } from '../../utils'
-import { getNotionUsers } from './notion'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	switch (req.method) {

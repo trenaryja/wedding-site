@@ -1,6 +1,5 @@
+import { Session, getNotionUsers, updateSession, withSessionRoute } from '@/utils'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Session, updateSession, withSessionRoute } from '../../utils'
-import { getNotionUsers } from './notion'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { password, useHerPhoneNumber } = await req.body

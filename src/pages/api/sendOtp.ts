@@ -1,16 +1,17 @@
-import { addMinutes } from 'date-fns'
-import { NextApiRequest, NextApiResponse } from 'next'
 import {
 	Session,
 	defaultSession,
 	encrypt,
 	generateOtp,
+	getNotionUsers,
+	twilioClient,
+	twilioPhoneNumber,
 	updateSession,
 	validateE164PhoneNumber,
 	withSessionRoute,
-} from '../../utils'
-import { twilioClient, twilioPhoneNumber } from '../../utils/twilio'
-import { getNotionUsers } from './notion'
+} from '@/utils'
+import { addMinutes } from 'date-fns'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { to } = req.body

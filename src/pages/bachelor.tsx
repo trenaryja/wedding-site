@@ -1,8 +1,8 @@
+import { SleepingArrangements, TimelineItem } from '@/components'
+import { BACHELOR_PARTY_DATE } from '@/utils'
 import { Box, Button, Grid, Heading, Image, Link, Text, useTheme } from '@chakra-ui/react'
 import { addDays, format } from 'date-fns'
 import { FaGolfBall, FaPlaneArrival, FaPlaneDeparture, FaShip } from 'react-icons/fa'
-import { SleepingArrangements, TimelineItem } from '../components'
-import { BACHELOR_PARTY_DATE } from '../utils'
 
 const waiverUrl = 'https://stbd.io/pzSvcR'
 

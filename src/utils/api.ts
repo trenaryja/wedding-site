@@ -1,8 +1,6 @@
+import { NotionUser, Session, stringifyValues } from '@/utils'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
-import { stringifyValues } from '.'
-import { NotionUser } from './notion'
-import { Session } from './types'
 
 export const updateSession = async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
 	req.session.data = session

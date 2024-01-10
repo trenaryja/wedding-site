@@ -1,3 +1,5 @@
+import { useSession } from '@/hooks'
+import { login } from '@/utils'
 import {
 	Button,
 	FormControl,
@@ -10,8 +12,6 @@ import {
 	VStack,
 } from '@chakra-ui/react'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
-import { useSession } from '../../hooks'
-import { login } from '../../utils'
 
 export default function Login() {
 	const { session, mutateSession } = useSession({

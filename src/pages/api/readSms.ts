@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
+import { twilioClient, withSessionRoute } from '@/utils'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
-import { withSessionRoute } from '../../utils'
-import { twilioClient } from '../../utils/twilio'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance[] | Error>) => {
 	if (!req.session.data?.isAdmin) {

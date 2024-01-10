@@ -1,3 +1,6 @@
+import { FadeGallery, FullScreenLoader, NoYes } from '@/components'
+import { useSession } from '@/hooks'
+import { SUIT_STATUSES, SuitStatus, WEDDING_DATE, logout, setSession, updateNotionUser } from '@/utils'
 import {
 	Button,
 	Flex,
@@ -15,10 +18,6 @@ import {
 } from '@chakra-ui/react'
 import { addMonths, format } from 'date-fns'
 import { useRef, useState } from 'react'
-import { FadeGallery, FullScreenLoader, NoYes } from '../../components'
-import { useSession } from '../../hooks'
-import { WEDDING_DATE, logout, setSession, updateNotionUser } from '../../utils'
-import { SUIT_STATUSES, SuitStatus } from '../../utils/notion'
 
 export default function Index() {
 	const { session, mutateSession } = useSession({

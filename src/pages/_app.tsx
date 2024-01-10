@@ -1,9 +1,9 @@
+import { BackToTop, BackgroundParticles, Footer, Header } from '@/components'
+import { CONTENT_WIDTH, chakraTheme, fetcher } from '@/utils'
 import { ChakraProvider, Grid, GridProps } from '@chakra-ui/react'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { SWRConfig } from 'swr'
-import { BackToTop, BackgroundParticles, Footer, Header } from '../components'
-import { CONTENT_WIDTH, chakraTheme, fetcher } from '../utils'
 
 const PageWrapper = (props: GridProps) => {
 	return (

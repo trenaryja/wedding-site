@@ -1,7 +1,7 @@
+import { getMessages } from '@/utils'
 import { Box, Text, VStack } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
-import { getMessages } from '../utils'
 
 const MessageBubble = ({ message }: { message: MessageInstance }) => {
 	const inbound = message.direction === 'inbound'

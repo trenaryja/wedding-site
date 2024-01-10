@@ -1,10 +1,10 @@
+import { CarouselGallery } from '@/components'
+import { JUSTIN_VENMO, RACHEL_VENMO, WEDDING_DATE, useTheme } from '@/utils'
 import { Button, Grid, HStack, Heading, Image, Link, Text } from '@chakra-ui/react'
 import { format } from 'date-fns'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import { GoNorthStar } from 'react-icons/go'
 import { IoLogoVenmo } from 'react-icons/io5'
-import { CarouselGallery } from '../components'
-import { JUSTIN_VENMO, RACHEL_VENMO, WEDDING_DATE, useTheme } from '../utils'
 
 const StarInfo = ({ children }: { children: string }) => (
 	<Text as='span' display='inline-flex' alignItems='center' gap={1}>

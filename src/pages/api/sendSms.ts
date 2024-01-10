@@ -1,7 +1,6 @@
+import { twilioClient, twilioPhoneNumber, validateE164PhoneNumber, withSessionRoute } from '@/utils'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
-import { validateE164PhoneNumber, withSessionRoute } from '../../utils'
-import { twilioClient, twilioPhoneNumber } from '../../utils/twilio'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance | Error>) => {
 	const { to, body } = req.body
