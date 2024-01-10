@@ -1,14 +1,18 @@
-import { useCallback } from 'react'
-import Particles from 'react-tsparticles'
-import { loadFull } from 'tsparticles'
-import { Engine } from 'tsparticles-engine'
+import Particles, { initParticlesEngine } from '@tsparticles/react'
+import { loadSlim } from '@tsparticles/slim'
+import { useEffect, useState } from 'react'
 
 export const BackgroundParticles = () => {
-	const particlesInit = useCallback(async (engine: Engine) => await loadFull(engine), [])
+	const [init, setInit] = useState(false)
+
+	useEffect(() => {
+		initParticlesEngine(async (engine) => await loadSlim(engine)).then(() => setInit(true))
+	}, [])
+
+	if (!init) return null
 
 	return (
 		<Particles
-			init={particlesInit}
 			options={{
 				background: {
 					image: 'url(https://www.toptal.com/designers/subtlepatterns/uploads/ep_naturalblack.png)',
@@ -26,7 +30,7 @@ export const BackgroundParticles = () => {
 						value: { min: 0, max: 0.5 },
 					},
 					number: {
-						density: { enable: true, area: 100 },
+						density: { enable: true, width: 250, height: 250 },
 						value: 50,
 					},
 				},

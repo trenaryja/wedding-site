@@ -1,10 +1,9 @@
-import { VStack } from '@chakra-ui/react'
-import { HoverText, HoverTextProps } from '.'
+import { Heading, HeadingProps, VStack } from '@chakra-ui/react'
 
-const Line = ({ children }: HoverTextProps) => (
-	<HoverText heading textAlign='center' size='4xl'>
+const Line = ({ children }: HeadingProps) => (
+	<Heading textAlign='center' size='4xl'>
 		{children}
-	</HoverText>
+	</Heading>
 )
 
 export const OurNames = () => {

@@ -1,22 +1,4 @@
-import { InfoIcon } from '@chakra-ui/icons'
-import {
-	Button,
-	Flex,
-	FormControl,
-	FormErrorMessage,
-	FormHelperText,
-	Grid,
-	Heading,
-	HStack,
-	Link,
-	Popover,
-	PopoverArrow,
-	PopoverBody,
-	PopoverContent,
-	PopoverTrigger,
-	Spinner,
-	Text,
-} from '@chakra-ui/react'
+import { Button, FormControl, FormErrorMessage, FormHelperText, Grid, Heading, HStack, Spinner } from '@chakra-ui/react'
 import { intervalToDuration } from 'date-fns'
 import { BaseSyntheticEvent, useEffect, useState } from 'react'
 import { FullScreenLoader, OtpInput, PhoneInput } from '../../components'
@@ -86,11 +68,8 @@ export default function Login() {
 		}
 	}
 
-	const phoneMessage = `Why? Because we want you to come to our wedding! Rest assured, I'm not selling it or anything. In fact, every time you use this page...it costs ya boi like a penny to send you a passcode. So please STAY LOGGED IN IF YOU CAN.`
-	const otpMessage = `Please enter the passcode that was sent to your phone. If you don't see it, check your phone's spam folder. If you're still having trouble, reach out to Justin.`
 	const handleSubmitForm = hasOtp ? handleSubmitOtp : handleSubmitPhone
 	const heading = hasOtp ? 'Enter Passcode' : 'Enter Phone Number'
-	const popoverMessage = hasOtp ? otpMessage : phoneMessage
 	const submitButtonText = hasOtp ? 'Submit Passcode' : 'Send Passcode'
 	const duration = intervalToDuration({ start: 0, end: remainingTime })
 	const formattedRemainingTime = `${padStart(duration.minutes, 2)}:${padStart(duration.seconds, 2)}`
@@ -102,21 +81,7 @@ export default function Login() {
 			<FullScreenLoader visible={loading} />
 			<form onSubmit={handleSubmitForm} style={{ display: 'grid', placeItems: 'center' }}>
 				<Grid gap={10} placeItems='center'>
-					<Flex gap={3} alignItems='baseline'>
-						<Heading>{heading}</Heading>
-						<Popover>
-							<PopoverTrigger>
-								<InfoIcon cursor='pointer' />
-							</PopoverTrigger>
-							<PopoverContent>
-								<PopoverArrow />
-								<PopoverBody>
-									<Text mb={5}>{popoverMessage}</Text>
-									<Link href='/rsvp/info'>Click here for more info</Link>
-								</PopoverBody>
-							</PopoverContent>
-						</Popover>
-					</Flex>
+					<Heading>{heading}</Heading>
 					<FormControl isInvalid={!!error} isDisabled={loading}>
 						<Grid placeItems='center'>
 							{!hasOtp && (

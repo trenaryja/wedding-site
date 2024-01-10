@@ -10,14 +10,7 @@ export type CarouselGalleryProps = {
 export const CarouselGallery = ({ images }: CarouselGalleryProps) => {
 	const slidesToShow = useBreakpointValue({ base: 1, md: 3 })
 	return (
-		<Slider
-			infinite
-			// nextArrow={<FaArrowRight color='white' size='2rem' />}
-			// prevArrow={<FaArrowLeft color='white' size='2rem' />}
-			slidesToShow={slidesToShow}
-			slidesToScroll={1}
-			centerMode={true}
-		>
+		<Slider infinite slidesToShow={slidesToShow} slidesToScroll={1} centerMode={true}>
 			{images.map((item) => (
 				<Image
 					key={item}

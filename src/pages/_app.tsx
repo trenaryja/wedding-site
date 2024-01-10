@@ -8,7 +8,7 @@ import { CONTENT_WIDTH, chakraTheme, fetcher } from '../utils'
 const PageWrapper = (props: GridProps) => {
 	return (
 		<Grid
-			minH='100vh'
+			minH='100dvh'
 			position='relative'
 			templateRows='auto 1fr auto'
 			sx={{
