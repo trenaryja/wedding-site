@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import {
 	Button,
 	Flex,
@@ -18,7 +17,7 @@ import { addMonths, format } from 'date-fns'
 import { useRef, useState } from 'react'
 import { FadeGallery, FullScreenLoader, NoYes } from '../../components'
 import { useSession } from '../../hooks'
-import { WEDDING_DATE, db, logout, setSession } from '../../utils'
+import { WEDDING_DATE, logout, setSession, updateNotionUser } from '../../utils'
 import { SUIT_STATUSES, SuitStatus } from '../../utils/notion'
 
 export default function Index() {
@@ -40,7 +39,7 @@ export default function Index() {
 		if (!isAttending) {
 			session.user.properties.IsPlusOneAttending.checkbox = false
 		}
-		const updated = await db.updateNotionUser(session.user.id, session.user)
+		const updated = await updateNotionUser(session.user.id, session.user)
 		await mutateSession(await setSession({ ...session, user: updated }))
 		toast({
 			title: 'Attendance Updated',
@@ -53,7 +52,7 @@ export default function Index() {
 	const handleChangeIsPlusOneAttending = async (isPlusOneAttending: boolean) => {
 		setIsLoading(true)
 		session.user.properties.IsPlusOneAttending.checkbox = isPlusOneAttending
-		const updated = await db.updateNotionUser(session.user.id, session.user)
+		const updated = await updateNotionUser(session.user.id, session.user)
 		await mutateSession(await setSession({ ...session, user: updated }))
 		toast({
 			title: 'Plus One Attendance Updated',
@@ -66,7 +65,7 @@ export default function Index() {
 	const handleChangePlusOneName = async (plusOneName: string) => {
 		setIsLoading(true)
 		session.user.properties.PlusOneName.rich_text = [{ type: 'text', text: { content: plusOneName } }]
-		const updated = await db.updateNotionUser(session.user.id, session.user)
+		const updated = await updateNotionUser(session.user.id, session.user)
 		await mutateSession(await setSession({ ...session, user: updated }))
 		toast({
 			title: 'Plus One Name Updated',
@@ -79,7 +78,7 @@ export default function Index() {
 	const handleChangeMessageToUs = async (messageToUs: string) => {
 		setIsLoading(true)
 		session.user.properties.MessageToUs.rich_text = [{ type: 'text', text: { content: messageToUs } }]
-		const updated = await db.updateNotionUser(session.user.id, session.user)
+		const updated = await updateNotionUser(session.user.id, session.user)
 		await mutateSession(await setSession({ ...session, user: updated }))
 		toast({
 			title: 'Message Updated',
@@ -92,7 +91,7 @@ export default function Index() {
 	const handleChangeSuitStatus = async (suitStatus: SuitStatus) => {
 		setIsLoading(true)
 		session.user.properties.SuitStatus.select = { name: suitStatus }
-		const updated = await db.updateNotionUser(session.user.id, session.user)
+		const updated = await updateNotionUser(session.user.id, session.user)
 		await mutateSession(await setSession({ ...session, user: updated }))
 		toast({
 			title: 'Suit Status Updated',

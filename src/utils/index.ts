@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import CryptoJS from 'crypto-js'
 
 export * from './api'
@@ -16,10 +15,8 @@ declare global {
 			TWILIO_PHONE_NUMBER: string
 			RACHEL_PHONE_NUMBER: string
 			JUSTIN_PHONE_NUMBER: string
-			DATABASE_URL: string
 			NOTION_TOKEN: string
 			NOTION_GUEST_DB_ID: string
-			GITFRONT_MARKDOWN_URL: string
 			CLOUDINARY_API_KEY: string
 			CLOUDINARY_API_SECRET: string
 			CLOUDINARY_API_CLOUD_NAME: string

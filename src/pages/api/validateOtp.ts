@@ -1,7 +1,8 @@
+import { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
 import { addMinutes, format } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Session, decrypt, updateSession, withSessionRoute } from '../../utils'
-import { updateNotionUser } from './notion'
+import { notionClient } from '../../utils/notion'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
 	const { otp } = req.body
@@ -22,9 +23,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 	}
 
 	req.session.data.user.properties.LastLogin.date = { start: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx") }
-	await updateNotionUser(req.session.data.user)
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	await notionClient.pages.update({
+		page_id: req.session.data.user.id,
+		properties: req.session.data.user.properties as unknown as UpdatePageParameters['properties'],
+	})
+
 	const { otp: oldOtp, ...currentSession } = req.session.data
 	const timeout = addMinutes(new Date(), 2).toISOString()
 	const session: Session = { ...currentSession, isLoggedIn: true, timeout }

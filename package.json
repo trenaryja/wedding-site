@@ -8,16 +8,7 @@
 		"lint": "next lint"
 	},
 	"eslintConfig": {
-		"parser": "@typescript-eslint/parser",
-		"plugins": [
-			"@typescript-eslint"
-		],
-		"extends": [
-			"next/core-web-vitals",
-			"eslint:recommended",
-			"plugin:@typescript-eslint/recommended",
-			"prettier"
-		],
+		"extends": "next/core-web-vitals",
 		"rules": {
 			"react/no-unescaped-entities": "off"
 		}
@@ -48,8 +39,8 @@
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-icons": "^4.12.0",
-		"react-markdown": "^9.0.1",
 		"react-slick": "^0.29.0",
+		"sharp": "^0.33.1",
 		"slick-carousel": "^1.8.1",
 		"swr": "^2.2.4",
 		"twilio": "^4.19.3"
@@ -60,11 +51,8 @@
 		"@types/node": "^20.10.8",
 		"@types/react": "^18.2.47",
 		"@types/react-dom": "^18.2.18",
-		"@typescript-eslint/eslint-plugin": "^6.18.1",
-		"@typescript-eslint/parser": "^6.18.1",
 		"eslint": "^8.56.0",
 		"eslint-config-next": "^14.0.4",
-		"eslint-config-prettier": "^9.1.0",
 		"prettier": "^3.1.1",
 		"typescript": "^5.3.3"
 	}

@@ -3,13 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { withSessionRoute } from '../../utils'
 import { NotionUser, notionClient } from '../../utils/notion'
 
-export const updateNotionUser = async (data: NotionUser, id?: string) => {
-	return await notionClient.pages.update({
-		page_id: id ?? data.id,
-		properties: data.properties as unknown as UpdatePageParameters['properties'],
-	})
-}
-
 export const getNotionUsers = async () => {
 	const results: NotionUser[] = []
 
@@ -40,7 +33,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 		case 'PUT': {
 			const user = req.body.data as NotionUser
-			res.json(await updateNotionUser(user))
+			res.json(
+				await notionClient.pages.update({
+					page_id: user.id,
+					properties: user.properties as unknown as UpdatePageParameters['properties'],
+				}),
+			)
 			break
 		}
 	}

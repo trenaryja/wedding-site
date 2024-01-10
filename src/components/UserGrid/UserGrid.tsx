@@ -12,7 +12,7 @@ import Router from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { FaSortDown, FaSortUp, FaUserSecret } from 'react-icons/fa'
 import { useSession } from '../../hooks'
-import { db, formatPhoneNumber, setSession } from '../../utils'
+import { formatPhoneNumber, getNotionUsers, setSession } from '../../utils'
 import { NotionUser } from '../../utils/notion'
 import { UserGridCounts } from './UserGridCounts'
 
@@ -62,7 +62,7 @@ export const UserGrid = () => {
 	})
 
 	useEffect(() => {
-		const asyncUseEffect = async () => setData(await db.getNotionUsers())
+		const asyncUseEffect = async () => setData(await getNotionUsers())
 		asyncUseEffect()
 	}, [])
 

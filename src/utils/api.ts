@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 import { stringifyValues } from '.'
+import { NotionUser } from './notion'
 import { Session } from './types'
-export * as db from './db'
 
 export const updateSession = async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
 	req.session.data = session
@@ -90,6 +90,7 @@ export const setSession = async (session: Partial<Session>) => {
 	return await postJson<Session>('/api/session', session)
 }
 
-export const getMarkdown = async (path: string) => {
-	return await getJson<string>('/api/markdown', { path })
-}
+export const getNotionUsers = async () => await getJson<NotionUser[]>('/api/notion')
+
+export const updateNotionUser = async (id: string, data: NotionUser) =>
+	await putJson<NotionUser>('/api/notion', { id }, { data })
