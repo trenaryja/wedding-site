@@ -1,6 +1,6 @@
 import { NotionUser, Session } from '@/utils'
 import { Client } from '@notionhq/client'
-import CryptoJS from 'crypto-js'
+import crypto from 'crypto'
 import { SessionOptions, getIronSession } from 'iron-session'
 import { NextApiRequest, NextApiResponse } from 'next'
 import twilio from 'twilio'
@@ -45,14 +45,6 @@ export const generateOtp = (length = 4) => {
 	return OTP
 }
 
-export const encrypt = (value: string) => {
-	return CryptoJS.AES.encrypt(value, process.env.IRON_SESSION_COOKIE_PW).toString()
-}
-
-export const decrypt = (value: string) => {
-	return CryptoJS.AES.decrypt(value, process.env.IRON_SESSION_COOKIE_PW).toString(CryptoJS.enc.Utf8)
-}
-
 export const getNotionUsers = async () => {
 	const results: NotionUser[] = []
 
@@ -72,4 +64,16 @@ export const getNotionUsers = async () => {
 
 	results.sort((a, b) => a.properties.Name.title[0].text.content.localeCompare(b.properties.Name.title[0].text.content))
 	return results
+}
+
+const encryptionParams = ['aes-256-ecb', process.env.IRON_SESSION_COOKIE_PW, null] as const
+
+export const encrypt = (text: string) => {
+	const cipher = crypto.createCipheriv(...encryptionParams)
+	return cipher.update(text, 'utf-8', 'hex') + cipher.final('hex')
+}
+
+export const decrypt = (encryptedText: string) => {
+	const decipher = crypto.createDecipheriv(...encryptionParams)
+	return decipher.update(encryptedText, 'hex', 'utf-8') + decipher.final('utf-8')
 }
