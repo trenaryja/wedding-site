@@ -20,7 +20,7 @@ export const postJson = async <T>(input: RequestInfo | URL, body?: unknown, init
 }
 
 export const getJson = async <T>(input: RequestInfo | URL, params?: unknown, init?: RequestInit): Promise<T> => {
-	return await fetcher(`${input}${new URLSearchParams(stringifyValues(params))}`, {
+	return await fetcher(`${input}?${new URLSearchParams(stringifyValues(params))}`, {
 		method: 'GET',
 		headers: jsonRequestHeaders,
 		...init,
