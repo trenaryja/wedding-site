@@ -1,4 +1,3 @@
-import { withSessionRoute } from '@/utils/server'
 import { fetchImageUrls } from 'google-photos-album-image-url-fetch'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -10,4 +9,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	res.json(imageUrls)
 }
 
-export default withSessionRoute(handler)
+export default handler

@@ -1,16 +1,18 @@
-import { Session, defaultSession, getNotionUsers } from '@/utils'
+import { Session } from '@/utils'
 import {
+	defaultSession,
 	encrypt,
 	generateOtp,
+	getNotionUsers,
+	getSession,
 	twilioClient,
 	updateSession,
 	validateE164PhoneNumber,
-	withSessionRoute,
 } from '@/utils/server'
 import { addMinutes } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { to } = req.body
 	const formattedTo = `+1${to}`
 
@@ -39,7 +41,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 		await twilioClient.messages.create({ from: process.env.TWILIO_PHONE_NUMBER, to: formattedTo, body })
 
 	const timeout = addMinutes(new Date(), 2).toISOString()
-	const currentSession = req.session.data || defaultSession
+	const currentSession = (await getSession(req, res)).data || defaultSession
 	const session: Session = {
 		...currentSession,
 		otp: encrypt(otp),
@@ -50,4 +52,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 	await updateSession(req, res, session)
 }
 
-export default withSessionRoute(handler)
+export default handler

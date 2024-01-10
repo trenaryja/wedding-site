@@ -1,12 +1,12 @@
-import { twilioClient, validateE164PhoneNumber, withSessionRoute } from '@/utils/server'
+import { getSession, twilioClient, validateE164PhoneNumber } from '@/utils/server'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance | Error>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { to, body } = req.body
 	const formattedTo = `+1${to}`
+	const session = await getSession(req, res)
 
-	if (!req.session.data?.isAdmin) {
+	if (!session.data?.isAdmin) {
 		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
 		return
 	}
@@ -26,6 +26,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<MessageInstance
 	res.json(body)
 }
 
-export default withSessionRoute(handler)
-
-process.env.T
+export default handler

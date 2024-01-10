@@ -1,8 +1,8 @@
-import { Session, getNotionUsers } from '@/utils'
-import { updateSession, withSessionRoute } from '@/utils/server'
+import { Session } from '@/utils'
+import { getNotionUsers, updateSession } from '@/utils/server'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { password, useHerPhoneNumber } = await req.body
 
 	if (password !== process.env.ADMIN_PW) {
@@ -16,4 +16,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Session | Error
 	await updateSession(req, res, session)
 }
 
-export default withSessionRoute(handler)
+export default handler

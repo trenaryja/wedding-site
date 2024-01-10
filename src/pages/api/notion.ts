@@ -1,31 +1,15 @@
 import { NotionUser } from '@/utils'
-import { notionClient, withSessionRoute } from '@/utils/server'
+import { getNotionUsers, getSession, notionClient } from '@/utils/server'
 import { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export const getNotionUsers = async () => {
-	const results: NotionUser[] = []
-
-	let query = await notionClient.databases.query({
-		database_id: process.env.NOTION_GUEST_DB_ID,
-	})
-	results.push(...(query.results as NotionUser[]))
-
-	while (query.has_more) {
-		query = await notionClient.databases.query({
-			database_id: process.env.NOTION_GUEST_DB_ID,
-			start_cursor: query.next_cursor,
-		})
-		// console.log(query.results[0].properties)
-		results.push(...(query.results as NotionUser[]))
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	const session = await getSession(req, res)
+	if (!session.data?.isAdmin) {
+		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
+		return
 	}
 
-	return results.sort((a, b) =>
-		a.properties.Name.title[0].text.content.localeCompare(b.properties.Name.title[0].text.content),
-	)
-}
-
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	switch (req.method) {
 		case 'GET': {
 			res.json(await getNotionUsers())
@@ -44,4 +28,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 }
 
-export default withSessionRoute(handler)
+export default handler

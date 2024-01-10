@@ -1,17 +1,11 @@
-import { Session } from '@/utils'
+import { NotionUser, Session } from '@/utils'
 import { Client } from '@notionhq/client'
-import { IronSessionOptions } from 'iron-session'
-import { withIronSessionApiRoute } from 'iron-session/next'
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
+import CryptoJS from 'crypto-js'
+import { SessionOptions, getIronSession } from 'iron-session'
+import { NextApiRequest, NextApiResponse } from 'next'
 import twilio from 'twilio'
 
-declare module 'iron-session' {
-	interface IronSessionData {
-		data?: Session
-	}
-}
-
-const sessionOptions: IronSessionOptions = {
+const sessionOptions: SessionOptions = {
 	password: process.env.IRON_SESSION_COOKIE_PW,
 	cookieName: 'trenary.love',
 	cookieOptions: {
@@ -19,13 +13,20 @@ const sessionOptions: IronSessionOptions = {
 	},
 }
 
-export const updateSession = async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
-	req.session.data = session
-	await req.session.save()
-	res.json(session)
+export const defaultSession: Session = {
+	isLoggedIn: false,
+	isAdmin: false,
 }
 
-export const withSessionRoute = (handler: NextApiHandler) => withIronSessionApiRoute(handler, sessionOptions)
+export const getSession = async (req: NextApiRequest, res: NextApiResponse) =>
+	await getIronSession<{ data: Session }>(req, res, sessionOptions)
+
+export const updateSession = async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
+	const currentSession = await getSession(req, res)
+	currentSession.data = session
+	await currentSession.save()
+	res.json(currentSession)
+}
 
 export const notionClient = new Client({ auth: process.env.NOTION_TOKEN })
 
@@ -50,4 +51,25 @@ export const encrypt = (value: string) => {
 
 export const decrypt = (value: string) => {
 	return CryptoJS.AES.decrypt(value, process.env.IRON_SESSION_COOKIE_PW).toString(CryptoJS.enc.Utf8)
+}
+
+export const getNotionUsers = async () => {
+	const results: NotionUser[] = []
+
+	let query = await notionClient.databases.query({
+		database_id: process.env.NOTION_GUEST_DB_ID,
+	})
+
+	results.push(...(query.results as NotionUser[]))
+
+	while (query.has_more) {
+		query = await notionClient.databases.query({
+			database_id: process.env.NOTION_GUEST_DB_ID,
+			start_cursor: query.next_cursor,
+		})
+		results.push(...(query.results as NotionUser[]))
+	}
+
+	results.sort((a, b) => a.properties.Name.title[0].text.content.localeCompare(b.properties.Name.title[0].text.content))
+	return results
 }

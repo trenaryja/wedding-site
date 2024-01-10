@@ -10,11 +10,6 @@ export interface Session {
 	timeout?: string
 }
 
-export const defaultSession: Session = {
-	isLoggedIn: false,
-	isAdmin: false,
-}
-
 export type CloudinaryImage = {
 	asset_id: string
 	public_id: string

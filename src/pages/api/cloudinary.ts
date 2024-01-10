@@ -1,5 +1,4 @@
 import { CloudinaryImage } from '@/utils'
-import { withSessionRoute } from '@/utils/server'
 import cloudinary from 'cloudinary'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -24,4 +23,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	res.status(200).json(results.map(({ width, height, url }) => ({ width, height, url })))
 }
 
-export default withSessionRoute(handler)
+export default handler
