@@ -29,7 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		properties: session.data.user.properties as unknown as UpdatePageParameters['properties'],
 	})
 
-	const { otp: oldOtp, ...currentSession } = session.data
+	const { otp: _oldOtp, ...currentSession } = session.data
 	const timeout = addMinutes(new Date(), 2).toISOString()
 	await updateSession(req, res, { ...currentSession, isLoggedIn: true, timeout })
 }

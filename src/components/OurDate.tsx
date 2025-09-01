@@ -8,7 +8,7 @@ export type OurDateProps = BoxProps & {
 }
 
 export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
-	const refs = useRef<Array<SVGElement | null>>([])
+	const refs = useRef<(SVGElement | null)[]>([])
 
 	useEffect(() => {
 		refs.current = refs.current.slice(0, lines.length)
@@ -27,7 +27,12 @@ export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 	return (
 		<Box w='100%' border='1px' p={5} {...rest}>
 			{lines.map((line, i) => (
-				<svg key={i} ref={(svg) => (refs.current[i] = svg)}>
+				<svg
+					key={i}
+					ref={(svg) => {
+						refs.current[i] = svg
+					}}
+				>
 					<text {...props} {...(typeof line === 'string' ? undefined : line.props)}>
 						{typeof line === 'string' ? line : line.text}
 					</text>
