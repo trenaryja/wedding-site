@@ -11,7 +11,7 @@ import {
 	Switch,
 	VStack,
 } from '@chakra-ui/react'
-import { BaseSyntheticEvent, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 export default function Login() {
 	const { session, mutateSession } = useSession({
@@ -23,19 +23,23 @@ export default function Login() {
 	const [error, setError] = useState<Error | null>(null)
 	const [useHerPhoneNumber, setUseHerPhoneNumber] = useState(false)
 
-	useEffect(() => setError(null), [password])
-
 	if (!session) return <Spinner placeSelf='center' />
 
-	const handleSubmit = async (e: BaseSyntheticEvent) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		if (error) return
+
 		try {
-			e.preventDefault()
-			if (error) return
 			await mutateSession(await login(password, useHerPhoneNumber))
 			setError(null)
-		} catch (error) {
-			setError(error)
+		} catch (err: unknown) {
+			setError(err instanceof Error ? err : new Error('Login failed'))
 		}
+	}
+
+	const handlePasswordChange = (value: string) => {
+		setPassword(value)
+		if (error) setError(null)
 	}
 
 	return (
@@ -46,12 +50,21 @@ export default function Login() {
 					<Switch size='lg' isChecked={useHerPhoneNumber} onChange={(e) => setUseHerPhoneNumber(e.target.checked)} />
 					<Heading>♀️</Heading>
 				</HStack>
+
 				<Heading>Enter Password</Heading>
+
 				<FormControl isInvalid={!!error}>
-					<Input type='password' name='password' required onChange={(e) => setPassword(e.target.value)} />
+					<Input
+						type='password'
+						name='password'
+						required
+						value={password}
+						onChange={(e) => handlePasswordChange(e.target.value)}
+					/>
 					<FormErrorMessage>{error?.message}</FormErrorMessage>
 				</FormControl>
-				<Button disabled={!!error} type='submit'>
+
+				<Button isDisabled={!!error} type='submit'>
 					Login
 				</Button>
 			</VStack>

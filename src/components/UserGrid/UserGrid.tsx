@@ -51,6 +51,7 @@ export const UserGrid = () => {
 		]
 	}, [mutateSession, session])
 
+	// eslint-disable-next-line react-hooks/incompatible-library
 	const table: TableType<NotionUser> = useReactTable({
 		columns,
 		data,

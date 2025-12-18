@@ -1,16 +1,13 @@
-import { FlatCompat } from '@eslint/eslintrc'
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import nextTs from 'eslint-config-next/typescript'
+import { defineConfig, globalIgnores } from 'eslint/config'
 
-const compat = new FlatCompat({
-	baseDirectory: import.meta.url,
-})
-
-/** @type {import('eslint').Linter.Config[]} */
-const eslintConfig = [
-	{ ignores: ['.next/**', 'next-env.d.ts'] },
-	...compat.extends('next/core-web-vitals', 'next/typescript'),
+const eslintConfig = defineConfig([
+	...nextVitals,
+	...nextTs,
+	globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
 	{
 		rules: {
-			'react/no-unescaped-entities': 'off',
 			'react/no-unescaped-entities': 'off',
 			'@next/next/no-img-element': 'off',
 			'@typescript-eslint/no-namespace': 'off',
@@ -20,6 +17,6 @@ const eslintConfig = [
 			],
 		},
 	},
-]
+])
 
 export default eslintConfig

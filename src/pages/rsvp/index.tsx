@@ -30,16 +30,30 @@ export default function Index() {
 	const messageToUsRef = useRef<HTMLTextAreaElement>(null)
 
 	if (!session || !session.isLoggedIn) return <Spinner placeSelf='center' />
+
 	const suitStatus = session.user.properties.SuitStatus.select?.name || 'Not Started'
+
+	const updateUser = async (user: typeof session.user) => {
+		const updated = await updateNotionUser(session.user.id, user)
+		await mutateSession(await setSession({ ...session, user: updated }))
+	}
 
 	const handleChangeAttendance = async (isAttending: boolean) => {
 		setIsLoading(true)
-		session.user.properties.IsAttending.checkbox = isAttending
-		if (!isAttending) {
-			session.user.properties.IsPlusOneAttending.checkbox = false
-		}
-		const updated = await updateNotionUser(session.user.id, session.user)
-		await mutateSession(await setSession({ ...session, user: updated }))
+		await updateUser({
+			...session.user,
+			properties: {
+				...session.user.properties,
+				IsAttending: {
+					...session.user.properties.IsAttending,
+					checkbox: isAttending,
+				},
+				IsPlusOneAttending: {
+					...session.user.properties.IsPlusOneAttending,
+					checkbox: isAttending ? session.user.properties.IsPlusOneAttending.checkbox : false,
+				},
+			},
+		})
 		toast({
 			title: 'Attendance Updated',
 			description: 'We saved your selection, thanks for for keeping us up to date!',
@@ -50,9 +64,16 @@ export default function Index() {
 
 	const handleChangeIsPlusOneAttending = async (isPlusOneAttending: boolean) => {
 		setIsLoading(true)
-		session.user.properties.IsPlusOneAttending.checkbox = isPlusOneAttending
-		const updated = await updateNotionUser(session.user.id, session.user)
-		await mutateSession(await setSession({ ...session, user: updated }))
+		await updateUser({
+			...session.user,
+			properties: {
+				...session.user.properties,
+				IsPlusOneAttending: {
+					...session.user.properties.IsPlusOneAttending,
+					checkbox: isPlusOneAttending,
+				},
+			},
+		})
 		toast({
 			title: 'Plus One Attendance Updated',
 			description: 'We saved your selection, thanks for for keeping us up to date!',
@@ -63,9 +84,16 @@ export default function Index() {
 
 	const handleChangePlusOneName = async (plusOneName: string) => {
 		setIsLoading(true)
-		session.user.properties.PlusOneName.rich_text = [{ type: 'text', text: { content: plusOneName } }]
-		const updated = await updateNotionUser(session.user.id, session.user)
-		await mutateSession(await setSession({ ...session, user: updated }))
+		await updateUser({
+			...session.user,
+			properties: {
+				...session.user.properties,
+				PlusOneName: {
+					...session.user.properties.PlusOneName,
+					rich_text: [{ type: 'text', text: { content: plusOneName } }],
+				},
+			},
+		})
 		toast({
 			title: 'Plus One Name Updated',
 			description: 'We saved your selection, thanks for for keeping us up to date!',
@@ -76,9 +104,16 @@ export default function Index() {
 
 	const handleChangeMessageToUs = async (messageToUs: string) => {
 		setIsLoading(true)
-		session.user.properties.MessageToUs.rich_text = [{ type: 'text', text: { content: messageToUs } }]
-		const updated = await updateNotionUser(session.user.id, session.user)
-		await mutateSession(await setSession({ ...session, user: updated }))
+		await updateUser({
+			...session.user,
+			properties: {
+				...session.user.properties,
+				MessageToUs: {
+					...session.user.properties.MessageToUs,
+					rich_text: [{ type: 'text', text: { content: messageToUs } }],
+				},
+			},
+		})
 		toast({
 			title: 'Message Updated',
 			description: 'We saved your current message. Thanks for taking the time to write us something!',
@@ -89,9 +124,16 @@ export default function Index() {
 
 	const handleChangeSuitStatus = async (suitStatus: SuitStatus) => {
 		setIsLoading(true)
-		session.user.properties.SuitStatus.select = { name: suitStatus }
-		const updated = await updateNotionUser(session.user.id, session.user)
-		await mutateSession(await setSession({ ...session, user: updated }))
+		await updateUser({
+			...session.user,
+			properties: {
+				...session.user.properties,
+				SuitStatus: {
+					...session.user.properties.SuitStatus,
+					select: { name: suitStatus },
+				},
+			},
+		})
 		toast({
 			title: 'Suit Status Updated',
 			description: 'We saved your latest suit status. Thank you!',
@@ -149,7 +191,7 @@ export default function Index() {
 								<Button
 									isLoading={isLoading}
 									isDisabled={isLoading}
-									onClick={() => handleChangePlusOneName(plusOneNameRef.current.value)}
+									onClick={() => handleChangePlusOneName(plusOneNameRef.current?.value ?? '')}
 								>
 									Submit
 								</Button>
@@ -192,7 +234,7 @@ export default function Index() {
 						<Button
 							isLoading={isLoading}
 							isDisabled={isLoading}
-							onClick={() => handleChangeMessageToUs(messageToUsRef.current.value)}
+							onClick={() => handleChangeMessageToUs(messageToUsRef.current?.value ?? '')}
 						>
 							Submit
 						</Button>

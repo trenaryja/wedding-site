@@ -48,15 +48,15 @@ export const generateOtp = (length = 4) => {
 export const getNotionUsers = async () => {
 	const results: NotionUser[] = []
 
-	let query = await notionClient.databases.query({
-		database_id: process.env.NOTION_GUEST_DB_ID,
+	let query = await notionClient.dataSources.query({
+		data_source_id: process.env.NOTION_GUEST_DB_ID,
 	})
 
 	results.push(...(query.results as NotionUser[]))
 
 	while (query.has_more) {
-		query = await notionClient.databases.query({
-			database_id: process.env.NOTION_GUEST_DB_ID,
+		query = await notionClient.dataSources.query({
+			data_source_id: process.env.NOTION_GUEST_DB_ID,
 			start_cursor: query.next_cursor,
 		})
 		results.push(...(query.results as NotionUser[]))
