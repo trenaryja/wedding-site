@@ -17,7 +17,6 @@ export default function Login() {
 	const [loading, setLoading] = useState(false)
 	const [remainingTime, setRemainingTime] = useState(0)
 
-	useEffect(() => setError(null), [phone, otp])
 	useEffect(() => {
 		const interval = setInterval(async () => {
 			if (remainingTime > 0) {
@@ -87,13 +86,25 @@ export default function Login() {
 							{!hasOtp && (
 								<PhoneInput
 									value={phone}
-									onChange={(e) => setPhone(e.target.value)}
+									onChange={(e) => {
+										setPhone(e.target.value)
+										setError(null)
+									}}
 									onBlur={handleValidatePhone}
 									isRequired
 									showClearButton
 								/>
 							)}
-							{hasOtp && <OtpInput value={otp} onChange={(value) => setOtp(value)} isRequired />}
+							{hasOtp && (
+								<OtpInput
+									value={otp}
+									onChange={(value) => {
+										setOtp(value)
+										setError(null)
+									}}
+									isRequired
+								/>
+							)}
 							{hasOtp && <FormHelperText>{formattedRemainingTime}</FormHelperText>}
 							<FormErrorMessage>{error?.message}</FormErrorMessage>
 						</Grid>

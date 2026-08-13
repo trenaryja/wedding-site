@@ -9,7 +9,7 @@ import {
 	Textarea,
 	useToast,
 } from '@chakra-ui/react'
-import { BaseSyntheticEvent, useEffect, useState } from 'react'
+import { BaseSyntheticEvent, useState } from 'react'
 import { PhoneInput } from '.'
 
 export const SmsForm = (props: BoxProps) => {
@@ -18,8 +18,6 @@ export const SmsForm = (props: BoxProps) => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<Error | null>()
 	const toast = useToast()
-
-	useEffect(() => setError(null), [to])
 
 	const handleSendSms = async (e: BaseSyntheticEvent) => {
 		try {
@@ -43,7 +41,15 @@ export const SmsForm = (props: BoxProps) => {
 		<Box maxW='sm' p={5} {...props}>
 			<form onSubmit={handleSendSms}>
 				<FormControl isInvalid={!!error}>
-					<PhoneInput value={to} onChange={(e) => setTo(e.target.value)} onBlur={handleValidate} isRequired />
+					<PhoneInput
+						value={to}
+						onChange={(e) => {
+							setTo(e.target.value)
+							setError(null)
+						}}
+						onBlur={handleValidate}
+						isRequired
+					/>
 					<FormErrorMessage>{error?.message}</FormErrorMessage>
 				</FormControl>
 				<FormControl my={5} display='flex' flexDirection='column'>
