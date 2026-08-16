@@ -1,10 +1,11 @@
-import { Flex, Heading, HeadingProps } from '@chakra-ui/react'
+import type { HeadingProps } from '@chakra-ui/react'
+import { Flex, Heading } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-type MenuItemProps = {
+type MenuItemProps = HeadingProps & {
 	to: string
-} & HeadingProps
+}
 
 const MenuItem = ({ children, to, ...props }: MenuItemProps) => {
 	const { pathname } = useRouter()
@@ -21,7 +22,7 @@ const MenuItem = ({ children, to, ...props }: MenuItemProps) => {
 export const Header = () => {
 	return (
 		<Flex as='header' justifyContent='space-around' className='full-bleed' bg='blackAlpha.500' p={5} mb={10}>
-			<MenuItem to='/' textDecoration='none' color='transparent' textShadow={`0 0 0 #FFF`}>
+			<MenuItem to='/' textDecoration='none' color='transparent' textShadow='0 0 0 #FFF'>
 				❤️
 			</MenuItem>
 			<MenuItem to='/info'>info</MenuItem>

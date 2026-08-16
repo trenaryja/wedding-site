@@ -1,6 +1,6 @@
-import { CloudinaryImage } from '@/utils'
+import type { CloudinaryImage } from '@/utils'
 import cloudinary from 'cloudinary'
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	cloudinary.v2.config({

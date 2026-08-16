@@ -1,7 +1,8 @@
-import { BackToTop, BackgroundParticles, Footer, Header } from '@/components'
-import { CONTENT_WIDTH, chakraTheme, fetcher } from '@/utils'
-import { ChakraProvider, Grid, GridProps } from '@chakra-ui/react'
-import { AppProps } from 'next/app'
+import { BackgroundParticles, BackToTop, Footer, Header } from '@/components'
+import { chakraTheme, CONTENT_WIDTH, fetcher } from '@/utils'
+import type { GridProps } from '@chakra-ui/react'
+import { ChakraProvider, Grid } from '@chakra-ui/react'
+import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { SWRConfig } from 'swr'
 

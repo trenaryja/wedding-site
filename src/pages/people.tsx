@@ -1,8 +1,9 @@
-import { Box, BoxProps, Grid, Heading, Image, Text, useBreakpointValue } from '@chakra-ui/react'
+import type { BoxProps } from '@chakra-ui/react'
+import { Box, Grid, Heading, Image, Text, useBreakpointValue } from '@chakra-ui/react'
 
 const flatHexApectRatio = 2 / Math.sqrt(3)
 const flatHexClipPath = `polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);`
-const Hexagon = (props: BoxProps) => <Box clipPath={flatHexClipPath} {...props}></Box>
+const Hexagon = (props: BoxProps) => <Box clipPath={flatHexClipPath} {...props} />
 
 type PersonProps = {
 	first: string

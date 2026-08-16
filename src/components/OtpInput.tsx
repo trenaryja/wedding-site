@@ -1,4 +1,5 @@
-import { CloseButton, HStack, PinInput, PinInputField, PinInputProps } from '@chakra-ui/react'
+import type { PinInputProps } from '@chakra-ui/react'
+import { CloseButton, HStack, PinInput, PinInputField } from '@chakra-ui/react'
 
 export type OtpInputProps = Omit<PinInputProps, 'children'> & { isRequired?: boolean }
 
@@ -13,7 +14,7 @@ export const OtpInput = (props: OtpInputProps) => {
 				<PinInputField required={isRequired} />
 				<PinInputField required={isRequired} />
 			</PinInput>
-			<CloseButton onClick={() => onChange('')} />
+			<CloseButton onClick={() => onChange?.('')} />
 		</HStack>
 	)
 }

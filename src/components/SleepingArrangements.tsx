@@ -1,6 +1,7 @@
-import { Box, Grid, GridProps, Heading, Text, useBreakpointValue } from '@chakra-ui/react'
+import type { GridProps } from '@chakra-ui/react'
+import { Box, Grid, Heading, Text, useBreakpointValue } from '@chakra-ui/react'
 
-export type BedSize = 'King' | 'Queen' | 'Full'
+export type BedSize = 'Full' | 'King' | 'Queen'
 
 export const BedAspectRatio: Record<BedSize, { aspectRatio: number; scale: number }> = {
 	King: {
@@ -32,6 +33,7 @@ export type RoomProps = GridProps & {
 
 export const Bed = ({ size, people }: BedProps) => {
 	const bed = getBedFromSize(size)
+	if (!bed) return null
 	return (
 		<Grid
 			textAlign='center'
@@ -55,6 +57,7 @@ export const Bed = ({ size, people }: BedProps) => {
 		</Grid>
 	)
 }
+
 export const Room = ({ name, children, bedGridProps: childrenProps, ...props }: RoomProps) => (
 	<Grid width='100%' gap={5} {...props}>
 		<Heading size='md' textAlign='center'>
@@ -67,7 +70,7 @@ export const Room = ({ name, children, bedGridProps: childrenProps, ...props }: 
 )
 
 export const SleepingArrangements = () => {
-	const columns = useBreakpointValue({ base: 1, sm: 2 })
+	const columns = useBreakpointValue({ base: 1, sm: 2 }) ?? 1
 
 	return (
 		<Grid templateColumns={`repeat(${columns}, 1fr)`} p={5} gap={5}>

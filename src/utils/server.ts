@@ -1,8 +1,9 @@
-import { NotionUser, Session } from '@/utils'
+import type { NotionUser, Session } from '@/utils'
 import { Client } from '@notionhq/client'
 import crypto from 'crypto'
-import { SessionOptions, getIronSession } from 'iron-session'
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { SessionOptions } from 'iron-session'
+import { getIronSession } from 'iron-session'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import twilio from 'twilio'
 
 const sessionOptions: SessionOptions = {
@@ -39,9 +40,11 @@ export const validateE164PhoneNumber = (value: string) => {
 export const generateOtp = (length = 4) => {
 	const dict = '0123456789'
 	let OTP = ''
+
 	for (let i = 0; i < length; i++) {
 		OTP += dict[Math.floor(Math.random() * dict.length)]
 	}
+
 	return OTP
 }
 
@@ -62,7 +65,11 @@ export const getNotionUsers = async () => {
 		results.push(...(query.results as NotionUser[]))
 	}
 
-	results.sort((a, b) => a.properties.Name.title[0].text.content.localeCompare(b.properties.Name.title[0].text.content))
+	results.sort((a, b) =>
+		(a.properties?.Name?.title?.[0]?.text?.content ?? '').localeCompare(
+			b.properties?.Name?.title?.[0]?.text?.content ?? '',
+		),
+	)
 	return results
 }
 

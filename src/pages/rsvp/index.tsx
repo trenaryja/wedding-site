@@ -1,6 +1,7 @@
 import { FadeGallery, FullScreenLoader, NoYes } from '@/components'
 import { useSession } from '@/hooks'
-import { SUIT_STATUSES, SuitStatus, WEDDING_DATE, logout, setSession, updateNotionUser } from '@/utils'
+import type { SuitStatus } from '@/utils'
+import { logout, setSession, SUIT_STATUSES, updateNotionUser, WEDDING_DATE } from '@/utils'
 import {
 	Button,
 	Flex,
@@ -29,28 +30,31 @@ export default function Index() {
 	const plusOneNameRef = useRef<HTMLInputElement>(null)
 	const messageToUsRef = useRef<HTMLTextAreaElement>(null)
 
-	if (!session || !session.isLoggedIn) return <Spinner placeSelf='center' />
+	if (!session || !session.isLoggedIn || !session.user?.properties) return <Spinner placeSelf='center' />
 
-	const suitStatus = session.user.properties.SuitStatus.select?.name || 'Not Started'
+	const currentUser = session.user
+	const { properties } = session.user // narrowed non-null by the guard above
 
-	const updateUser = async (user: typeof session.user) => {
-		const updated = await updateNotionUser(session.user.id, user)
+	const suitStatus = properties.SuitStatus?.select?.name ?? 'Not Started'
+
+	const updateUser = async (user: typeof currentUser) => {
+		const updated = await updateNotionUser(currentUser.id!, user) // a persisted Notion user always has an id
 		await mutateSession(await setSession({ ...session, user: updated }))
 	}
 
 	const handleChangeAttendance = async (isAttending: boolean) => {
 		setIsLoading(true)
 		await updateUser({
-			...session.user,
+			...currentUser,
 			properties: {
-				...session.user.properties,
+				...properties,
 				IsAttending: {
-					...session.user.properties.IsAttending,
+					...properties.IsAttending,
 					checkbox: isAttending,
 				},
 				IsPlusOneAttending: {
-					...session.user.properties.IsPlusOneAttending,
-					checkbox: isAttending ? session.user.properties.IsPlusOneAttending.checkbox : false,
+					...properties.IsPlusOneAttending,
+					checkbox: isAttending ? properties.IsPlusOneAttending?.checkbox : false,
 				},
 			},
 		})
@@ -65,11 +69,11 @@ export default function Index() {
 	const handleChangeIsPlusOneAttending = async (isPlusOneAttending: boolean) => {
 		setIsLoading(true)
 		await updateUser({
-			...session.user,
+			...currentUser,
 			properties: {
-				...session.user.properties,
+				...properties,
 				IsPlusOneAttending: {
-					...session.user.properties.IsPlusOneAttending,
+					...properties.IsPlusOneAttending,
 					checkbox: isPlusOneAttending,
 				},
 			},
@@ -85,11 +89,11 @@ export default function Index() {
 	const handleChangePlusOneName = async (plusOneName: string) => {
 		setIsLoading(true)
 		await updateUser({
-			...session.user,
+			...currentUser,
 			properties: {
-				...session.user.properties,
+				...properties,
 				PlusOneName: {
-					...session.user.properties.PlusOneName,
+					...properties.PlusOneName,
 					rich_text: [{ type: 'text', text: { content: plusOneName } }],
 				},
 			},
@@ -105,11 +109,11 @@ export default function Index() {
 	const handleChangeMessageToUs = async (messageToUs: string) => {
 		setIsLoading(true)
 		await updateUser({
-			...session.user,
+			...currentUser,
 			properties: {
-				...session.user.properties,
+				...properties,
 				MessageToUs: {
-					...session.user.properties.MessageToUs,
+					...properties.MessageToUs,
 					rich_text: [{ type: 'text', text: { content: messageToUs } }],
 				},
 			},
@@ -122,15 +126,15 @@ export default function Index() {
 		setIsLoading(false)
 	}
 
-	const handleChangeSuitStatus = async (suitStatus: SuitStatus) => {
+	const handleChangeSuitStatus = async (nextSuitStatus: SuitStatus) => {
 		setIsLoading(true)
 		await updateUser({
-			...session.user,
+			...currentUser,
 			properties: {
-				...session.user.properties,
+				...properties,
 				SuitStatus: {
-					...session.user.properties.SuitStatus,
-					select: { name: suitStatus },
+					...properties.SuitStatus,
+					select: { name: nextSuitStatus },
 				},
 			},
 		})
@@ -149,7 +153,7 @@ export default function Index() {
 			<FullScreenLoader visible={isLoading} />
 			<FormControl isDisabled={isLoading}>
 				<Grid placeItems='center' gap={10}>
-					<Heading>Hello {session.user.properties.Name?.title?.[0]?.plain_text}!</Heading>
+					<Heading>Hello {properties.Name?.title?.[0]?.plain_text}!</Heading>
 
 					<Text>
 						Please let us know if you will be attending. Feel free to update at any time, but we would ask that you
@@ -161,33 +165,29 @@ export default function Index() {
 
 					<NoYes
 						isDisabled={isLoading}
-						onChange={handleChangeAttendance}
-						value={session.user.properties.IsAttending?.checkbox}
+						onChange={(value) => handleChangeAttendance(value ?? false)}
+						value={properties.IsAttending?.checkbox ?? null}
 					/>
 
-					{session.user.properties.IsAttending?.checkbox &&
-						session.user.properties.Tags?.multi_select?.find((x) => x.name === '+1') && (
-							<>
-								<Text>
-									Amazing!!! We're so glad you're coming! We want as many people as possible to come and have a good
-									time. Did you have a Plus One in mind?{' '}
-								</Text>
+					{properties.IsAttending?.checkbox && properties.Tags?.multi_select?.find((x) => x.name === '+1') && (
+						<>
+							<Text>
+								Amazing!!! We're so glad you're coming! We want as many people as possible to come and have a good time.
+								Did you have a Plus One in mind?{' '}
+							</Text>
 
-								<NoYes
-									onChange={handleChangeIsPlusOneAttending}
-									value={session.user.properties.IsPlusOneAttending?.checkbox}
-								/>
-							</>
-						)}
+							<NoYes
+								onChange={(value) => handleChangeIsPlusOneAttending(value ?? false)}
+								value={properties.IsPlusOneAttending?.checkbox ?? null}
+							/>
+						</>
+					)}
 
-					{session.user.properties.IsPlusOneAttending?.checkbox && (
+					{properties.IsPlusOneAttending?.checkbox && (
 						<>
 							<Text>Even better news! Would you mind letting us know their name?</Text>
 							<Flex gap={2}>
-								<Input
-									ref={plusOneNameRef}
-									defaultValue={session.user.properties.PlusOneName?.rich_text?.[0]?.plain_text}
-								/>
+								<Input ref={plusOneNameRef} defaultValue={properties.PlusOneName?.rich_text?.[0]?.plain_text} />
 								<Button
 									isLoading={isLoading}
 									isDisabled={isLoading}
@@ -199,7 +199,7 @@ export default function Index() {
 						</>
 					)}
 
-					{session.user.properties.Tags.multi_select.find((x) => x.name === 'Suit') && (
+					{properties.Tags?.multi_select?.find((x) => x.name === 'Suit') && (
 						<>
 							<Text>
 								Looks like we've asked you to wear a suit! Please keep us in the loop on where you're at in the process.
@@ -227,10 +227,7 @@ export default function Index() {
 					</Text>
 
 					<Flex flexDirection='column' alignItems='end' w='100%'>
-						<Textarea
-							ref={messageToUsRef}
-							defaultValue={session.user.properties.MessageToUs?.rich_text?.[0]?.plain_text}
-						/>
+						<Textarea ref={messageToUsRef} defaultValue={properties.MessageToUs?.rich_text?.[0]?.plain_text} />
 						<Button
 							isLoading={isLoading}
 							isDisabled={isLoading}
@@ -240,7 +237,7 @@ export default function Index() {
 						</Button>
 					</Flex>
 
-					{session.user.properties.Tags.multi_select.find((x) => x.name === 'Bachelor') && (
+					{properties.Tags?.multi_select?.find((x) => x.name === 'Bachelor') && (
 						<Grid placeItems='center'>
 							<FadeGallery
 								urls={[

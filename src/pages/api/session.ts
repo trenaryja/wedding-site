@@ -1,9 +1,10 @@
 import { defaultSession, getNotionUsers, getSession, updateSession } from '@/utils/server'
 import { addMinutes } from 'date-fns'
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await getSession(req, res)
+
 	switch (req.method) {
 		case 'GET': {
 			if (session.data) {
@@ -18,12 +19,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				}
 
 				console.log('User data is stale, refreshing')
-				const phone = session.data.user?.properties.Phone.phone_number
-				const user = (await getNotionUsers()).find((u) => u.properties.Phone.phone_number === phone)
+				const phone = session.data.user?.properties?.Phone?.phone_number
+				const user = (await getNotionUsers()).find((u) => u.properties?.Phone?.phone_number === phone)
 				const timeout = addMinutes(new Date(), 2).toISOString()
 				await updateSession(req, res, { ...session.data, user, timeout })
 				return
 			}
+
 			res.json(defaultSession)
 			break
 		}

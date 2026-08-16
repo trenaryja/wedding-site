@@ -3,7 +3,7 @@ import { Box, ColorModeScript } from '@chakra-ui/react'
 import NextDocument, { Head, Html, Main, NextScript } from 'next/document'
 
 export default class Document extends NextDocument {
-	render() {
+	override render() {
 		return (
 			<Html>
 				<Head />

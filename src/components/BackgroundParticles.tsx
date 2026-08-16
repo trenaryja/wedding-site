@@ -1,11 +1,15 @@
-import { initParticlesEngine, Particles } from '@tsparticles/react'
+import type { ParticlesPluginRegistrar } from '@tsparticles/react'
+import { Particles, ParticlesProvider, useParticlesProvider } from '@tsparticles/react'
 import { loadSlim } from '@tsparticles/slim'
-import { useEffect } from 'react'
 
-export const BackgroundParticles = () => {
-	useEffect(() => {
-		initParticlesEngine(async (engine) => await loadSlim(engine))
-	}, [])
+const register: ParticlesPluginRegistrar = async (engine) => {
+	await loadSlim(engine)
+}
+
+const ParticlesLayer = () => {
+	const { loaded } = useParticlesProvider()
+
+	if (!loaded) return null
 
 	return (
 		<Particles
@@ -34,3 +38,9 @@ export const BackgroundParticles = () => {
 		/>
 	)
 }
+
+export const BackgroundParticles = () => (
+	<ParticlesProvider init={register}>
+		<ParticlesLayer />
+	</ParticlesProvider>
+)

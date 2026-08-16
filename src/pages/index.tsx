@@ -1,5 +1,5 @@
 import { Gallery, OurDate, OurNames } from '@/components'
-import { WEDDING_DATE, limelight } from '@/utils'
+import { limelight, WEDDING_DATE } from '@/utils'
 import { Grid, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import { format } from 'date-fns'
 

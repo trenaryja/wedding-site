@@ -11,7 +11,8 @@ import {
 	Switch,
 	VStack,
 } from '@chakra-ui/react'
-import { FormEvent, useState } from 'react'
+import type { FormEvent } from 'react'
+import { useState } from 'react'
 
 export default function Login() {
 	const { session, mutateSession } = useSession({

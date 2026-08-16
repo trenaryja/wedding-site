@@ -4,24 +4,23 @@
 		"dev": "next dev --turbo",
 		"build": "next build",
 		"start": "next start",
-		"lint": "eslint .",
-		"check": "tsc && bun run lint && bun run format -c && bun run build",
-		"format": "prettier -w . !\"bun.lock\"",
-		"get-latest": "bun update --latest -i",
-		"reinstall": "rm -rf node_modules && rm bun.lock && bun install"
+		"fix": "prettier -w . && eslint --fix .",
+		"check": "rm -rf .next && tsc && prettier -c . && eslint . && bun run build",
+		"get-latest": "bun update --latest --interactive",
+		"reinstall": "rm -rf node_modules bun.lock && bun install"
 	},
 	"dependencies": {
 		"@chakra-ui/react": "2.8.2",
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.1",
-		"@notionhq/client": "^5.25.0",
-		"@tanstack/react-table": "^8.11.3",
-		"@tsparticles/react": "^3.0.0",
-		"@tsparticles/slim": "^3.0.3",
+		"@notionhq/client": "^5.25.2",
+		"@tanstack/react-table": "^8.21.3",
+		"@tsparticles/react": "^4.3.2",
+		"@tsparticles/slim": "^4.3.2",
 		"@types/react-slick": "^0.23.13",
 		"cloudinary": "^2.10.0",
 		"date-fns": "^4.4.0",
-		"framer-motion": "^10.17.12",
+		"framer-motion": "^10.18.0",
 		"google-photos-album-image-url-fetch": "^3.2.0",
 		"iron-session": "^8.0.4",
 		"next": "16.3.0",
@@ -35,24 +34,19 @@
 		"twilio": "^6.1.0"
 	},
 	"devDependencies": {
-		"@eslint/eslintrc": "^3.3.6",
 		"@tailwindcss/postcss": "^4.3.3",
+		"@trenaryja/config": "^0.0.1",
 		"@types/node": "^26.2.0",
 		"@types/react": "^19.2.18",
 		"@types/react-dom": "^19.2.4",
-		"eslint": "^9.39.2",
-		"eslint-config-next": "^16.3.0",
-		"prettier": "^3.9.6",
-		"tailwindcss": "^4.3.3",
-		"typescript": "^5.9.3"
+		"tailwindcss": "^4.3.3"
 	},
-	"prettier": {
-		"semi": false,
-		"singleQuote": true,
-		"printWidth": 120,
-		"jsxSingleQuote": true,
-		"useTabs": true
-	},
+	"prettier": "@trenaryja/config/prettier",
+	"trustedDependencies": [
+		"esbuild",
+		"sharp",
+		"unrs-resolver"
+	],
 	"postcss": {
 		"plugins": {
 			"@tailwindcss/postcss": {}

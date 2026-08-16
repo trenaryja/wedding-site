@@ -1,4 +1,4 @@
-import { Session } from '@/utils'
+import type { Session } from '@/utils'
 import {
 	defaultSession,
 	encrypt,
@@ -10,26 +10,26 @@ import {
 	validateE164PhoneNumber,
 } from '@/utils/server'
 import { addMinutes } from 'date-fns'
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { to } = req.body
 	const formattedTo = `+1${to}`
 
 	if (!to) {
-		res.status(400).json({ message: 'Missing phone number' } as Error)
+		res.status(400).json({ message: 'Missing phone number' })
 		return
 	}
 
 	if (!validateE164PhoneNumber(formattedTo)) {
-		res.status(400).json({ message: 'Not a valid E.164 formatted US phone number' } as Error)
+		res.status(400).json({ message: 'Not a valid E.164 formatted US phone number' })
 		return
 	}
 
-	const user = (await getNotionUsers()).find((u) => u.properties.Phone.phone_number === to)
+	const user = (await getNotionUsers()).find((u) => u.properties?.Phone?.phone_number === to)
 
 	if (!user) {
-		res.status(400).json({ message: 'This phone number did not match anyone on the invite list' } as Error)
+		res.status(400).json({ message: 'This phone number did not match anyone on the invite list' })
 		return
 	}
 

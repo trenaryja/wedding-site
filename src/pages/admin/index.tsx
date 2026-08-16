@@ -4,7 +4,7 @@ import { logout } from '@/utils'
 import { Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Spinner } from '@chakra-ui/react'
 import { useState } from 'react'
 
-type ModalOption = 'twilio' | 'user' | 'sms'
+type ModalOption = 'sms' | 'twilio' | 'user'
 
 export default function Index() {
 	const { session, mutateSession } = useSession({
@@ -22,7 +22,7 @@ export default function Index() {
 		<>
 			<Modal isOpen={!!modal} onClose={() => setModal(null)} isCentered closeOnOverlayClick={false}>
 				<ModalOverlay />
-				<ModalContent bg='blackAlpha.900' border={'1px'} borderColor='whiteAlpha.300'>
+				<ModalContent bg='blackAlpha.900' border='1px' borderColor='whiteAlpha.300'>
 					<ModalCloseButton />
 					<ModalBody>
 						{modal === 'twilio' && <Conversation />}

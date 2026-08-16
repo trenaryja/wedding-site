@@ -1,10 +1,11 @@
-import { Button, ButtonGroup, ButtonProps, forwardRef } from '@chakra-ui/react'
+import type { ButtonProps } from '@chakra-ui/react'
+import { Button, ButtonGroup, forwardRef } from '@chakra-ui/react'
 
-const SelectionButton = ({ isSelected, ...rest }: { isSelected: boolean } & ButtonProps) => (
+const SelectionButton = ({ isSelected, ...rest }: ButtonProps & { isSelected: boolean }) => (
 	<Button
 		mx={10}
 		outlineOffset={5}
-		outline={isSelected && 'solid'}
+		outline={isSelected ? 'solid' : undefined}
 		variant={isSelected ? 'solid' : 'outline'}
 		{...rest}
 	/>

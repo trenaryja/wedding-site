@@ -1,6 +1,7 @@
 import { chunk, getImages } from '@/utils'
 import { Flex, Grid, Image, Skeleton, useBreakpointValue } from '@chakra-ui/react'
-import { JSX, useEffect, useState } from 'react'
+import type { JSX } from 'react'
+import { useEffect, useState } from 'react'
 
 type GalleryProps = {
 	albumId: string
@@ -38,6 +39,7 @@ export const Gallery = ({ albumId }: GalleryProps) => {
 			))
 			setImages(results)
 		}
+
 		asyncUseEffect()
 	}, [albumId])
 
@@ -55,7 +57,7 @@ export const Gallery = ({ albumId }: GalleryProps) => {
 				},
 			}}
 		>
-			{chunk(images ?? skeletons, columnCount).map((chunkOfImages, i) => (
+			{chunk(images ?? skeletons, columnCount ?? 1).map((chunkOfImages, i) => (
 				<Flex gap={gap} key={i} direction='column' width='100%'>
 					{chunkOfImages}
 				</Flex>

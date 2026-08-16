@@ -1,12 +1,13 @@
-import { NotionUser } from '@/utils'
+import type { NotionUser } from '@/utils'
 import { getNotionUsers, getSession, notionClient } from '@/utils/server'
-import { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await getSession(req, res)
+
 	if (!session.data?.isAdmin) {
-		res.status(403).json({ message: 'You are not an admin, stop it' } as Error)
+		res.status(403).json({ message: 'You are not an admin, stop it' })
 		return
 	}
 
@@ -19,7 +20,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			const user = req.body.data as NotionUser
 			res.json(
 				await notionClient.pages.update({
-					page_id: user.id,
+					// admin PUT always supplies a persisted Notion user, which has an id
+					page_id: user.id!,
 					properties: user.properties as unknown as UpdatePageParameters['properties'],
 				}),
 			)

@@ -1,4 +1,5 @@
-import { Box, BoxProps } from '@chakra-ui/react'
+import type { BoxProps } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { useEffect, useRef } from 'react'
 import { CountDown } from '.'
 
@@ -15,13 +16,14 @@ export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 	}, [lines])
 
 	useEffect(() => {
-		setTimeout(() => {
+		const timeout = setTimeout(() => {
 			refs.current.forEach((svg) => {
 				const text = svg?.querySelector('text')
 				const bbox = text?.getBBox()
 				svg?.setAttribute('viewBox', [bbox?.x, bbox?.y, bbox?.width, bbox?.height].join(' '))
 			})
 		}, 500)
+		return () => clearTimeout(timeout)
 	}, [lines])
 
 	return (

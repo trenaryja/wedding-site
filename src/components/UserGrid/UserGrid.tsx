@@ -1,9 +1,9 @@
 import { useSession } from '@/hooks'
-import { NotionUser, formatPhoneNumber, getNotionUsers, setSession } from '@/utils'
+import type { NotionUser } from '@/utils'
+import { formatPhoneNumber, getNotionUsers, setSession } from '@/utils'
 import { Box, Grid, HStack, IconButton, Spinner, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import type { SortingState, Table as TableType } from '@tanstack/react-table'
 import {
-	SortingState,
-	Table as TableType,
 	createColumnHelper,
 	flexRender,
 	getCoreRowModel,
@@ -29,7 +29,7 @@ export const UserGrid = () => {
 		}
 
 		return [
-			columnHelper.accessor((row) => row.properties.Name.title[0].plain_text, {
+			columnHelper.accessor((row) => row.properties?.Name?.title?.[0]?.plain_text, {
 				id: 'name',
 				cell: ({ getValue, row }) => (
 					<HStack>
@@ -43,8 +43,8 @@ export const UserGrid = () => {
 					</HStack>
 				),
 			}),
-			columnHelper.accessor((row) => row.properties.PlusOneName.rich_text[0]?.plain_text, { id: 'plusOneName' }),
-			columnHelper.accessor((row) => formatPhoneNumber(row.properties.Phone.phone_number), {
+			columnHelper.accessor((row) => row.properties?.PlusOneName?.rich_text?.[0]?.plain_text, { id: 'plusOneName' }),
+			columnHelper.accessor((row) => formatPhoneNumber(row.properties?.Phone?.phone_number), {
 				id: 'phone',
 				cell: ({ getValue }) => <pre>{getValue()}</pre>,
 			}),

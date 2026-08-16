@@ -1,4 +1,5 @@
-import { Box, ImageProps, useInterval } from '@chakra-ui/react'
+import type { ImageProps } from '@chakra-ui/react'
+import { Box, useInterval } from '@chakra-ui/react'
 import { useState } from 'react'
 
 export type FadeGalleryProps = {
@@ -20,11 +21,11 @@ const commonImageProps: ImageProps = {
 export const FadeGallery = ({ urls, duration = 1000, fadeDuration }: FadeGalleryProps) => {
 	const [index, setIndex] = useState(0)
 	const [toggle, setToggle] = useState(true)
-	const _fadeDuration = fadeDuration || duration / 2
+	const _fadeDuration = fadeDuration ?? duration / 2
 
 	useInterval(() => {
-		setIndex((index) => (index + 1) % (urls.length - 1))
-		setToggle((toggle) => !toggle)
+		setIndex((current) => (current + 1) % (urls.length - 1))
+		setToggle((current) => !current)
 	}, duration)
 
 	return (

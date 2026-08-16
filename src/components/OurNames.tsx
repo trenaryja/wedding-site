@@ -1,4 +1,5 @@
-import { Heading, HeadingProps, VStack } from '@chakra-ui/react'
+import type { HeadingProps } from '@chakra-ui/react'
+import { Heading, VStack } from '@chakra-ui/react'
 
 const Line = ({ children }: HeadingProps) => (
 	<Heading textAlign='center' size='4xl'>

@@ -6,7 +6,7 @@ export type TimelineItemProps = {
 	icon: React.ReactNode
 }
 
-export const TimelineItem = ({ title, children, icon }) => {
+export const TimelineItem = ({ title, children, icon }: TimelineItemProps) => {
 	return (
 		<Grid alignItems='center' templateColumns='auto 1fr'>
 			<Box borderRadius='full' borderWidth={3} p={4}>

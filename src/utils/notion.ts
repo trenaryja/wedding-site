@@ -1,36 +1,36 @@
-export interface BaseResult {
+export type BaseResult = {
 	object?: string
 	id?: string
 }
 
-export interface NotionUser extends BaseResult {
+export type NotionUser = BaseResult & {
 	created_time?: string
 	last_edited_time?: string
 	last_edited_by?: BaseResult
 	properties?: Properties
 }
 
-export interface Column {
+export type Column = {
 	id?: string
 	type?: string
 }
 
-export interface CheckboxColumn extends Column {
+export type CheckboxColumn = Column & {
 	checkbox?: boolean
 	type?: 'checkbox'
 }
 
-export interface PhoneColumn extends Column {
+export type PhoneColumn = Column & {
 	phone_number?: string
 	type?: 'phone_number'
 }
 
-export interface TitleColumn extends Column {
+export type TitleColumn = Column & {
 	title?: TextColumnInfo[]
 	type?: 'title'
 }
 
-export interface RichTextColumn extends Column {
+export type RichTextColumn = Column & {
 	rich_text?: TextColumnInfo[]
 	type?: 'rich_text'
 }
@@ -41,17 +41,17 @@ export type SelectOption<TName> = {
 	color?: string
 }
 
-export interface SelectColumn<TOptions> extends Column {
+export type SelectColumn<TOptions> = Column & {
 	type?: 'select'
 	select?: SelectOption<TOptions>
 }
 
-export interface MultiSelectColumn<TOptions> extends Column {
+export type MultiSelectColumn<TOptions> = Column & {
 	type?: 'multi_select'
 	multi_select?: SelectOption<TOptions>[]
 }
 
-export interface DateColumn extends Column {
+export type DateColumn = Column & {
 	type?: 'date'
 	date?: {
 		start?: string
@@ -60,7 +60,7 @@ export interface DateColumn extends Column {
 	}
 }
 
-export interface TextColumnInfo {
+export type TextColumnInfo = {
 	type?: string
 	text?: {
 		content?: string
@@ -80,15 +80,15 @@ export interface TextColumnInfo {
 
 export const SUIT_STATUSES = ['Not Started', 'Booked Fitting', 'Fitted', 'Ordered/Paid', 'Picked Up', 'Dropped Off']
 export type SuitStatus =
-	| 'Not Started'
 	| 'Booked Fitting'
+	| 'Dropped Off'
 	| 'Fitted'
+	| 'Not Started'
 	| 'Ordered/Paid'
 	| 'Picked Up'
-	| 'Dropped Off'
 	| ((string & NonNullable<unknown>) | null)
 
-export interface Properties {
+export type Properties = {
 	IsAttending?: CheckboxColumn
 	IsPlusOneAttending?: CheckboxColumn
 	MessageToUs?: RichTextColumn

@@ -1,8 +1,8 @@
-import { NotionUser } from '@/utils'
+import type { NotionUser } from '@/utils'
 
-export type HttpRequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'HEAD' | 'OPTIONS' | 'TRACE' | 'CONNECT'
+export type HttpRequestMethod = 'CONNECT' | 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT' | 'TRACE'
 
-export interface Session {
+export type Session = {
 	isLoggedIn: boolean
 	isAdmin: boolean
 	otp?: string

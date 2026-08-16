@@ -1,15 +1,8 @@
 import { sendSms } from '@/utils'
-import {
-	Box,
-	BoxProps,
-	Button,
-	FormControl,
-	FormErrorMessage,
-	FormHelperText,
-	Textarea,
-	useToast,
-} from '@chakra-ui/react'
-import { BaseSyntheticEvent, useState } from 'react'
+import type { BoxProps } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormErrorMessage, FormHelperText, Textarea, useToast } from '@chakra-ui/react'
+import type { BaseSyntheticEvent } from 'react'
+import { useState } from 'react'
 import { PhoneInput } from '.'
 
 export const SmsForm = (props: BoxProps) => {
@@ -26,8 +19,8 @@ export const SmsForm = (props: BoxProps) => {
 			setLoading(true)
 			await sendSms(to, body)
 			toast({ title: 'SMS sent!', status: 'success' })
-		} catch (error) {
-			setError(error)
+		} catch (caughtError) {
+			setError(caughtError instanceof Error ? caughtError : new Error(String(caughtError)))
 		} finally {
 			setLoading(false)
 		}

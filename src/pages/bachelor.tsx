@@ -157,16 +157,17 @@ export default function Index() {
 					src='https://www.youtube.com/embed/videoseries?list=PLr0FUd4lucWRS4j3erY1YxxYh_-Eu4mxu'
 					title='YouTube video player'
 					allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
-				></iframe>
+				/>
 			</Box>
 			<Box w='100%' sx={{ aspectRatio: '1' }} borderRadius='12px' overflow='hidden'>
 				<iframe
+					title='Spotify playlist'
 					src='https://open.spotify.com/embed/playlist/0NtmLAIC2FXFVAe5rlIKlX?utm_source=generator&theme=0'
 					width='100%'
 					height='150%'
 					allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
 					loading='lazy'
-				></iframe>
+				/>
 			</Box>
 
 			<Heading>Random 💩:</Heading>
@@ -180,7 +181,7 @@ export default function Index() {
 					title='YouTube video player'
 					allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
 					allowFullScreen={true}
-				></iframe>
+				/>
 			</Box>
 			<video controls>
 				<source src='PartyElephant.webm' type='video/webm' />

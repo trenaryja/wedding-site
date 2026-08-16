@@ -1,8 +1,10 @@
 import { formatPhoneNumber } from '@/utils'
-import { CloseButton, Input, InputGroup, InputLeftAddon, InputProps, forwardRef } from '@chakra-ui/react'
-import { ChangeEvent, useState } from 'react'
+import type { InputProps } from '@chakra-ui/react'
+import { CloseButton, forwardRef, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
+import type { ChangeEvent } from 'react'
+import { useState } from 'react'
 
-export type PhoneInputProps = Omit<InputProps, 'value' | 'defaultValue'> & {
+export type PhoneInputProps = Omit<InputProps, 'defaultValue' | 'value'> & {
 	value?: string
 	defaultValue?: string
 	showClearButton?: boolean
@@ -20,10 +22,10 @@ export const PhoneInput = forwardRef(
 					width='auto'
 					placeholder='(XXX) XXX-XXXX'
 					onChange={(e) => {
-						const formattedPhoneNumber = formatPhoneNumber(e.target.value)
+						const formattedPhoneNumber = formatPhoneNumber(e.target.value) ?? ''
 						setDisplayValue(formattedPhoneNumber)
-						const phoneNumber = formattedPhoneNumber.replace(/[^\d]/g, '')
-						onChange({ ...e, target: { ...e.target, value: phoneNumber } })
+						const phoneNumber = formattedPhoneNumber.replace(/\D/g, '')
+						onChange?.({ ...e, target: { ...e.target, value: phoneNumber } })
 					}}
 					ref={ref}
 					value={displayValue}
@@ -34,7 +36,7 @@ export const PhoneInput = forwardRef(
 						ml={1}
 						onClick={() => {
 							setDisplayValue('')
-							onChange({ target: { value: '' } } as ChangeEvent<HTMLInputElement>)
+							onChange?.({ target: { value: '' } } as ChangeEvent<HTMLInputElement>)
 						}}
 					/>
 				)}

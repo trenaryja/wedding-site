@@ -33,36 +33,37 @@ export const padStart = (num: number, length: number, char = '0') => {
 	return `${char.repeat(length)}${num}`.slice(-length)
 }
 
-export const chunk = <T>(a: Array<T>, n: number) => {
+export const chunk = <T>(a: T[], n: number) => {
 	if (n < 2) return [a]
 	const result: T[][] = []
 	let i = 0
+
 	if (a.length % n === 0) {
 		const size = Math.floor(a.length / n)
 		while (i < a.length) result.push(a.slice(i, (i += size)))
 		return result
 	}
+
 	while (i < a.length) {
 		const size = Math.ceil((a.length - i) / n--)
 		result.push(a.slice(i, (i += size)))
 	}
+
 	return result
 }
 
 export const formatPhoneNumber = (value?: string) => {
 	if (!value) return value
-	const numberValue = value.replace(/[^\d]/g, '')
+	const numberValue = value.replace(/\D/g, '')
 
 	if (numberValue.length < 4) return numberValue
 	if (numberValue.length < 7) return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3)}`
 	return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3, 6)}-${numberValue.slice(6, 10)}`
 }
 
-export const stringifyValues = <T>(input: T): { [key in keyof T]: string } => {
-	if ([null, undefined].includes(input)) return
-	const out: { [key in keyof T]: string } = {} as { [key in keyof T]: string }
-	for (const key of Object.keys(input) as (keyof T)[]) {
-		out[key] = input[key]?.toString()
-	}
+export const stringifyValues = (input: unknown) => {
+	if (typeof input !== 'object' || input === null) return undefined
+	const out: Record<string, string> = {}
+	for (const [key, value] of Object.entries(input)) out[key] = String(value)
 	return out
 }

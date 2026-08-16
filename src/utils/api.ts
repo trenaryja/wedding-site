@@ -1,11 +1,12 @@
-import { NotionUser, Session, stringifyValues } from '@/utils'
-import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
+import type { NotionUser, Session } from '@/utils'
+import { stringifyValues } from '@/utils'
+import type { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 
 export const fetcher = async <T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> => {
 	const response = await fetch(input, init)
 	const data = await response.json()
 	if (response.ok) return data as T
-	throw new Error(data.message || response.statusText || 'Unexpected error')
+	throw new Error(data.message ?? response.statusText ?? 'Unexpected error')
 }
 
 const jsonRequestHeaders = { 'Content-Type': 'application/json' }
@@ -27,12 +28,9 @@ export const getJson = async <T>(input: RequestInfo | URL, params?: unknown, ini
 	})
 }
 
-export const putJson = async <T>(
-	input: RequestInfo | URL,
-	params?: unknown,
-	body?: unknown,
-	init?: RequestInit,
-): Promise<T> => {
+type PutJsonOptions = { params?: unknown; body?: unknown; init?: RequestInit }
+
+export const putJson = async <T>(input: RequestInfo | URL, { params, body, init }: PutJsonOptions = {}): Promise<T> => {
 	return await fetcher(`${input}?${new URLSearchParams(stringifyValues(params))}`, {
 		method: 'PUT',
 		headers: jsonRequestHeaders,
@@ -84,4 +82,4 @@ export const setSession = async (session: Partial<Session>) => {
 export const getNotionUsers = async () => await getJson<NotionUser[]>('/api/notion')
 
 export const updateNotionUser = async (id: string, data: NotionUser) =>
-	await putJson<NotionUser>('/api/notion', { id }, { data })
+	await putJson<NotionUser>('/api/notion', { params: { id }, body: { data } })

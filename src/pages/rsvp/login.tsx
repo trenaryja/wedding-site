@@ -1,9 +1,10 @@
 import { FullScreenLoader, OtpInput, PhoneInput } from '@/components'
 import { useSession } from '@/hooks'
 import { logout, padStart, sendOtp, validateOtp } from '@/utils'
-import { Button, FormControl, FormErrorMessage, FormHelperText, Grid, HStack, Heading, Spinner } from '@chakra-ui/react'
+import { Button, FormControl, FormErrorMessage, FormHelperText, Grid, Heading, HStack, Spinner } from '@chakra-ui/react'
 import { intervalToDuration } from 'date-fns'
-import { BaseSyntheticEvent, useEffect, useState } from 'react'
+import type { BaseSyntheticEvent } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Login() {
 	const { session, mutateSession } = useSession({
@@ -46,8 +47,8 @@ export default function Login() {
 			await mutateSession(await sendOtp(phone))
 			setRemainingTime(2 * 60 * 1000)
 			setError(null)
-		} catch (error) {
-			setError(error)
+		} catch (err) {
+			setError(err instanceof Error ? err : new Error(String(err)))
 		} finally {
 			setLoading(false)
 		}
@@ -60,8 +61,8 @@ export default function Login() {
 			setLoading(true)
 			await mutateSession(await validateOtp(otp))
 			setError(null)
-		} catch (error) {
-			setError(error)
+		} catch (err) {
+			setError(err instanceof Error ? err : new Error(String(err)))
 		} finally {
 			setLoading(false)
 		}
@@ -71,7 +72,7 @@ export default function Login() {
 	const heading = hasOtp ? 'Enter Passcode' : 'Enter Phone Number'
 	const submitButtonText = hasOtp ? 'Submit Passcode' : 'Send Passcode'
 	const duration = intervalToDuration({ start: 0, end: remainingTime })
-	const formattedRemainingTime = `${padStart(duration.minutes, 2)}:${padStart(duration.seconds, 2)}`
+	const formattedRemainingTime = `${padStart(duration.minutes ?? 0, 2)}:${padStart(duration.seconds ?? 0, 2)}`
 
 	if (!session) return <Spinner placeSelf='center' />
 
