@@ -1,12 +1,13 @@
+import { env } from '@/env'
 import type { CloudinaryImage } from '@/utils'
 import cloudinary from 'cloudinary'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	cloudinary.v2.config({
-		cloud_name: process.env.CLOUDINARY_API_CLOUD_NAME,
-		api_key: process.env.CLOUDINARY_API_KEY,
-		api_secret: process.env.CLOUDINARY_API_SECRET,
+		cloud_name: env.CLOUDINARY_API_CLOUD_NAME,
+		api_key: env.CLOUDINARY_API_KEY,
+		api_secret: env.CLOUDINARY_API_SECRET,
 		secure: true,
 	})
 

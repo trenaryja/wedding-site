@@ -1,3 +1,4 @@
+import { env } from '@/env'
 import type { NotionUser, Session } from '@/utils'
 import { Client } from '@notionhq/client'
 import crypto from 'crypto'
@@ -7,7 +8,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import twilio from 'twilio'
 
 const sessionOptions: SessionOptions = {
-	password: process.env.IRON_SESSION_COOKIE_PW,
+	password: env.IRON_SESSION_COOKIE_PW,
 	cookieName: 'trenary.love',
 	cookieOptions: {
 		secure: process.env.NODE_ENV === 'production',
@@ -29,9 +30,9 @@ export const updateSession = async (req: NextApiRequest, res: NextApiResponse, s
 	res.json(currentSession)
 }
 
-export const notionClient = new Client({ auth: process.env.NOTION_TOKEN })
+export const notionClient = new Client({ auth: env.NOTION_TOKEN })
 
-export const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+export const twilioClient = twilio(env.TWILIO_ACCOUNT_SID, env.TWILIO_AUTH_TOKEN)
 
 export const validateE164PhoneNumber = (value: string) => {
 	return /^\+1\d{10}$/.test(value)
@@ -52,14 +53,14 @@ export const getNotionUsers = async () => {
 	const results: NotionUser[] = []
 
 	let query = await notionClient.dataSources.query({
-		data_source_id: process.env.NOTION_GUEST_DB_ID,
+		data_source_id: env.NOTION_GUEST_DB_ID,
 	})
 
 	results.push(...(query.results as NotionUser[]))
 
 	while (query.has_more) {
 		query = await notionClient.dataSources.query({
-			data_source_id: process.env.NOTION_GUEST_DB_ID,
+			data_source_id: env.NOTION_GUEST_DB_ID,
 			start_cursor: query.next_cursor,
 		})
 		results.push(...(query.results as NotionUser[]))
@@ -73,7 +74,7 @@ export const getNotionUsers = async () => {
 	return results
 }
 
-const encryptionParams = ['aes-256-ecb', process.env.IRON_SESSION_COOKIE_PW, null] as const
+const encryptionParams = ['aes-256-ecb', env.IRON_SESSION_COOKIE_PW, null] as const
 
 export const encrypt = (text: string) => {
 	const cipher = crypto.createCipheriv(...encryptionParams)

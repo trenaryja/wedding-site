@@ -1,3 +1,4 @@
+import { env } from '@/env'
 import { getSession, twilioClient, validateE164PhoneNumber } from '@/utils/server'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -22,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 
 	if (process.env.NODE_ENV !== 'development')
-		res.json(await twilioClient.messages.create({ from: process.env.TWILIO_PHONE_NUMBER, to: formattedTo, body }))
+		res.json(await twilioClient.messages.create({ from: env.TWILIO_PHONE_NUMBER, to: formattedTo, body }))
 	res.json(body)
 }
 

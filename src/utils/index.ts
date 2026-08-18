@@ -3,25 +3,6 @@ export * from './notion'
 export * from './theme'
 export * from './types'
 
-declare global {
-	namespace NodeJS {
-		interface ProcessEnv {
-			IRON_SESSION_COOKIE_PW: string
-			ADMIN_PW: string
-			TWILIO_ACCOUNT_SID: string
-			TWILIO_AUTH_TOKEN: string
-			TWILIO_PHONE_NUMBER: string
-			RACHEL_PHONE_NUMBER: string
-			JUSTIN_PHONE_NUMBER: string
-			NOTION_TOKEN: string
-			NOTION_GUEST_DB_ID: string
-			CLOUDINARY_API_KEY: string
-			CLOUDINARY_API_SECRET: string
-			CLOUDINARY_API_CLOUD_NAME: string
-		}
-	}
-}
-
 export const WEDDING_DATE = new Date('2023-11-18T17:00:00.000-05:00')
 export const BACHELOR_PARTY_DATE = new Date('2023-09-01T05:00:00-05:00')
 export const RACHEL_VENMO = 'https://account.venmo.com/u/rachel-hamilton-23'

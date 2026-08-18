@@ -1,3 +1,4 @@
+import { env } from '@/env'
 import type { Session } from '@/utils'
 import {
 	defaultSession,
@@ -38,7 +39,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const body = `Your One-Time Passcode (OTP) is: ${otp}`
 	if (process.env.NODE_ENV !== 'development')
-		await twilioClient.messages.create({ from: process.env.TWILIO_PHONE_NUMBER, to: formattedTo, body })
+		await twilioClient.messages.create({ from: env.TWILIO_PHONE_NUMBER, to: formattedTo, body })
 
 	const timeout = addMinutes(new Date(), 2).toISOString()
 	const currentSession = (await getSession(req, res)).data || defaultSession
