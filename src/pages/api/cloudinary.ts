@@ -21,7 +21,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		(a: CloudinaryImage, z: CloudinaryImage) => new Date(a.created_at).getTime() - new Date(z.created_at).getTime(),
 	) as CloudinaryImage[]
 
-	res.status(200).json(results.map(({ width, height, url }) => ({ width, height, url })))
+	// `secure_url`, not `url` — the Admin API's `url` is http:// regardless of `secure: true` above,
+	// which only affects the SDK's URL builders. next/image is configured for https only.
+	res.status(200).json(results.map(({ width, height, secure_url: url }) => ({ width, height, url })))
 }
 
 export default handler
