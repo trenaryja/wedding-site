@@ -18,22 +18,11 @@ export const env = createEnv({
 		CLOUDINARY_API_SECRET: z.string().min(1),
 		CLOUDINARY_API_CLOUD_NAME: z.string().min(1),
 	},
-	// Mapped explicitly rather than `process.env`: @types/node's ProcessEnv has no index
-	// signature, so the shortcut doesn't typecheck — and Next only inlines vars named here.
-	runtimeEnv: {
-		IRON_SESSION_COOKIE_PW: process.env.IRON_SESSION_COOKIE_PW,
-		ADMIN_PW: process.env.ADMIN_PW,
-		TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
-		TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
-		TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER,
-		RACHEL_PHONE_NUMBER: process.env.RACHEL_PHONE_NUMBER,
-		JUSTIN_PHONE_NUMBER: process.env.JUSTIN_PHONE_NUMBER,
-		NOTION_TOKEN: process.env.NOTION_TOKEN,
-		NOTION_GUEST_DB_ID: process.env.NOTION_GUEST_DB_ID,
-		CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
-		CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
-		CLOUDINARY_API_CLOUD_NAME: process.env.CLOUDINARY_API_CLOUD_NAME,
-	},
+	// No client vars yet, so this stays empty. Next replaces `process.env.NEXT_PUBLIC_*` by literal
+	// text match at build time, so any client var added above must also be listed here verbatim.
+	// Server vars are read from `process.env` at runtime and need no mapping — Next stopped
+	// static-analyzing them in 13.4.4.
+	experimental__runtimeEnv: {},
 	emptyStringAsUndefined: true, // a set-but-blank var reads as missing, not ''
 	skipValidation: !!process.env.SKIP_ENV_VALIDATION, // escape hatch for lint/typecheck-only CI
 })
