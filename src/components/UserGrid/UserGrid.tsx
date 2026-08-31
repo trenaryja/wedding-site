@@ -25,7 +25,7 @@ export const UserGrid = () => {
 	const columns = useMemo(() => {
 		const impersonateUser = async (user: NotionUser) => {
 			await mutateSession(await setSession({ ...session, user }))
-			Router.push('/rsvp')
+			await Router.push('/rsvp')
 		}
 
 		return [
