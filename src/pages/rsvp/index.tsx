@@ -1,6 +1,6 @@
 import { FadeGallery, FullScreenLoader, NoYes } from '@/components'
 import { useSession } from '@/hooks'
-import type { SuitStatus } from '@/utils'
+import type { Properties, SuitStatus } from '@/utils'
 import { logout, setSession, SUIT_STATUSES, updateNotionUser, WEDDING_DATE } from '@/utils'
 import {
 	Button,
@@ -20,6 +20,8 @@ import {
 import { addMonths, format } from 'date-fns'
 import { useRef, useState } from 'react'
 
+const SAVED_SELECTION = 'We saved your selection, thanks for for keeping us up to date!'
+
 export default function Index() {
 	const { session, mutateSession } = useSession({
 		redirectTo: '/rsvp/login',
@@ -37,114 +39,55 @@ export default function Index() {
 
 	const suitStatus = properties.SuitStatus?.select?.name ?? 'Not Started'
 
-	const updateUser = async (user: typeof currentUser) => {
-		const updated = await updateNotionUser(currentUser.id!, user) // a persisted Notion user always has an id
+	const updateProperty = async (patch: Properties, message: { title: string; description: string }) => {
+		setIsLoading(true)
+		const updated = await updateNotionUser(
+			currentUser.id!, // a persisted Notion user always has an id
+			{ ...currentUser, properties: { ...properties, ...patch } },
+		)
 		await mutateSession(await setSession({ ...session, user: updated }))
+		toast({ ...message, status: 'success' })
+		setIsLoading(false)
 	}
 
-	const handleChangeAttendance = async (isAttending: boolean) => {
-		setIsLoading(true)
-		await updateUser({
-			...currentUser,
-			properties: {
-				...properties,
-				IsAttending: {
-					...properties.IsAttending,
-					checkbox: isAttending,
-				},
+	const handleChangeAttendance = (isAttending: boolean) =>
+		updateProperty(
+			{
+				IsAttending: { ...properties.IsAttending, checkbox: isAttending },
 				IsPlusOneAttending: {
 					...properties.IsPlusOneAttending,
 					checkbox: isAttending ? properties.IsPlusOneAttending?.checkbox : false,
 				},
 			},
-		})
-		toast({
-			title: 'Attendance Updated',
-			description: 'We saved your selection, thanks for for keeping us up to date!',
-			status: 'success',
-		})
-		setIsLoading(false)
-	}
+			{ title: 'Attendance Updated', description: SAVED_SELECTION },
+		)
 
-	const handleChangeIsPlusOneAttending = async (isPlusOneAttending: boolean) => {
-		setIsLoading(true)
-		await updateUser({
-			...currentUser,
-			properties: {
-				...properties,
-				IsPlusOneAttending: {
-					...properties.IsPlusOneAttending,
-					checkbox: isPlusOneAttending,
-				},
-			},
-		})
-		toast({
-			title: 'Plus One Attendance Updated',
-			description: 'We saved your selection, thanks for for keeping us up to date!',
-			status: 'success',
-		})
-		setIsLoading(false)
-	}
+	const handleChangeIsPlusOneAttending = (isPlusOneAttending: boolean) =>
+		updateProperty(
+			{ IsPlusOneAttending: { ...properties.IsPlusOneAttending, checkbox: isPlusOneAttending } },
+			{ title: 'Plus One Attendance Updated', description: SAVED_SELECTION },
+		)
 
-	const handleChangePlusOneName = async (plusOneName: string) => {
-		setIsLoading(true)
-		await updateUser({
-			...currentUser,
-			properties: {
-				...properties,
-				PlusOneName: {
-					...properties.PlusOneName,
-					rich_text: [{ type: 'text', text: { content: plusOneName } }],
-				},
-			},
-		})
-		toast({
-			title: 'Plus One Name Updated',
-			description: 'We saved your selection, thanks for for keeping us up to date!',
-			status: 'success',
-		})
-		setIsLoading(false)
-	}
+	const handleChangePlusOneName = (plusOneName: string) =>
+		updateProperty(
+			{ PlusOneName: { ...properties.PlusOneName, rich_text: [{ type: 'text', text: { content: plusOneName } }] } },
+			{ title: 'Plus One Name Updated', description: SAVED_SELECTION },
+		)
 
-	const handleChangeMessageToUs = async (messageToUs: string) => {
-		setIsLoading(true)
-		await updateUser({
-			...currentUser,
-			properties: {
-				...properties,
-				MessageToUs: {
-					...properties.MessageToUs,
-					rich_text: [{ type: 'text', text: { content: messageToUs } }],
-				},
+	const handleChangeMessageToUs = (messageToUs: string) =>
+		updateProperty(
+			{ MessageToUs: { ...properties.MessageToUs, rich_text: [{ type: 'text', text: { content: messageToUs } }] } },
+			{
+				title: 'Message Updated',
+				description: 'We saved your current message. Thanks for taking the time to write us something!',
 			},
-		})
-		toast({
-			title: 'Message Updated',
-			description: 'We saved your current message. Thanks for taking the time to write us something!',
-			status: 'success',
-		})
-		setIsLoading(false)
-	}
+		)
 
-	const handleChangeSuitStatus = async (nextSuitStatus: SuitStatus) => {
-		setIsLoading(true)
-		await updateUser({
-			...currentUser,
-			properties: {
-				...properties,
-				SuitStatus: {
-					...properties.SuitStatus,
-					select: { name: nextSuitStatus },
-				},
-			},
-		})
-		toast({
-			title: 'Suit Status Updated',
-			description: 'We saved your latest suit status. Thank you!',
-			status: 'success',
-		})
-		setIsLoading(false)
-	}
+	const handleChangeSuitStatus = (nextSuitStatus: SuitStatus) =>
+		updateProperty(
+			{ SuitStatus: { ...properties.SuitStatus, select: { name: nextSuitStatus } } },
+			{ title: 'Suit Status Updated', description: 'We saved your latest suit status. Thank you!' },
+		)
 
 	const handleLogout = async () => await mutateSession(await logout())
 
