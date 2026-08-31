@@ -11,7 +11,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return
 	}
 
-	if (!req.method) return
+	if (!req.method) {
+		res.status(400).json({ message: 'Missing request method' })
+		return
+	}
 
 	switch (req.method) {
 		case 'GET': {
@@ -28,6 +31,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				}),
 			)
 			break
+		}
+		default: {
+			res.setHeader('Allow', 'GET, PUT')
+			res.status(405).json({ message: 'Method Not Allowed' })
 		}
 	}
 }

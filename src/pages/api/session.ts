@@ -5,7 +5,10 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await getSession(req, res)
 
-	if (!req.method) return
+	if (!req.method) {
+		res.status(400).json({ message: 'Missing request method' })
+		return
+	}
 
 	switch (req.method) {
 		case 'GET': {
@@ -41,6 +44,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			session.destroy()
 			res.json(defaultSession)
 			break
+		}
+		default: {
+			res.setHeader('Allow', 'GET, POST, PUT, DELETE')
+			res.status(405).json({ message: 'Method Not Allowed' })
 		}
 	}
 }
