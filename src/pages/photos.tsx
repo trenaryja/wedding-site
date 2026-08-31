@@ -11,6 +11,11 @@ export default function Index() {
 		fetch('/api/cloudinary', { signal: controller.signal })
 			.then((response) => response.json())
 			.then((data) => setPhotos(data))
+			.catch((error: unknown) => {
+				// the cleanup below aborts in flight on every unmount, so that rejection is expected
+				if (error instanceof Error && error.name === 'AbortError') return
+				console.error('Failed to load photos', error)
+			})
 		return () => controller.abort()
 	}, [])
 
