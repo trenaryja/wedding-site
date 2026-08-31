@@ -3,6 +3,7 @@ import { Grid, Heading, Image, Link, List, ListIcon, ListItem, Text } from '@cha
 import { addDays, format } from 'date-fns'
 import { PiDiamondsFourFill, PiPaperPlaneRightFill, PiSquareFill } from 'react-icons/pi'
 
+// eslint-disable-next-line max-lines-per-function -- a Pages Router page assembles a whole route: a large aggregator by convention, not tangled control flow
 export default function Index() {
 	return (
 		<Grid position='relative' py={8}>

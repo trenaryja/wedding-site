@@ -9,15 +9,15 @@ export type OurDateProps = BoxProps & {
 }
 
 export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
-	const refs = useRef<(SVGElement | null)[]>([])
+	const svgElementsRef = useRef<(SVGElement | null)[]>([])
 
 	useEffect(() => {
-		refs.current = refs.current.slice(0, lines.length)
+		svgElementsRef.current = svgElementsRef.current.slice(0, lines.length)
 	}, [lines])
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-			refs.current.forEach((svg) => {
+			svgElementsRef.current.forEach((svg) => {
 				const text = svg?.querySelector('text')
 				const bbox = text?.getBBox()
 				svg?.setAttribute('viewBox', [bbox?.x, bbox?.y, bbox?.width, bbox?.height].join(' '))
@@ -28,11 +28,12 @@ export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 
 	return (
 		<Box w='100%' border='1px' p={5} {...rest}>
+			{/* eslint-disable @eslint-react/no-array-index-key -- the same index subscripts svgElementsRef.current below, so the index is the identity */}
 			{lines.map((line, i) => (
 				<svg
 					key={i}
 					ref={(svg) => {
-						refs.current[i] = svg
+						svgElementsRef.current[i] = svg
 					}}
 				>
 					<text {...props} {...(typeof line === 'string' ? undefined : line.props)}>
@@ -40,6 +41,7 @@ export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 					</text>
 				</svg>
 			))}
+			{/* eslint-enable @eslint-react/no-array-index-key */}
 			<CountDown />
 		</Box>
 	)

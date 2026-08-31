@@ -25,8 +25,10 @@ export const chunk = <T>(a: T[], n: number) => {
 		return result
 	}
 
+	let remainingChunks = n
+
 	while (i < a.length) {
-		const size = Math.ceil((a.length - i) / n--)
+		const size = Math.ceil((a.length - i) / remainingChunks--)
 		result.push(a.slice(i, (i += size)))
 	}
 

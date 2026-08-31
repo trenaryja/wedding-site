@@ -14,6 +14,7 @@ const StarInfo = ({ children }: { children: string }) => (
 	</Text>
 )
 
+// eslint-disable-next-line max-lines-per-function -- a Pages Router page assembles a whole route: a large aggregator by convention, not tangled control flow
 export default function Index() {
 	const theme = useTheme()
 

@@ -29,7 +29,7 @@ export const Conversation = () => {
 
 	useEffect(() => {
 		const fetchMessages = async () => setMessages(await getMessages())
-		fetchMessages()
+		void fetchMessages()
 	}, [])
 
 	return (

@@ -1,4 +1,4 @@
-import { theme as defaultTheme, useTheme as defaultUseTheme, extendTheme } from '@chakra-ui/react'
+import { theme as defaultTheme, extendTheme, useTheme as useChakraTheme } from '@chakra-ui/react'
 import { Limelight, Raleway } from 'next/font/google'
 
 type Theme = typeof defaultTheme
@@ -53,5 +53,5 @@ export const chakraTheme = extendTheme({
 } as Partial<Theme>) as Theme
 
 export const useTheme = () => {
-	return defaultUseTheme() as Theme
+	return useChakraTheme() as Theme
 }

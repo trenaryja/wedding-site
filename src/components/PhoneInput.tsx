@@ -10,9 +10,10 @@ export type PhoneInputProps = Omit<InputProps, 'defaultValue' | 'value'> & {
 	showClearButton?: boolean
 }
 
+// eslint-disable-next-line @eslint-react/no-forward-ref -- Chakra v2's own forwardRef, not React's: it also wires the `as` prop and theme resolution
 export const PhoneInput = forwardRef(
 	({ value, defaultValue, onChange, showClearButton = true, ...props }: PhoneInputProps, ref) => {
-		const [displayValue, setDisplayValue] = useState(formatPhoneNumber(defaultValue ?? value ?? ''))
+		const [displayValue, setDisplayValue] = useState(() => formatPhoneNumber(defaultValue ?? value ?? ''))
 
 		return (
 			<InputGroup justifyContent='center' placeItems='center'>

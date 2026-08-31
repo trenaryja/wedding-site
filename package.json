@@ -5,7 +5,7 @@
 		"build": "next build",
 		"start": "next start",
 		"fix": "prettier -w . && eslint --fix .",
-		"check": "rm -rf .next && tsc && prettier -c . && eslint . && bun run build",
+		"check": "rm -rf .next && tsc && prettier -c . && eslint . --max-warnings=0 && bun run build",
 		"get-latest": "bun update --latest --interactive",
 		"reinstall": "rm -rf node_modules bun.lock && bun install"
 	},
@@ -37,7 +37,7 @@
 	},
 	"devDependencies": {
 		"@tailwindcss/postcss": "^4.3.3",
-		"@trenaryja/config": "^0.0.1",
+		"@trenaryja/config": "^0.0.4",
 		"@types/node": "^26.2.0",
 		"@types/react": "^19.2.18",
 		"@types/react-dom": "^19.2.4",

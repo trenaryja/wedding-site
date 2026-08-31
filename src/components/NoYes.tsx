@@ -16,6 +16,7 @@ export type NoYesProps = Omit<ButtonProps, 'onChange' | 'value'> & {
 	onChange: (value: boolean | null) => void
 }
 
+// eslint-disable-next-line @eslint-react/no-forward-ref -- Chakra v2's own forwardRef, not React's: it also wires the `as` prop and theme resolution
 export const NoYes = forwardRef(({ value, onChange, ...props }: NoYesProps, ref) => (
 	<ButtonGroup ref={ref}>
 		<SelectionButton {...props} onClick={() => onChange(false)} isSelected={!value}>

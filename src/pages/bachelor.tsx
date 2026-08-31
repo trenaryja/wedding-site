@@ -8,6 +8,7 @@ const waiverUrl = 'https://stbd.io/pzSvcR'
 
 const titleFormat = (date: Date) => format(date, 'eeee - M/d').toUpperCase()
 
+// eslint-disable-next-line max-lines-per-function -- a Pages Router page assembles a whole route: a large aggregator by convention, not tangled control flow
 export default function Index() {
 	const theme = useTheme()
 
@@ -183,6 +184,7 @@ export default function Index() {
 					allowFullScreen={true}
 				/>
 			</Box>
+			{/* eslint-disable-next-line jsx-a11y/media-has-caption -- no caption track exists for this clip */}
 			<video controls>
 				<source src='PartyElephant.webm' type='video/webm' />
 			</video>

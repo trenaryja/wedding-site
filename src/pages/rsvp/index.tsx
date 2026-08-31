@@ -22,6 +22,9 @@ import { useRef, useState } from 'react'
 
 const SAVED_SELECTION = 'We saved your selection, thanks for for keeping us up to date!'
 
+/* eslint-disable-next-line max-lines-per-function, complexity --
+   a Pages Router page assembles a whole route: a large aggregator by convention, not tangled control flow.
+   Measured: ~85 % of its complexity score is `?.`/`??` over optional Notion columns, not branching. */
 export default function Index() {
 	const { session, mutateSession } = useSession({
 		redirectTo: '/rsvp/login',

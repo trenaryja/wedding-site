@@ -29,7 +29,7 @@ export const useSession = ({
 		]
 
 		if (anyReasonToRedirect.some(Boolean)) {
-			Router.push(redirectTo)
+			void Router.push(redirectTo)
 		}
 	}, [session, redirectTo, redirectIfLoggedIn, redirectIfAdmin, redirectIfNotLoggedIn, redirectIfNotAdmin])
 

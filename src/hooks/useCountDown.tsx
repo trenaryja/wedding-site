@@ -7,7 +7,7 @@ const msInDay = msInHour * 24
 
 export const useCountdown = (targetDate: Date) => {
 	const getDiff = () => differenceInMilliseconds(targetDate, new Date())
-	const [ms, setMs] = useState(getDiff())
+	const [ms, setMs] = useState(() => getDiff())
 
 	useEffect(() => {
 		const interval = setInterval(() => setMs(getDiff()), msInMinute)

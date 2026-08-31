@@ -5,6 +5,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await getSession(req, res)
 
+	if (!req.method) return
+
 	switch (req.method) {
 		case 'GET': {
 			if (session.data) {

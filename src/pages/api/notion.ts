@@ -11,6 +11,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return
 	}
 
+	if (!req.method) return
+
 	switch (req.method) {
 		case 'GET': {
 			res.json(await getNotionUsers())

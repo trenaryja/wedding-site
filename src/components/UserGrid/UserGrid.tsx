@@ -51,7 +51,7 @@ export const UserGrid = () => {
 		]
 	}, [mutateSession, session])
 
-	// eslint-disable-next-line react-hooks/incompatible-library
+	// eslint-disable-next-line react-hooks/incompatible-library -- useReactTable returns functions the compiler cannot memoize, so it skips this component; accepted rather than dropping TanStack Table
 	const table: TableType<NotionUser> = useReactTable({
 		columns,
 		data,
@@ -63,7 +63,7 @@ export const UserGrid = () => {
 
 	useEffect(() => {
 		const asyncUseEffect = async () => setData(await getNotionUsers())
-		asyncUseEffect()
+		void asyncUseEffect()
 	}, [])
 
 	if (!data) return <Spinner placeSelf='center' />
