@@ -1,7 +1,11 @@
-import { sessionSchema } from '@/utils'
+import { notionUserSchema } from '@/utils'
 import { defaultSession, getNotionUsers, getSession, parseBody, updateSession } from '@/utils/server'
 import { addMinutes } from 'date-fns'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { z } from 'zod'
+
+/** Only the guest is client-settable; isAdmin, isLoggedIn, otp and timeout are granted server-side alone. */
+const bodySchema = z.object({ user: notionUserSchema })
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await getSession(req, res)
@@ -37,9 +41,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 		case 'POST':
 		case 'PUT': {
-			const body = parseBody(sessionSchema.partial(), req, res)
+			const body = parseBody(bodySchema, req, res)
 			if (!body) return
-			await updateSession(req, res, { ...(session.data ?? defaultSession), ...body })
+			const currentSession = session.data ?? defaultSession
+			if (!currentSession.isAdmin && body.user.id !== currentSession.user?.id) {
+				res.status(403).json({ message: 'Only an admin can switch to another guest' })
+				return
+			}
+			await updateSession(req, res, { ...currentSession, user: body.user })
 			break
 		}
 		case 'DELETE': {

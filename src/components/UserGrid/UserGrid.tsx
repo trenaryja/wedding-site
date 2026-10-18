@@ -1,6 +1,6 @@
 import { useSession } from '@/hooks'
 import type { NotionUser } from '@/utils'
-import { formatPhoneNumber, getNotionUsers, setSession } from '@/utils'
+import { formatPhoneNumber, getNotionUsers, setSessionUser } from '@/utils'
 import { Box, Grid, HStack, IconButton, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import type { ReactTable } from '@tanstack/react-table'
 import {
@@ -22,10 +22,10 @@ const columnHelper = createColumnHelper<typeof features, NotionUser>()
 
 export const UserGrid = () => {
 	const [data, setData] = useState<NotionUser[]>([])
-	const { session, mutateSession } = useSession()
+	const { mutateSession } = useSession()
 
 	const impersonateUser = async (user: NotionUser) => {
-		await mutateSession(await setSession({ ...session, user }))
+		await mutateSession(await setSessionUser(user))
 		await Router.push('/rsvp')
 	}
 

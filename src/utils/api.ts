@@ -1,7 +1,6 @@
 import { z } from 'zod'
 import type { NotionUser } from './notion'
 import { notionUserSchema } from './notion'
-import type { Session } from './types'
 import { sessionSchema } from './types'
 
 export const parseOrThrow = <T extends z.ZodType>(schema: T, data: unknown, source: string) => {
@@ -45,8 +44,8 @@ export const login = async (password: string, useHerPhoneNumber: boolean) =>
 
 export const getSession = async () => await fetchJson(sessionSchema, '/api/session')
 
-export const setSession = async (session: Partial<Session>) =>
-	await fetchJson(sessionSchema, '/api/session', { method: 'POST', body: session })
+export const setSessionUser = async (user: NotionUser) =>
+	await fetchJson(sessionSchema, '/api/session', { method: 'POST', body: { user } })
 
 export const logout = async () => await fetchJson(sessionSchema, '/api/session', { method: 'DELETE' })
 

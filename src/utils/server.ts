@@ -29,7 +29,7 @@ export const updateSession = async (req: NextApiRequest, res: NextApiResponse, s
 	const currentSession = await getSession(req, res)
 	currentSession.data = session
 	await currentSession.save()
-	res.json(currentSession)
+	res.json(session)
 }
 
 /** On a mismatch this already sent the 400, so callers just return on undefined. */

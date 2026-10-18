@@ -1,7 +1,7 @@
 import { FadeGallery, FullScreenLoader, NoYes } from '@/components'
 import { useSession } from '@/hooks'
 import type { Properties } from '@/utils'
-import { logout, setSession, SUIT_STATUSES, updateNotionUser, WEDDING_DATE } from '@/utils'
+import { logout, setSessionUser, SUIT_STATUSES, updateNotionUser, WEDDING_DATE } from '@/utils'
 import {
 	Button,
 	Flex,
@@ -178,7 +178,7 @@ export default function Index() {
 		setIsLoading(true)
 		try {
 			const updated = await updateNotionUser({ ...user, properties: { ...properties, ...patch } })
-			await mutateSession(await setSession({ ...session, user: updated }))
+			await mutateSession(await setSessionUser(updated))
 			toast({ ...message, status: 'success' })
 		} catch (err) {
 			toast({ title: 'Update failed', description: err instanceof Error ? err.message : String(err), status: 'error' })
