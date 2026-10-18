@@ -1,10 +1,9 @@
-import type { NotionUser } from '@/utils'
 import type { StackProps } from '@chakra-ui/react'
 import { Grid, Heading, Text, VStack } from '@chakra-ui/react'
-import type { Table } from '@tanstack/react-table'
+import type { UserTable } from '.'
 
 export type UserGridCountsProps = {
-	table: Table<NotionUser>
+	table: UserTable
 }
 
 const Count = ({ label, value, ...rest }: StackProps & { label: string; value: number }) => (

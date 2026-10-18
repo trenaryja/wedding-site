@@ -2,33 +2,37 @@ import { useSession } from '@/hooks'
 import type { NotionUser } from '@/utils'
 import { formatPhoneNumber, getNotionUsers, setSession } from '@/utils'
 import { Box, Grid, HStack, IconButton, Spinner, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import type { SortingState, Table as TableType } from '@tanstack/react-table'
+import type { ReactTable } from '@tanstack/react-table'
 import {
 	createColumnHelper,
-	flexRender,
-	getCoreRowModel,
-	getSortedRowModel,
-	useReactTable,
+	createSortedRowModel,
+	rowSortingFeature,
+	tableFeatures,
+	useTable,
 } from '@tanstack/react-table'
 import Router from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaSortDown, FaSortUp, FaUserSecret } from 'react-icons/fa'
 import { UserGridCounts } from '.'
 
-const columnHelper = createColumnHelper<NotionUser>()
+const features = tableFeatures({ rowSortingFeature, sortedRowModel: createSortedRowModel() })
+export type UserTable = ReactTable<typeof features, NotionUser>
+
+const columnHelper = createColumnHelper<typeof features, NotionUser>()
 
 export const UserGrid = () => {
 	const [data, setData] = useState<NotionUser[]>([])
-	const [sorting, setSorting] = useState<SortingState>([])
 	const { session, mutateSession } = useSession()
 
-	const columns = useMemo(() => {
-		const impersonateUser = async (user: NotionUser) => {
-			await mutateSession(await setSession({ ...session, user }))
-			await Router.push('/rsvp')
-		}
+	const impersonateUser = async (user: NotionUser) => {
+		await mutateSession(await setSession({ ...session, user }))
+		await Router.push('/rsvp')
+	}
 
-		return [
+	const table = useTable({
+		features,
+		data,
+		columns: columnHelper.columns([
 			columnHelper.accessor((row) => row.properties?.Name?.title?.[0]?.plain_text, {
 				id: 'name',
 				cell: ({ getValue, row }) => (
@@ -48,17 +52,7 @@ export const UserGrid = () => {
 				id: 'phone',
 				cell: ({ getValue }) => <pre>{getValue()}</pre>,
 			}),
-		]
-	}, [mutateSession, session])
-
-	// eslint-disable-next-line react-hooks/incompatible-library -- useReactTable returns functions the compiler cannot memoize, so it skips this component; accepted rather than dropping TanStack Table
-	const table: TableType<NotionUser> = useReactTable({
-		columns,
-		data,
-		state: { sorting },
-		getCoreRowModel: getCoreRowModel(),
-		getSortedRowModel: getSortedRowModel(),
-		onSortingChange: setSorting,
+		]),
 	})
 
 	useEffect(() => {
@@ -77,28 +71,31 @@ export const UserGrid = () => {
 					<Thead>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<Tr key={headerGroup.id}>
-								{headerGroup.headers.map((header) => (
-									<Th key={header.id} cursor='pointer' whiteSpace='nowrap'>
-										<HStack
-											gap={2}
-											onClick={header.column.getToggleSortingHandler()}
-											pr={header.column.getIsSorted() ? undefined : 5}
-											userSelect='none'
-										>
-											{flexRender(header.column.columnDef.header, header.getContext())}
-											{{ asc: <FaSortUp />, desc: <FaSortDown /> }[header.column.getIsSorted() as string]}
-										</HStack>
-									</Th>
-								))}
+								{headerGroup.headers.map((header) => {
+									const direction = header.column.getIsSorted()
+									return (
+										<Th key={header.id} cursor='pointer' whiteSpace='nowrap'>
+											<HStack
+												gap={2}
+												onClick={header.column.getToggleSortingHandler()}
+												pr={direction ? undefined : 5}
+												userSelect='none'
+											>
+												<table.FlexRender header={header} />
+												{direction && { asc: <FaSortUp />, desc: <FaSortDown /> }[direction]}
+											</HStack>
+										</Th>
+									)
+								})}
 							</Tr>
 						))}
 					</Thead>
 					<Tbody>
 						{table.getRowModel().rows.map((row) => (
 							<Tr key={row.id}>
-								{row.getVisibleCells().map((cell) => (
+								{row.getAllCells().map((cell) => (
 									<Td key={cell.id} whiteSpace='nowrap'>
-										{flexRender(cell.column.columnDef.cell, cell.getContext())}
+										<table.FlexRender cell={cell} />
 									</Td>
 								))}
 							</Tr>
