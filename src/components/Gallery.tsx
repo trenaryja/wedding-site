@@ -43,8 +43,7 @@ export const Gallery = ({ albumId }: GalleryProps) => {
 		void asyncUseEffect()
 	}, [albumId])
 
-	// eslint-disable-next-line @eslint-react/no-array-index-key -- fixed-length placeholder list, so the index is the only identity there is
-	const skeletons = [...Array(20)].map((_x, i) => <Skeleton h={200} key={i} />)
+	const skeletons = Array.from({ length: 20 }, (_x, i) => <Skeleton h={200} key={i} />)
 
 	return (
 		<Grid
@@ -59,7 +58,6 @@ export const Gallery = ({ albumId }: GalleryProps) => {
 			}}
 		>
 			{chunk(images ?? skeletons, columnCount ?? 1).map((chunkOfImages, i) => (
-				// eslint-disable-next-line @eslint-react/no-array-index-key -- the chunks are positional columns, rebuilt whole whenever the column count changes
 				<Flex gap={gap} key={i} direction='column' width='100%'>
 					{chunkOfImages}
 				</Flex>

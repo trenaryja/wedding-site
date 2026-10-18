@@ -1,16 +1,16 @@
-import type { CloudinaryImage } from '@/utils'
+import type { Photo } from '@/utils'
+import { getPhotos } from '@/utils'
 import { Box, Grid, useBreakpointValue } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 export default function Index() {
-	const [photos, setPhotos] = useState<CloudinaryImage[]>([])
+	const [photos, setPhotos] = useState<Photo[]>([])
 
 	useEffect(() => {
 		const controller = new AbortController()
-		fetch('/api/cloudinary', { signal: controller.signal })
-			.then((response) => response.json())
-			.then((data) => setPhotos(data))
+		getPhotos(controller.signal)
+			.then(setPhotos)
 			.catch((error: unknown) => {
 				// the cleanup below aborts in flight on every unmount, so that rejection is expected
 				if (error instanceof Error && error.name === 'AbortError') return

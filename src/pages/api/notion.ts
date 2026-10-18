@@ -1,7 +1,9 @@
-import type { NotionUser } from '@/utils'
-import { getNotionUsers, getSession, notionClient } from '@/utils/server'
-import type { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
+import { notionUserSchema } from '@/utils'
+import { getNotionUsers, getSession, notionClient, parseBody } from '@/utils/server'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { z } from 'zod'
+
+const putBodySchema = z.object({ data: notionUserSchema })
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const session = await getSession(req, res)
@@ -22,14 +24,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			break
 		}
 		case 'PUT': {
-			const user = req.body.data as NotionUser
-			res.json(
-				await notionClient.pages.update({
-					// admin PUT always supplies a persisted Notion user, which has an id
-					page_id: user.id!,
-					properties: user.properties as unknown as UpdatePageParameters['properties'],
-				}),
-			)
+			const body = parseBody(putBodySchema, req, res)
+			if (!body) return
+			res.json(await notionClient.pages.update({ page_id: body.data.id, properties: body.data.properties }))
 			break
 		}
 		default: {

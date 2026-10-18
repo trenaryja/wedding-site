@@ -1,7 +1,7 @@
 import { useSession } from '@/hooks'
 import type { NotionUser } from '@/utils'
 import { formatPhoneNumber, getNotionUsers, setSession } from '@/utils'
-import { Box, Grid, HStack, IconButton, Spinner, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
+import { Box, Grid, HStack, IconButton, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
 import type { ReactTable } from '@tanstack/react-table'
 import {
 	createColumnHelper,
@@ -13,7 +13,7 @@ import {
 import Router from 'next/router'
 import { useEffect, useState } from 'react'
 import { FaSortDown, FaSortUp, FaUserSecret } from 'react-icons/fa'
-import { UserGridCounts } from '.'
+import { UserGridCounts } from './UserGridCounts'
 
 const features = tableFeatures({ rowSortingFeature, sortedRowModel: createSortedRowModel() })
 export type UserTable = ReactTable<typeof features, NotionUser>
@@ -33,7 +33,7 @@ export const UserGrid = () => {
 		features,
 		data,
 		columns: columnHelper.columns([
-			columnHelper.accessor((row) => row.properties?.Name?.title?.[0]?.plain_text, {
+			columnHelper.accessor((row) => row.properties.Name.title[0]?.plain_text, {
 				id: 'name',
 				cell: ({ getValue, row }) => (
 					<HStack>
@@ -41,14 +41,14 @@ export const UserGrid = () => {
 							size='xs'
 							icon={<FaUserSecret />}
 							aria-label='Impersonate'
-							onClick={() => impersonateUser(row.original)}
+							onClick={() => void impersonateUser(row.original)}
 						/>
 						<b>{getValue()}</b>,
 					</HStack>
 				),
 			}),
-			columnHelper.accessor((row) => row.properties?.PlusOneName?.rich_text?.[0]?.plain_text, { id: 'plusOneName' }),
-			columnHelper.accessor((row) => formatPhoneNumber(row.properties?.Phone?.phone_number), {
+			columnHelper.accessor((row) => row.properties.PlusOneName.rich_text[0]?.plain_text, { id: 'plusOneName' }),
+			columnHelper.accessor((row) => formatPhoneNumber(row.properties.Phone.phone_number ?? undefined), {
 				id: 'phone',
 				cell: ({ getValue }) => <pre>{getValue()}</pre>,
 			}),
@@ -59,8 +59,6 @@ export const UserGrid = () => {
 		const asyncUseEffect = async () => setData(await getNotionUsers())
 		void asyncUseEffect()
 	}, [])
-
-	if (!data) return <Spinner placeSelf='center' />
 
 	return (
 		<Grid className='full-bleed' gap={5}>

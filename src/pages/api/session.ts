@@ -1,4 +1,5 @@
-import { defaultSession, getNotionUsers, getSession, updateSession } from '@/utils/server'
+import { sessionSchema } from '@/utils'
+import { defaultSession, getNotionUsers, getSession, parseBody, updateSession } from '@/utils/server'
 import { addMinutes } from 'date-fns'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -24,8 +25,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				}
 
 				console.log('User data is stale, refreshing')
-				const phone = session.data.user?.properties?.Phone?.phone_number
-				const user = (await getNotionUsers()).find((u) => u.properties?.Phone?.phone_number === phone)
+				const phone = session.data.user.properties.Phone.phone_number
+				const user = (await getNotionUsers()).find((u) => u.properties.Phone.phone_number === phone)
 				const timeout = addMinutes(new Date(), 2).toISOString()
 				await updateSession(req, res, { ...session.data, user, timeout })
 				return
@@ -36,8 +37,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 		case 'POST':
 		case 'PUT': {
-			const currentSession = session.data || defaultSession
-			await updateSession(req, res, { ...currentSession, ...req.body })
+			const body = parseBody(sessionSchema.partial(), req, res)
+			if (!body) return
+			await updateSession(req, res, { ...(session.data ?? defaultSession), ...body })
 			break
 		}
 		case 'DELETE': {

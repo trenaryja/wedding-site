@@ -43,10 +43,3 @@ export const formatPhoneNumber = (value?: string) => {
 	if (numberValue.length < 7) return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3)}`
 	return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3, 6)}-${numberValue.slice(6, 10)}`
 }
-
-export const stringifyValues = (input: unknown) => {
-	if (typeof input !== 'object' || input === null) return undefined
-	const out: Record<string, string> = {}
-	for (const [key, value] of Object.entries(input)) out[key] = String(value)
-	return out
-}

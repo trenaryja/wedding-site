@@ -19,14 +19,14 @@ export default function Login() {
 	const [remainingTime, setRemainingTime] = useState(0)
 
 	useEffect(() => {
-		const interval = setInterval(async () => {
+		const interval = setInterval(() => {
 			if (remainingTime > 0) {
 				setRemainingTime(remainingTime - 1000)
 				return
 			}
 			if (hasOtp) {
 				setError(new Error('OTP expired. Please try again.'))
-				await mutateSession(await logout())
+				void logout().then(mutateSession)
 			}
 		}, 1000)
 		return () => clearInterval(interval)
@@ -79,7 +79,7 @@ export default function Login() {
 	return (
 		<>
 			<FullScreenLoader visible={loading} />
-			<form onSubmit={handleSubmitForm} style={{ display: 'grid', placeItems: 'center' }}>
+			<form onSubmit={(e) => void handleSubmitForm(e)} style={{ display: 'grid', placeItems: 'center' }}>
 				<Grid gap={10} placeItems='center'>
 					<Heading>{heading}</Heading>
 					<FormControl isInvalid={!!error} isDisabled={loading}>
@@ -87,8 +87,8 @@ export default function Login() {
 							{!hasOtp && (
 								<PhoneInput
 									value={phone}
-									onChange={(e) => {
-										setPhone(e.target.value)
+									onChange={(phoneNumber) => {
+										setPhone(phoneNumber)
 										setError(null)
 									}}
 									onBlur={handleValidatePhone}
@@ -111,7 +111,7 @@ export default function Login() {
 						</Grid>
 					</FormControl>
 					<HStack>
-						{hasOtp && <Button onClick={handleCancel}>Cancel</Button>}
+						{hasOtp && <Button onClick={() => void handleCancel()}>Cancel</Button>}
 						<Button disabled={loading || !!error} type='submit'>
 							{submitButtonText}
 						</Button>

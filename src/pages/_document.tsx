@@ -1,4 +1,4 @@
-import { chakraTheme } from '@/utils'
+import { themeConfig } from '@/utils'
 import { Box, ColorModeScript } from '@chakra-ui/react'
 import NextDocument, { Head, Html, Main, NextScript } from 'next/document'
 
@@ -8,7 +8,7 @@ export default class Document extends NextDocument {
 			<Html>
 				<Head />
 				<Box as='body' sx={{ a: { textDecoration: 'underline' } }}>
-					<ColorModeScript initialColorMode={chakraTheme.config.initialColorMode} />
+					<ColorModeScript initialColorMode={themeConfig.initialColorMode} />
 					<Main />
 					<NextScript />
 				</Box>

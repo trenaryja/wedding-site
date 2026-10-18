@@ -1,16 +1,22 @@
 import { env } from '@/env'
-import { getSession, twilioClient, validateE164PhoneNumber } from '@/utils/server'
+import { getSession, parseBody, twilioClient, validateE164PhoneNumber } from '@/utils/server'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { z } from 'zod'
+
+const bodySchema = z.object({ to: z.string(), body: z.string() })
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { to, body } = req.body
-	const formattedTo = `+1${to}`
 	const session = await getSession(req, res)
 
 	if (!session.data?.isAdmin) {
 		res.status(403).json({ message: 'You are not an admin, stop it' })
 		return
 	}
+
+	const request = parseBody(bodySchema, req, res)
+	if (!request) return
+	const { to, body } = request
+	const formattedTo = `+1${to}`
 
 	if (!to || !body) {
 		res.status(400).json({ message: 'Missing required fields' })

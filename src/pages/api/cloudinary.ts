@@ -1,7 +1,14 @@
 import { env } from '@/env'
-import type { CloudinaryImage } from '@/utils'
+import { parseOrThrow } from '@/utils'
 import cloudinary from 'cloudinary'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { z } from 'zod'
+
+const resourcesSchema = z.object({
+	resources: z.array(
+		z.object({ created_at: z.string(), width: z.number(), height: z.number(), secure_url: z.string() }),
+	),
+})
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	cloudinary.v2.config({
@@ -11,15 +18,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		secure: true,
 	})
 
-	const results = (
-		await cloudinary.v2.api.resources({
-			type: 'upload',
-			prefix: 'wedding',
-			max_results: 500,
-		})
-	).resources.sort(
-		(a: CloudinaryImage, z: CloudinaryImage) => new Date(a.created_at).getTime() - new Date(z.created_at).getTime(),
-	) as CloudinaryImage[]
+	const { resources } = parseOrThrow(
+		resourcesSchema,
+		await cloudinary.v2.api.resources({ type: 'upload', prefix: 'wedding', max_results: 500 }),
+		'the Cloudinary resources API',
+	)
+	const results = resources.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
 
 	// `secure_url`, not `url` — the Admin API's `url` is http:// regardless of `secure: true` above,
 	// which only affects the SDK's URL builders. next/image is configured for https only.

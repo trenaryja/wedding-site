@@ -44,7 +44,7 @@ export default function Login() {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={(e) => void handleSubmit(e)}>
 			<VStack gap={10}>
 				<HStack>
 					<Heading>♂️</Heading>

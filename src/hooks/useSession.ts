@@ -1,4 +1,4 @@
-import type { Session } from '@/utils'
+import { getSession } from '@/utils'
 import Router from 'next/router'
 import { useEffect } from 'react'
 import useSWR from 'swr'
@@ -10,7 +10,7 @@ export const useSession = ({
 	redirectIfNotAdmin = false,
 	redirectIfAdmin = false,
 } = {}) => {
-	const { data: session, mutate: mutateSession } = useSWR<Session>('/api/session')
+	const { data: session, mutate: mutateSession } = useSWR('/api/session', getSession)
 
 	useEffect(() => {
 		if (!redirectTo || !session) return

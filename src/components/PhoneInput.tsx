@@ -1,16 +1,16 @@
 import { formatPhoneNumber } from '@/utils'
 import type { InputProps } from '@chakra-ui/react'
 import { CloseButton, forwardRef, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react'
-import type { ChangeEvent } from 'react'
 import { useState } from 'react'
 
-export type PhoneInputProps = Omit<InputProps, 'defaultValue' | 'value'> & {
+export type PhoneInputProps = Omit<InputProps, 'defaultValue' | 'onChange' | 'value'> & {
 	value?: string
 	defaultValue?: string
+	onChange?: (phoneNumber: string) => void
 	showClearButton?: boolean
 }
 
-// eslint-disable-next-line @eslint-react/no-forward-ref -- Chakra v2's own forwardRef, not React's: it also wires the `as` prop and theme resolution
+// Chakra v2's forwardRef, not React's: it also wires the `as` prop and theme resolution
 export const PhoneInput = forwardRef(
 	({ value, defaultValue, onChange, showClearButton = true, ...props }: PhoneInputProps, ref) => {
 		const [displayValue, setDisplayValue] = useState(() => formatPhoneNumber(defaultValue ?? value ?? ''))
@@ -25,8 +25,7 @@ export const PhoneInput = forwardRef(
 					onChange={(e) => {
 						const formattedPhoneNumber = formatPhoneNumber(e.target.value) ?? ''
 						setDisplayValue(formattedPhoneNumber)
-						const phoneNumber = formattedPhoneNumber.replace(/\D/g, '')
-						onChange?.({ ...e, target: { ...e.target, value: phoneNumber } })
+						onChange?.(formattedPhoneNumber.replace(/\D/g, ''))
 					}}
 					ref={ref}
 					value={displayValue}
@@ -37,7 +36,7 @@ export const PhoneInput = forwardRef(
 						ml={1}
 						onClick={() => {
 							setDisplayValue('')
-							onChange?.({ target: { value: '' } } as ChangeEvent<HTMLInputElement>)
+							onChange?.('')
 						}}
 					/>
 				)}

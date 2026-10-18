@@ -1,7 +1,7 @@
 import type { BoxProps } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react'
 import { useEffect, useRef } from 'react'
-import { CountDown } from '.'
+import { CountDown } from './CountDown'
 
 export type OurDateProps = BoxProps & {
 	lines: (string | { text: string; props?: React.SVGProps<SVGTextElement> })[]

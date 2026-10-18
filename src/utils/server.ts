@@ -1,11 +1,13 @@
 import { env } from '@/env'
 import type { NotionUser, Session } from '@/utils'
+import { notionUserSchema, parseOrThrow } from '@/utils'
 import { Client } from '@notionhq/client'
 import crypto from 'crypto'
 import type { SessionOptions } from 'iron-session'
 import { getIronSession } from 'iron-session'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import twilio from 'twilio'
+import { z } from 'zod'
 
 const sessionOptions: SessionOptions = {
 	password: env.IRON_SESSION_COOKIE_PW,
@@ -21,13 +23,20 @@ export const defaultSession: Session = {
 }
 
 export const getSession = async (req: NextApiRequest, res: NextApiResponse) =>
-	await getIronSession<{ data: Session }>(req, res, sessionOptions)
+	await getIronSession<{ data?: Session }>(req, res, sessionOptions)
 
 export const updateSession = async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
 	const currentSession = await getSession(req, res)
 	currentSession.data = session
 	await currentSession.save()
 	res.json(currentSession)
+}
+
+/** On a mismatch this already sent the 400, so callers just return on undefined. */
+export const parseBody = <T extends z.ZodType>(schema: T, req: NextApiRequest, res: NextApiResponse) => {
+	const result = schema.safeParse(req.body)
+	if (result.success) return result.data
+	res.status(400).json({ message: `Invalid request body: ${z.prettifyError(result.error)}` })
 }
 
 export const notionClient = new Client({ auth: env.NOTION_TOKEN })
@@ -50,28 +59,17 @@ export const generateOtp = (length = 4) => {
 }
 
 export const getNotionUsers = async () => {
-	const results: NotionUser[] = []
+	const users: NotionUser[] = []
+	let cursor: string | undefined
+	do {
+		const query = await notionClient.dataSources.query({ data_source_id: env.NOTION_GUEST_DB_ID, start_cursor: cursor })
+		users.push(...parseOrThrow(z.array(notionUserSchema), query.results, 'the Notion guest list'))
+		cursor = query.next_cursor ?? undefined
+	} while (cursor)
 
-	let query = await notionClient.dataSources.query({
-		data_source_id: env.NOTION_GUEST_DB_ID,
-	})
-
-	results.push(...(query.results as NotionUser[]))
-
-	while (query.has_more) {
-		query = await notionClient.dataSources.query({
-			data_source_id: env.NOTION_GUEST_DB_ID,
-			start_cursor: query.next_cursor,
-		})
-		results.push(...(query.results as NotionUser[]))
-	}
-
-	results.sort((a, b) =>
-		(a.properties?.Name?.title?.[0]?.text?.content ?? '').localeCompare(
-			b.properties?.Name?.title?.[0]?.text?.content ?? '',
-		),
+	return users.sort((a, b) =>
+		(a.properties.Name.title[0]?.text.content ?? '').localeCompare(b.properties.Name.title[0]?.text.content ?? ''),
 	)
-	return results
 }
 
 const encryptionParams = ['aes-256-ecb', env.IRON_SESSION_COOKIE_PW, null] as const

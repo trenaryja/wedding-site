@@ -1,5 +1,6 @@
 import type { StackProps } from '@chakra-ui/react'
 import { Grid, Heading, Text, VStack } from '@chakra-ui/react'
+import type { Properties } from '@/utils'
 import type { UserTable } from '.'
 
 export type UserGridCountsProps = {
@@ -13,86 +14,42 @@ const Count = ({ label, value, ...rest }: StackProps & { label: string; value: n
 	</VStack>
 )
 
-export const UserGridCounts = ({ table }: UserGridCountsProps) => (
-	<Grid
-		px={5}
-		columnGap={20}
-		rowGap={5}
-		templateColumns={['repeat(2, 1fr)', 'repeat(4, 1fr)']}
-		justifyContent='space-around'
-	>
-		<Count label='Invites' value={table.getRowModel().rows.length} />
-		<Count
-			label='Plus Ones'
-			value={
-				table
-					.getRowModel()
-					.rows.filter((x) => x.original.properties?.Tags?.multi_select?.some((tag) => tag.name === '+1')).length
-			}
-		/>
-		<Count
-			label='Attending'
-			value={table
-				.getRowModel()
-				.rows.reduce(
-					(total, x) =>
-						total +
-						(x.original.properties?.IsAttending?.checkbox === true ? 1 : 0) +
-						(x.original.properties?.IsPlusOneAttending?.checkbox === true ? 1 : 0),
-					0,
+const hasPlusOne = (properties: Properties) => properties.Tags.multi_select.some((tag) => tag.name === '+1')
+
+const notAttendingCount = (guest: Properties) => {
+	if (guest.IsNotAttending.checkbox) return hasPlusOne(guest) ? 2 : 1
+	return guest.IsAttending.checkbox && !guest.IsPlusOneAttending.checkbox && hasPlusOne(guest) ? 1 : 0
+}
+
+export const UserGridCounts = ({ table }: UserGridCountsProps) => {
+	const guests = table.getRowModel().rows.map((row) => row.original.properties)
+	const countWhere = (predicate: (properties: Properties) => boolean) => guests.filter(predicate).length
+	const sum = (count: (properties: Properties) => number) => guests.reduce((total, guest) => total + count(guest), 0)
+
+	return (
+		<Grid
+			px={5}
+			columnGap={20}
+			rowGap={5}
+			templateColumns={['repeat(2, 1fr)', 'repeat(4, 1fr)']}
+			justifyContent='space-around'
+		>
+			<Count label='Invites' value={guests.length} />
+			<Count label='Plus Ones' value={countWhere(hasPlusOne)} />
+			<Count
+				label='Attending'
+				value={sum((guest) => Number(guest.IsAttending.checkbox) + Number(guest.IsPlusOneAttending.checkbox))}
+			/>
+			<Count label='Not Attending' value={sum(notAttendingCount)} />
+			<Count
+				label='TBD'
+				value={sum((guest) =>
+					guest.IsAttending.checkbox || guest.IsNotAttending.checkbox ? 0 : hasPlusOne(guest) ? 2 : 1,
 				)}
-		/>
-		<Count
-			label='Not Attending'
-			value={table.getRowModel().rows.reduce((total, x) => {
-				const p = x.original.properties
-				if (!p) return total
-				const isPlusOne = p.Tags?.multi_select?.some((tag) => tag.name === '+1')
-				return (
-					total +
-					(p.IsNotAttending?.checkbox === true
-						? isPlusOne
-							? 2
-							: 1
-						: p.IsAttending?.checkbox === true && p.IsPlusOneAttending?.checkbox === false && isPlusOne
-							? 1
-							: 0)
-				)
-			}, 0)}
-		/>
-		<Count
-			label='TBD'
-			value={table
-				.getRowModel()
-				.rows.reduce(
-					(total, x) =>
-						total +
-						(x.original.properties?.IsAttending?.checkbox === false &&
-						x.original.properties?.IsNotAttending?.checkbox === false
-							? x.original.properties?.Tags?.multi_select?.some((tag) => tag.name === '+1')
-								? 2
-								: 1
-							: 0),
-					0,
-				)}
-		/>
-		<Count
-			label='Invited'
-			value={table.getRowModel().rows.reduce((total, x) => {
-				return total + (x.original.properties?.LastContacted?.date !== null ? 1 : 0)
-			}, 0)}
-		/>
-		<Count
-			label='Missing #'
-			value={table.getRowModel().rows.reduce((total, x) => {
-				return total + (x.original.properties?.Phone?.phone_number === null ? 1 : 0)
-			}, 0)}
-		/>
-		<Count
-			label='Confirmed +1s'
-			value={table.getRowModel().rows.reduce((total, x) => {
-				return total + (x.original.properties?.IsPlusOneAttending?.checkbox === true ? 1 : 0)
-			}, 0)}
-		/>
-	</Grid>
-)
+			/>
+			<Count label='Invited' value={countWhere((guest) => guest.LastContacted.date !== null)} />
+			<Count label='Missing #' value={countWhere((guest) => guest.Phone.phone_number === null)} />
+			<Count label='Confirmed +1s' value={countWhere((guest) => guest.IsPlusOneAttending.checkbox)} />
+		</Grid>
+	)
+}

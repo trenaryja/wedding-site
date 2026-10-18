@@ -6,15 +6,21 @@ import {
 	generateOtp,
 	getNotionUsers,
 	getSession,
+	parseBody,
 	twilioClient,
 	updateSession,
 	validateE164PhoneNumber,
 } from '@/utils/server'
 import { addMinutes } from 'date-fns'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { z } from 'zod'
+
+const bodySchema = z.object({ to: z.string() })
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { to } = req.body
+	const request = parseBody(bodySchema, req, res)
+	if (!request) return
+	const { to } = request
 	const formattedTo = `+1${to}`
 
 	if (!to) {
@@ -27,7 +33,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return
 	}
 
-	const user = (await getNotionUsers()).find((u) => u.properties?.Phone?.phone_number === to)
+	const user = (await getNotionUsers()).find((u) => u.properties.Phone.phone_number === to)
 
 	if (!user) {
 		res.status(400).json({ message: 'This phone number did not match anyone on the invite list' })
@@ -42,7 +48,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		await twilioClient.messages.create({ from: env.TWILIO_PHONE_NUMBER, to: formattedTo, body })
 
 	const timeout = addMinutes(new Date(), 2).toISOString()
-	const currentSession = (await getSession(req, res)).data || defaultSession
+	const currentSession = (await getSession(req, res)).data ?? defaultSession
 	const session: Session = {
 		...currentSession,
 		otp: encrypt(otp),

@@ -1,10 +1,9 @@
 import { BackgroundParticles, BackToTop, Footer, Header } from '@/components'
-import { chakraTheme, CONTENT_WIDTH, fetcher } from '@/utils'
+import { chakraTheme, CONTENT_WIDTH } from '@/utils'
 import type { GridProps } from '@chakra-ui/react'
 import { ChakraProvider, Grid } from '@chakra-ui/react'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { SWRConfig } from 'swr'
 
 const PageWrapper = (props: GridProps) => {
 	return (
@@ -35,17 +34,15 @@ const App = ({ Component, pageProps }: AppProps) => {
 				<meta name='viewport' content='minimum-scale=1, initial-scale=1, width=device-width' />
 				<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 			</Head>
-			<SWRConfig value={{ fetcher }}>
-				<ChakraProvider resetCSS theme={chakraTheme}>
-					<BackgroundParticles />
-					<PageWrapper>
-						<Header />
-						<Component {...pageProps} />
-						<BackToTop />
-						<Footer />
-					</PageWrapper>
-				</ChakraProvider>
-			</SWRConfig>
+			<ChakraProvider resetCSS theme={chakraTheme}>
+				<BackgroundParticles />
+				<PageWrapper>
+					<Header />
+					<Component {...pageProps} />
+					<BackToTop />
+					<Footer />
+				</PageWrapper>
+			</ChakraProvider>
 		</>
 	)
 }

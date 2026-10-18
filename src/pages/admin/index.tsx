@@ -38,7 +38,7 @@ export default function Index() {
 
 			<UserGrid />
 
-			<Button onClick={handleLogout}>Logout</Button>
+			<Button onClick={() => void handleLogout()}>Logout</Button>
 		</>
 	)
 }

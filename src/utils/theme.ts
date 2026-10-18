@@ -1,3 +1,4 @@
+import type { ThemeConfig } from '@chakra-ui/react'
 import { theme as defaultTheme, extendTheme, useTheme as useChakraTheme } from '@chakra-ui/react'
 import { Limelight, Raleway } from 'next/font/google'
 
@@ -32,10 +33,10 @@ export const blackAnchored = {
 	900: '#000',
 } as const
 
+export const themeConfig = { initialColorMode: 'dark' } satisfies ThemeConfig
+
 export const chakraTheme = extendTheme({
-	config: {
-		initialColorMode: 'dark',
-	},
+	config: themeConfig,
 	styles: {
 		global: {
 			body: { bg: 'transparent' },
@@ -50,8 +51,8 @@ export const chakraTheme = extendTheme({
 		...defaultTheme.colors,
 		gray: blackAnchored,
 	},
-} as Partial<Theme>) as Theme
+})
 
 export const useTheme = () => {
-	return useChakraTheme() as Theme
+	return useChakraTheme<Theme>()
 }

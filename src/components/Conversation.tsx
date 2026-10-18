@@ -1,9 +1,9 @@
+import type { Message } from '@/utils'
 import { getMessages } from '@/utils'
 import { Box, Text, VStack } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import type { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 
-const MessageBubble = ({ message }: { message: MessageInstance }) => {
+const MessageBubble = ({ message }: { message: Message }) => {
 	const inbound = message.direction === 'inbound'
 
 	return (
@@ -25,7 +25,7 @@ const MessageBubble = ({ message }: { message: MessageInstance }) => {
 }
 
 export const Conversation = () => {
-	const [messages, setMessages] = useState<MessageInstance[]>()
+	const [messages, setMessages] = useState<Message[]>()
 
 	useEffect(() => {
 		const fetchMessages = async () => setMessages(await getMessages())
@@ -35,7 +35,7 @@ export const Conversation = () => {
 	return (
 		messages && (
 			<VStack mt={10} w='100%' p={1} gap={1} maxHeight='50vh' overflow='auto' flexDirection='column-reverse'>
-				{messages?.map((message) => (
+				{messages.map((message) => (
 					<MessageBubble message={message} key={message.sid} />
 				))}
 			</VStack>

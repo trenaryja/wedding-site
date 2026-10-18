@@ -1,10 +1,14 @@
-import { decrypt, getSession, notionClient, updateSession } from '@/utils/server'
-import type { UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints'
+import { decrypt, getSession, notionClient, parseBody, updateSession } from '@/utils/server'
 import { addMinutes, format } from 'date-fns'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { z } from 'zod'
+
+const bodySchema = z.object({ otp: z.string() })
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { otp } = req.body
+	const body = parseBody(bodySchema, req, res)
+	if (!body) return
+	const { otp } = body
 	const session = await getSession(req, res)
 
 	if (!otp) {
@@ -22,14 +26,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return
 	}
 
-	// passing the otp check guarantees sendOtp populated the session user with its Notion properties
-	const user = session.data.user!
-	user.properties!.LastLogin!.date = { start: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx") }
+	const { user } = session.data
+	if (!user) {
+		res.status(400).json({ message: 'No guest on this session. Go back and try again' })
+		return
+	}
 
-	await notionClient.pages.update({
-		page_id: user.id!,
-		properties: user.properties as unknown as UpdatePageParameters['properties'],
-	})
+	const properties = {
+		...user.properties,
+		LastLogin: { date: { start: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx") } },
+	}
+	await notionClient.pages.update({ page_id: user.id, properties })
 
 	const { otp: _oldOtp, ...currentSession } = session.data
 	const timeout = addMinutes(new Date(), 2).toISOString()
