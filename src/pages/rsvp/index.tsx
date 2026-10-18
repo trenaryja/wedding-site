@@ -44,13 +44,18 @@ export default function Index() {
 
 	const updateProperty = async (patch: Properties, message: { title: string; description: string }) => {
 		setIsLoading(true)
-		const updated = await updateNotionUser(
-			currentUser.id!, // a persisted Notion user always has an id
-			{ ...currentUser, properties: { ...properties, ...patch } },
-		)
-		await mutateSession(await setSession({ ...session, user: updated }))
-		toast({ ...message, status: 'success' })
-		setIsLoading(false)
+		try {
+			const updated = await updateNotionUser(
+				currentUser.id!, // a persisted Notion user always has an id
+				{ ...currentUser, properties: { ...properties, ...patch } },
+			)
+			await mutateSession(await setSession({ ...session, user: updated }))
+			toast({ ...message, status: 'success' })
+		} catch (err) {
+			toast({ title: 'Update failed', description: err instanceof Error ? err.message : String(err), status: 'error' })
+		} finally {
+			setIsLoading(false)
+		}
 	}
 
 	const handleChangeAttendance = (isAttending: boolean) =>
