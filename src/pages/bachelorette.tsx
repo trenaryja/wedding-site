@@ -3,7 +3,141 @@ import { Grid, Heading, Image, Link, List, ListIcon, ListItem, Text } from '@cha
 import { addDays, format } from 'date-fns'
 import { PiDiamondsFourFill, PiPaperPlaneRightFill, PiSquareFill } from 'react-icons/pi'
 
-// eslint-disable-next-line max-lines-per-function -- a Pages Router page assembles a whole route: a large aggregator by convention, not tangled control flow
+const Schedule = () => (
+	<>
+		<Heading size='lg'>{format(BACHELOR_PARTY_DATE, `eeee 'night' | MMM dd`).toUpperCase()}</Heading>
+		<List>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Check into AirBnB starting at 4pm |{' '}
+				<Link href='https://www.airbnb.com/rooms/791361035137512167'>5424 Howe St. Pittsburgh, PA 15232</Link>
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Decorate AirBnB
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Low-key evening of appetizers for dinner & games | Activities:
+				<List>
+					<ListItem>
+						<ListIcon as={PiPaperPlaneRightFill} />
+						Power Hour Kick Off
+					</ListItem>
+					<ListItem>
+						<ListIcon as={PiPaperPlaneRightFill} />
+						Rachel's Favorite Things
+						<List>
+							<ListItem>
+								<ListIcon as={PiSquareFill} />
+								As we all know, Rachel is like Oprah for her recommendations of all her favorite items! What Rachel says
+								is great and a must-have immediately requires a purchase. In the spirit of sharing favorite things, each
+								person should bring an item that costs less than $25 that's a favorite item for a white-elephant style
+								exchange!
+							</ListItem>
+						</List>
+					</ListItem>
+				</List>
+			</ListItem>
+		</List>
+
+		<Heading size='lg'>{format(addDays(BACHELOR_PARTY_DATE, 1), `eeee | MMM dd`).toUpperCase()}</Heading>
+		<List>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				11:45am Ritual House Brunch Reservation |{' '}
+				<Link href='https://www.ritualhousepgh.com'>534 William Penn Place Pittsburgh, PA 15219</Link>
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Post Brunch (~2:00pm) Go to Rachel & Justin's Apartment for Cookout & Games
+				<List>
+					<ListItem>
+						<ListIcon as={PiPaperPlaneRightFill} />
+						Address: 434 Fifth Ave Apt 1243 Pittsburgh, PA 12519
+					</ListItem>
+				</List>
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Evening Plans
+				<List>
+					<ListItem>
+						<ListIcon as={PiPaperPlaneRightFill} />
+						Visit the Strip District | Options:
+						<List>
+							<ListItem>
+								<ListIcon as={PiSquareFill} />
+								City Winery
+							</ListItem>
+							<ListItem>
+								<ListIcon as={PiSquareFill} />
+								The PA Market
+							</ListItem>
+							<ListItem>
+								<ListIcon as={PiSquareFill} />
+								Penn Society
+							</ListItem>
+							<ListItem>
+								<ListIcon as={PiSquareFill} />
+								Bar Marco
+							</ListItem>
+						</List>
+					</ListItem>
+				</List>
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Outfit for the Day - Denim! If you have a fun denim outfit, feel free to pack it for this day. There's also a
+				small pool on the rooftop of Rachel & Justin's apartment, if you want to bring a swimsuit for the rooftop, feel
+				free!
+			</ListItem>
+		</List>
+
+		<Heading size='lg'>{format(addDays(BACHELOR_PARTY_DATE, 2), `eeee | MMM dd`).toUpperCase()}</Heading>
+		<List>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Brunch ~11:00am at Tacoya | <Link href='https://www.tocayopgh.com'>810 Ivy Street. Pittsburgh, PA, 15232</Link>
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Travel to Ross Park Mall | <Link href='https://www.simon.com/mall/ross-park-mall'>1000 Ross Park Mall Dr</Link>
+				<List>
+					<ListItem>
+						<ListIcon as={PiPaperPlaneRightFill} />
+						Visit to Lush for face masks for the evening and Sephora too for any last minute spa night needs
+					</ListItem>
+				</List>
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Dinner Plans: Salad Bar (And for Dessert a Sundae Bar!)
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Spa & Girls Night in for Evening Plans | Facials, Pedicures, Fun & More
+			</ListItem>
+		</List>
+
+		<Heading size='lg'>{format(addDays(BACHELOR_PARTY_DATE, 3), `eeee | MMM dd`).toUpperCase()}</Heading>
+		<List>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Check out by 11:00am
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Travel back to apartment and or airport
+			</ListItem>
+			<ListItem>
+				<ListIcon as={PiDiamondsFourFill} />
+				Final hugs and good vibes for the bride to be
+			</ListItem>
+		</List>
+	</>
+)
+
 export default function Index() {
 	return (
 		<Grid position='relative' py={8}>
@@ -41,138 +175,7 @@ export default function Index() {
 					Thank you for coming to celebrate Rachel (and Justin) this weekend! Looking forward to showering her with love
 					and excitement with you. Feel free to call or text Rachel or Emily with any questions.
 				</Text>
-				<Heading size='lg'>{format(BACHELOR_PARTY_DATE, `eeee 'night' | MMM dd`).toUpperCase()}</Heading>
-				<List>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Check into AirBnB starting at 4pm |{' '}
-						<Link href='https://www.airbnb.com/rooms/791361035137512167'>5424 Howe St. Pittsburgh, PA 15232</Link>
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Decorate AirBnB
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Low-key evening of appetizers for dinner & games | Activities:
-						<List>
-							<ListItem>
-								<ListIcon as={PiPaperPlaneRightFill} />
-								Power Hour Kick Off
-							</ListItem>
-							<ListItem>
-								<ListIcon as={PiPaperPlaneRightFill} />
-								Rachel's Favorite Things
-								<List>
-									<ListItem>
-										<ListIcon as={PiSquareFill} />
-										As we all know, Rachel is like Oprah for her recommendations of all her favorite items! What Rachel
-										says is great and a must-have immediately requires a purchase. In the spirit of sharing favorite
-										things, each person should bring an item that costs less than $25 that's a favorite item for a
-										white-elephant style exchange!
-									</ListItem>
-								</List>
-							</ListItem>
-						</List>
-					</ListItem>
-				</List>
-
-				<Heading size='lg'>{format(addDays(BACHELOR_PARTY_DATE, 1), `eeee | MMM dd`).toUpperCase()}</Heading>
-				<List>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						11:45am Ritual House Brunch Reservation |{' '}
-						<Link href='https://www.ritualhousepgh.com'>534 William Penn Place Pittsburgh, PA 15219</Link>
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Post Brunch (~2:00pm) Go to Rachel & Justin's Apartment for Cookout & Games
-						<List>
-							<ListItem>
-								<ListIcon as={PiPaperPlaneRightFill} />
-								Address: 434 Fifth Ave Apt 1243 Pittsburgh, PA 12519
-							</ListItem>
-						</List>
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Evening Plans
-						<List>
-							<ListItem>
-								<ListIcon as={PiPaperPlaneRightFill} />
-								Visit the Strip District | Options:
-								<List>
-									<ListItem>
-										<ListIcon as={PiSquareFill} />
-										City Winery
-									</ListItem>
-									<ListItem>
-										<ListIcon as={PiSquareFill} />
-										The PA Market
-									</ListItem>
-									<ListItem>
-										<ListIcon as={PiSquareFill} />
-										Penn Society
-									</ListItem>
-									<ListItem>
-										<ListIcon as={PiSquareFill} />
-										Bar Marco
-									</ListItem>
-								</List>
-							</ListItem>
-						</List>
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Outfit for the Day - Denim! If you have a fun denim outfit, feel free to pack it for this day. There's also
-						a small pool on the rooftop of Rachel & Justin's apartment, if you want to bring a swimsuit for the rooftop,
-						feel free!
-					</ListItem>
-				</List>
-
-				<Heading size='lg'>{format(addDays(BACHELOR_PARTY_DATE, 2), `eeee | MMM dd`).toUpperCase()}</Heading>
-				<List>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Brunch ~11:00am at Tacoya |{' '}
-						<Link href='https://www.tocayopgh.com'>810 Ivy Street. Pittsburgh, PA, 15232</Link>
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Travel to Ross Park Mall |{' '}
-						<Link href='https://www.simon.com/mall/ross-park-mall'>1000 Ross Park Mall Dr</Link>
-						<List>
-							<ListItem>
-								<ListIcon as={PiPaperPlaneRightFill} />
-								Visit to Lush for face masks for the evening and Sephora too for any last minute spa night needs
-							</ListItem>
-						</List>
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Dinner Plans: Salad Bar (And for Dessert a Sundae Bar!)
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Spa & Girls Night in for Evening Plans | Facials, Pedicures, Fun & More
-					</ListItem>
-				</List>
-
-				<Heading size='lg'>{format(addDays(BACHELOR_PARTY_DATE, 3), `eeee | MMM dd`).toUpperCase()}</Heading>
-				<List>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Check out by 11:00am
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Travel back to apartment and or airport
-					</ListItem>
-					<ListItem>
-						<ListIcon as={PiDiamondsFourFill} />
-						Final hugs and good vibes for the bride to be
-					</ListItem>
-				</List>
+				<Schedule />
 
 				<Heading size='lg'>Things to do Before the Weekend</Heading>
 				<List>

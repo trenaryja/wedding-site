@@ -28,7 +28,6 @@ export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 
 	return (
 		<Box w='100%' border='1px' p={5} {...rest}>
-			{/* eslint-disable @eslint-react/no-array-index-key -- the same index subscripts svgElementsRef.current below, so the index is the identity */}
 			{lines.map((line, i) => (
 				<svg
 					key={i}
@@ -41,7 +40,6 @@ export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 					</text>
 				</svg>
 			))}
-			{/* eslint-enable @eslint-react/no-array-index-key */}
 			<CountDown />
 		</Box>
 	)

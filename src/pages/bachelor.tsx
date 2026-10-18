@@ -1,6 +1,6 @@
 import { SleepingArrangements, TimelineItem } from '@/components'
-import { BACHELOR_PARTY_DATE } from '@/utils'
-import { Box, Button, Grid, Heading, Image, Link, Text, useTheme } from '@chakra-ui/react'
+import { BACHELOR_PARTY_DATE, useTheme } from '@/utils'
+import { Box, Button, Grid, Heading, Image, Link, Text } from '@chakra-ui/react'
 import { addDays, format } from 'date-fns'
 import { FaGolfBall, FaPlaneArrival, FaPlaneDeparture, FaShip } from 'react-icons/fa'
 
@@ -8,7 +8,76 @@ const waiverUrl = 'https://stbd.io/pzSvcR'
 
 const titleFormat = (date: Date) => format(date, 'eeee - M/d').toUpperCase()
 
-// eslint-disable-next-line max-lines-per-function -- a Pages Router page assembles a whole route: a large aggregator by convention, not tangled control flow
+const Itinerary = () => (
+	<Grid>
+		<TimelineItem icon={<FaPlaneArrival size={16} />} title={titleFormat(BACHELOR_PARTY_DATE)}>
+			<ul>
+				<li>
+					04:00pm: Get to the Airbnb. Let me or Ross know if you need picked up from the airport and we'll figure out
+					picking you up.
+				</li>
+				<li>06:00pm: Order a ton of pizza</li>
+				<li>07:00pm: Games. So many games. WV Rules</li>
+				<li>??:??am: Sleep</li>
+			</ul>
+		</TimelineItem>
+
+		<TimelineItem icon={<FaShip size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 1))}>
+			<ul>
+				<li>09:00am: Wake up</li>
+				<li>09:30am: Jay makes breakfast</li>
+				<li>11:00am: Uber to Boat. Address: 238 W Station Square Drive</li>
+				<li>11:45am: Get briefed on boat details</li>
+				<li>12:00pm: Get on boat</li>
+				<li>02:00pm: Get off boat</li>
+				<li>02:01pm: Go to Station Square Subway Station and go North</li>
+				<li>02:20pm: Get off at Steel Plaza Station</li>
+				<li>02:30pm: Go to our Apartment. Address: 434 Fifth Avenue</li>
+				<li>03:00pm: Rooftop party. Grill out</li>
+				<li>03:30pm: Swim, Basketball, Flip Cup, Shuffleboard, etc.</li>
+				<li>06:00pm: Party Bus arrives. Go back to Airbnb</li>
+				<li>
+					06:30pm: Shit, shower, shave, <Link href='https://www.youtube.com/watch?v=spOq3wIO9mk&t=1s'>shamone</Link>
+				</li>
+				<li>07:30pm: Get back on the party bus</li>
+				<li>08:00pm: Barcadia. Address: 24 Market Square</li>
+				<li>09:30pm: Cheerleaders. Address: 3100 Liberty Ave</li>
+				<li>10:29pm: Party Bus arrives. Go back to Airbnb</li>
+				<li>11:00pm: Games</li>
+				<li>??:??am: Sleep</li>
+			</ul>
+		</TimelineItem>
+
+		<TimelineItem icon={<FaGolfBall size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 2))}>
+			<ul>
+				<li>10:00am: Wake up</li>
+				<li>11:15pm: Carpool to TopGolf</li>
+				<li>12:00pm: TopGolf (eat here)</li>
+				<li>02:00pm: Carpool back to Airbnb</li>
+				<li>02:30pm: Lunch/Nap</li>
+				<li>??:??pm: Guitar Hero / Rockband</li>
+				<li>??:??pm: Dance Dance Revolution</li>
+				<li>??:??pm: Mario Kart Drunk Driving</li>
+				<li>??:??pm: Flip Cup</li>
+				<li>??:??pm: Beer Pong</li>
+				<li>??:??pm: Someone microwaves bagel bites and nuggets</li>
+				<li>??:??pm: Circle of Death</li>
+				<li>??:??pm: Cutthroat</li>
+				<li>??:??am: Cricket</li>
+				<li>??:??pm: Ride the Bus</li>
+				<li>??:??pm: Taskmaster/Minute to win it</li>
+			</ul>
+		</TimelineItem>
+
+		<TimelineItem icon={<FaPlaneDeparture size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 3))}>
+			<ul>
+				<li>09:30am: Clean up Airbnb</li>
+				<li>11:00am: Checkout of Airbnb</li>
+			</ul>
+		</TimelineItem>
+	</Grid>
+)
+
 export default function Index() {
 	const theme = useTheme()
 
@@ -72,73 +141,7 @@ export default function Index() {
 
 			<Heading>What's the plan?</Heading>
 
-			<Grid>
-				<TimelineItem icon={<FaPlaneArrival size={16} />} title={titleFormat(BACHELOR_PARTY_DATE)}>
-					<ul>
-						<li>
-							04:00pm: Get to the Airbnb. Let me or Ross know if you need picked up from the airport and we'll figure
-							out picking you up.
-						</li>
-						<li>06:00pm: Order a ton of pizza</li>
-						<li>07:00pm: Games. So many games. WV Rules</li>
-						<li>??:??am: Sleep</li>
-					</ul>
-				</TimelineItem>
-
-				<TimelineItem icon={<FaShip size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 1))}>
-					<ul>
-						<li>09:00am: Wake up</li>
-						<li>09:30am: Jay makes breakfast</li>
-						<li>11:00am: Uber to Boat. Address: 238 W Station Square Drive</li>
-						<li>11:45am: Get briefed on boat details</li>
-						<li>12:00pm: Get on boat</li>
-						<li>02:00pm: Get off boat</li>
-						<li>02:01pm: Go to Station Square Subway Station and go North</li>
-						<li>02:20pm: Get off at Steel Plaza Station</li>
-						<li>02:30pm: Go to our Apartment. Address: 434 Fifth Avenue</li>
-						<li>03:00pm: Rooftop party. Grill out</li>
-						<li>03:30pm: Swim, Basketball, Flip Cup, Shuffleboard, etc.</li>
-						<li>06:00pm: Party Bus arrives. Go back to Airbnb</li>
-						<li>
-							06:30pm: Shit, shower, shave, <Link href='https://www.youtube.com/watch?v=spOq3wIO9mk&t=1s'>shamone</Link>
-						</li>
-						<li>07:30pm: Get back on the party bus</li>
-						<li>08:00pm: Barcadia. Address: 24 Market Square</li>
-						<li>09:30pm: Cheerleaders. Address: 3100 Liberty Ave</li>
-						<li>10:29pm: Party Bus arrives. Go back to Airbnb</li>
-						<li>11:00pm: Games</li>
-						<li>??:??am: Sleep</li>
-					</ul>
-				</TimelineItem>
-
-				<TimelineItem icon={<FaGolfBall size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 2))}>
-					<ul>
-						<li>10:00am: Wake up</li>
-						<li>11:15pm: Carpool to TopGolf</li>
-						<li>12:00pm: TopGolf (eat here)</li>
-						<li>02:00pm: Carpool back to Airbnb</li>
-						<li>02:30pm: Lunch/Nap</li>
-						<li>??:??pm: Guitar Hero / Rockband</li>
-						<li>??:??pm: Dance Dance Revolution</li>
-						<li>??:??pm: Mario Kart Drunk Driving</li>
-						<li>??:??pm: Flip Cup</li>
-						<li>??:??pm: Beer Pong</li>
-						<li>??:??pm: Someone microwaves bagel bites and nuggets</li>
-						<li>??:??pm: Circle of Death</li>
-						<li>??:??pm: Cutthroat</li>
-						<li>??:??am: Cricket</li>
-						<li>??:??pm: Ride the Bus</li>
-						<li>??:??pm: Taskmaster/Minute to win it</li>
-					</ul>
-				</TimelineItem>
-
-				<TimelineItem icon={<FaPlaneDeparture size={16} />} title={titleFormat(addDays(BACHELOR_PARTY_DATE, 3))}>
-					<ul>
-						<li>09:30am: Clean up Airbnb</li>
-						<li>11:00am: Checkout of Airbnb</li>
-					</ul>
-				</TimelineItem>
-			</Grid>
+			<Itinerary />
 
 			<Heading>How much will this cost?</Heading>
 
@@ -184,7 +187,6 @@ export default function Index() {
 					allowFullScreen={true}
 				/>
 			</Box>
-			{/* eslint-disable-next-line jsx-a11y/media-has-caption -- no caption track exists for this clip */}
 			<video controls>
 				<source src='PartyElephant.webm' type='video/webm' />
 			</video>

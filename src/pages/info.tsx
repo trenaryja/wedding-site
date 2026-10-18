@@ -14,7 +14,62 @@ const StarInfo = ({ children }: { children: string }) => (
 	</Text>
 )
 
-// eslint-disable-next-line max-lines-per-function -- a Pages Router page assembles a whole route: a large aggregator by convention, not tangled control flow
+const OTHER_HOTELS = [
+	{
+		name: 'Joinery Hotel Pittsburgh, Curio Collection by Hilton',
+		address: '453 Boulevard of the Allies, Pittsburgh, PA 15219',
+		directions: 'https://maps.app.goo.gl/13Yanqds3C43puLt8',
+	},
+	{
+		name: 'Even Hotel Pittsburgh Downtown, an IHG Hotel',
+		address: '425 Forbes Ave, Pittsburgh, PA 15219 ',
+		directions: 'https://maps.app.goo.gl/CfGNModu5GwaBJXE8',
+	},
+	{
+		name: 'SpringHill Suites by Marriott Pittsburgh Southside Works',
+		address: '2950 S Water St, Pittsburgh, PA 15203',
+		directions: 'https://maps.app.goo.gl/1SWcJ22oojoHX4G68',
+	},
+]
+
+const HotelSection = () => (
+	<>
+		<Heading id='hotel'>What Hotel?</Heading>
+
+		<Text>Sheraton Pittsburgh Hotel at Station Square</Text>
+		<Text>Address: 300 W Station Square Dr, Pittsburgh, PA 15219</Text>
+		<Link href='https://goo.gl/maps/uLaMmEuRCvS9Vb5Q7' target='_blank'>
+			<Button leftIcon={<FaMapMarkerAlt />}>Click here to get directions</Button>
+		</Link>
+
+		{/* TODO: add gcal link: */}
+		<Text>
+			Reserve your room by calling <Link href='tel:4122612000'>412-261-2000</Link> & requesting a room in the
+			Hamilton/Trenary Wedding Room Block. This hotel fills up quick so be sure to call soon and lock your room in
+			before <StarInfo>October 10th!</StarInfo>
+		</Text>
+
+		<Text>
+			If you miss the block or just prefer a different vibe of a hotel, no worries! A few of our favorites are below to
+			help you narrow your search.
+		</Text>
+
+		<Grid px={10} gap={5}>
+			{OTHER_HOTELS.map(({ name, address, directions }) => (
+				<Grid key={name} gap={2}>
+					<Text>{name}</Text>
+					<Text>{address}</Text>
+					<Link href={directions} target='_blank'>
+						<Button size='sm' leftIcon={<FaMapMarkerAlt />}>
+							Click here to get directions
+						</Button>
+					</Link>
+				</Grid>
+			))}
+		</Grid>
+	</>
+)
+
 export default function Index() {
 	const theme = useTheme()
 
@@ -61,55 +116,7 @@ export default function Index() {
 
 			<Image src='parking-map.webp' alt='parking map' borderRadius='3xl' />
 
-			<Heading id='hotel'>What Hotel?</Heading>
-
-			<Text>Sheraton Pittsburgh Hotel at Station Square</Text>
-			<Text>Address: 300 W Station Square Dr, Pittsburgh, PA 15219</Text>
-			<Link href='https://goo.gl/maps/uLaMmEuRCvS9Vb5Q7' target='_blank'>
-				<Button leftIcon={<FaMapMarkerAlt />}>Click here to get directions</Button>
-			</Link>
-
-			{/* TODO: add gcal link: */}
-			<Text>
-				Reserve your room by calling <Link href='tel:4122612000'>412-261-2000</Link> & requesting a room in the
-				Hamilton/Trenary Wedding Room Block. This hotel fills up quick so be sure to call soon and lock your room in
-				before <StarInfo>October 10th!</StarInfo>
-			</Text>
-
-			<Text>
-				If you miss the block or just prefer a different vibe of a hotel, no worries! A few of our favorites are below
-				to help you narrow your search.
-			</Text>
-
-			<Grid px={10} gap={5}>
-				<Grid gap={2}>
-					<Text>Joinery Hotel Pittsburgh, Curio Collection by Hilton</Text>
-					<Text>453 Boulevard of the Allies, Pittsburgh, PA 15219</Text>
-					<Link href='https://maps.app.goo.gl/13Yanqds3C43puLt8' target='_blank'>
-						<Button size='sm' leftIcon={<FaMapMarkerAlt />}>
-							Click here to get directions
-						</Button>
-					</Link>
-				</Grid>
-				<Grid gap={2}>
-					<Text>Even Hotel Pittsburgh Downtown, an IHG Hotel</Text>
-					<Text>425 Forbes Ave, Pittsburgh, PA 15219 </Text>
-					<Link href='https://maps.app.goo.gl/CfGNModu5GwaBJXE8' target='_blank'>
-						<Button size='sm' leftIcon={<FaMapMarkerAlt />}>
-							Click here to get directions
-						</Button>
-					</Link>
-				</Grid>
-				<Grid gap={2}>
-					<Text>SpringHill Suites by Marriott Pittsburgh Southside Works</Text>
-					<Text>2950 S Water St, Pittsburgh, PA 15203</Text>
-					<Link href='https://maps.app.goo.gl/1SWcJ22oojoHX4G68' target='_blank'>
-						<Button size='sm' leftIcon={<FaMapMarkerAlt />}>
-							Click here to get directions
-						</Button>
-					</Link>
-				</Grid>
-			</Grid>
+			<HotelSection />
 
 			{/* TODO: Image carousel of hotel */}
 
