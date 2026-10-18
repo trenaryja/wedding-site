@@ -22,9 +22,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return
 	}
 
-	if (process.env.NODE_ENV !== 'development')
-		res.json(await twilioClient.messages.create({ from: env.TWILIO_PHONE_NUMBER, to: formattedTo, body }))
-	res.json(body)
+	if (process.env.NODE_ENV === 'development') res.json(body)
+	else res.json(await twilioClient.messages.create({ from: env.TWILIO_PHONE_NUMBER, to: formattedTo, body }))
 }
 
 export default handler
