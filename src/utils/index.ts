@@ -10,6 +10,17 @@ export const JUSTIN_VENMO = 'https://account.venmo.com/u/trenaryja'
 export const CONTENT_WIDTH = 'min(70ch, calc(100% - 2rem))'
 export const FACTORIAL_52 = 80658175170943878571660636856403766975289505440883277824000000000000n
 
+/** `try`/`catch`/`finally` for component handlers, which React Compiler skips when they hold a `finally`. */
+export const settle = async (work: () => Promise<void>, onError: (error: unknown) => void, onSettled: () => void) => {
+	try {
+		await work()
+	} catch (error) {
+		onError(error)
+	} finally {
+		onSettled()
+	}
+}
+
 export const padStart = (num: number, length: number, char = '0') => {
 	return `${char.repeat(length)}${num}`.slice(-length)
 }

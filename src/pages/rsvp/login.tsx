@@ -1,6 +1,6 @@
 import { FullScreenLoader, OtpInput, PhoneInput } from '@/components'
 import { useSession } from '@/hooks'
-import { logout, padStart, sendOtp, validateOtp } from '@/utils'
+import { logout, padStart, sendOtp, settle, validateOtp } from '@/utils'
 import { Button, FormControl, FormErrorMessage, FormHelperText, Grid, Heading, HStack, Spinner } from '@chakra-ui/react'
 import { intervalToDuration } from 'date-fns'
 import type { BaseSyntheticEvent } from 'react'
@@ -39,34 +39,34 @@ export default function Login() {
 
 	const handleCancel = async () => await mutateSession(await logout())
 
-	const handleSubmitPhone = async (e: BaseSyntheticEvent) => {
-		try {
-			e.preventDefault()
-			if (error) return
-			setLoading(true)
-			await mutateSession(await sendOtp(phone))
-			setRemainingTime(2 * 60 * 1000)
-			setError(null)
-		} catch (err) {
-			setError(err instanceof Error ? err : new Error(String(err)))
-		} finally {
-			setLoading(false)
-		}
-	}
+	const onSubmitError = (err: unknown) => setError(err instanceof Error ? err : new Error(String(err)))
 
-	const handleSubmitOtp = async (e: BaseSyntheticEvent) => {
-		try {
-			e.preventDefault()
-			if (error) return
-			setLoading(true)
-			await mutateSession(await validateOtp(otp))
-			setError(null)
-		} catch (err) {
-			setError(err instanceof Error ? err : new Error(String(err)))
-		} finally {
-			setLoading(false)
-		}
-	}
+	const handleSubmitPhone = (e: BaseSyntheticEvent) =>
+		settle(
+			async () => {
+				e.preventDefault()
+				if (error) return
+				setLoading(true)
+				await mutateSession(await sendOtp(phone))
+				setRemainingTime(2 * 60 * 1000)
+				setError(null)
+			},
+			onSubmitError,
+			() => setLoading(false),
+		)
+
+	const handleSubmitOtp = (e: BaseSyntheticEvent) =>
+		settle(
+			async () => {
+				e.preventDefault()
+				if (error) return
+				setLoading(true)
+				await mutateSession(await validateOtp(otp))
+				setError(null)
+			},
+			onSubmitError,
+			() => setLoading(false),
+		)
 
 	const handleSubmitForm = hasOtp ? handleSubmitOtp : handleSubmitPhone
 	const heading = hasOtp ? 'Enter Passcode' : 'Enter Phone Number'

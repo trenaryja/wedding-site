@@ -1,7 +1,7 @@
 import { FadeGallery, FullScreenLoader, NoYes } from '@/components'
 import { useSession } from '@/hooks'
 import type { Properties } from '@/utils'
-import { logout, setSessionUser, SUIT_STATUSES, updateNotionUser, WEDDING_DATE } from '@/utils'
+import { logout, setSessionUser, settle, SUIT_STATUSES, updateNotionUser, WEDDING_DATE } from '@/utils'
 import {
 	Button,
 	Flex,
@@ -176,15 +176,20 @@ export default function Index() {
 
 	const onUpdate: SectionProps['onUpdate'] = async (patch, message) => {
 		setIsLoading(true)
-		try {
-			const updated = await updateNotionUser({ ...user, properties: { ...properties, ...patch } })
-			await mutateSession(await setSessionUser(updated))
-			toast({ ...message, status: 'success' })
-		} catch (err) {
-			toast({ title: 'Update failed', description: err instanceof Error ? err.message : String(err), status: 'error' })
-		} finally {
-			setIsLoading(false)
-		}
+		await settle(
+			async () => {
+				const updated = await updateNotionUser({ ...user, properties: { ...properties, ...patch } })
+				await mutateSession(await setSessionUser(updated))
+				toast({ ...message, status: 'success' })
+			},
+			(err) =>
+				toast({
+					title: 'Update failed',
+					description: err instanceof Error ? err.message : String(err),
+					status: 'error',
+				}),
+			() => setIsLoading(false),
+		)
 	}
 
 	const handleChangeAttendance = (isAttending: boolean) =>

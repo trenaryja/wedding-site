@@ -1,4 +1,4 @@
-import { sendSms } from '@/utils'
+import { sendSms, settle } from '@/utils'
 import type { BoxProps } from '@chakra-ui/react'
 import { Box, Button, FormControl, FormErrorMessage, FormHelperText, Textarea, useToast } from '@chakra-ui/react'
 import type { BaseSyntheticEvent } from 'react'
@@ -12,19 +12,18 @@ export const SmsForm = (props: BoxProps) => {
 	const [error, setError] = useState<Error | null>()
 	const toast = useToast()
 
-	const handleSendSms = async (e: BaseSyntheticEvent) => {
-		try {
-			e.preventDefault()
-			if (error) return
-			setLoading(true)
-			await sendSms(to, body)
-			toast({ title: 'SMS sent!', status: 'success' })
-		} catch (caughtError) {
-			setError(caughtError instanceof Error ? caughtError : new Error(String(caughtError)))
-		} finally {
-			setLoading(false)
-		}
-	}
+	const handleSendSms = (e: BaseSyntheticEvent) =>
+		settle(
+			async () => {
+				e.preventDefault()
+				if (error) return
+				setLoading(true)
+				await sendSms(to, body)
+				toast({ title: 'SMS sent!', status: 'success' })
+			},
+			(caughtError) => setError(caughtError instanceof Error ? caughtError : new Error(String(caughtError))),
+			() => setLoading(false),
+		)
 
 	const handleValidate = () => {
 		if (to && to.length < 10) setError(new Error('Please enter a valid phone number'))
