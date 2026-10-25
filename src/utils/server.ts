@@ -2,10 +2,10 @@ import { env } from '@/env'
 import type { NotionUser, Session } from '@/utils'
 import { notionUserSchema, parseOrThrow } from '@/utils'
 import { Client } from '@notionhq/client'
-import crypto from 'crypto'
 import type { SessionOptions } from 'iron-session'
 import { getIronSession } from 'iron-session'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import crypto from 'node:crypto'
 import twilio from 'twilio'
 import { z } from 'zod'
 
@@ -13,7 +13,7 @@ const sessionOptions: SessionOptions = {
 	password: env.IRON_SESSION_COOKIE_PW,
 	cookieName: 'trenary.love',
 	cookieOptions: {
-		secure: process.env.NODE_ENV === 'production',
+		secure: env.NODE_ENV === 'production',
 	},
 }
 
@@ -43,20 +43,13 @@ export const notionClient = new Client({ auth: env.NOTION_TOKEN })
 
 export const twilioClient = twilio(env.TWILIO_ACCOUNT_SID, env.TWILIO_AUTH_TOKEN)
 
-export const validateE164PhoneNumber = (value: string) => {
-	return /^\+1\d{10}$/.test(value)
-}
+export const validateE164PhoneNumber = (value: string) => /^\+1\d{10}$/.test(value)
 
-export const generateOtp = (length = 4) => {
-	const dict = '0123456789'
-	let OTP = ''
-
-	for (let i = 0; i < length; i++) {
-		OTP += dict[Math.floor(Math.random() * dict.length)]
-	}
-
-	return OTP
-}
+export const generateOtp = (length = 4) =>
+	crypto
+		.randomInt(10 ** length)
+		.toString()
+		.padStart(length, '0')
 
 export const getNotionUsers = async () => {
 	const users: NotionUser[] = []
@@ -67,7 +60,7 @@ export const getNotionUsers = async () => {
 		cursor = query.next_cursor ?? undefined
 	} while (cursor)
 
-	return users.sort((a, b) =>
+	return users.toSorted((a, b) =>
 		(a.properties.Name.title[0]?.text.content ?? '').localeCompare(b.properties.Name.title[0]?.text.content ?? ''),
 	)
 }
@@ -76,10 +69,10 @@ const encryptionParams = ['aes-256-ecb', env.IRON_SESSION_COOKIE_PW, null] as co
 
 export const encrypt = (text: string) => {
 	const cipher = crypto.createCipheriv(...encryptionParams)
-	return cipher.update(text, 'utf-8', 'hex') + cipher.final('hex')
+	return cipher.update(text, 'utf8', 'hex') + cipher.final('hex')
 }
 
 export const decrypt = (encryptedText: string) => {
 	const decipher = crypto.createDecipheriv(...encryptionParams)
-	return decipher.update(encryptedText, 'hex', 'utf-8') + decipher.final('utf-8')
+	return decipher.update(encryptedText, 'hex', 'utf8') + decipher.final('utf8')
 }
