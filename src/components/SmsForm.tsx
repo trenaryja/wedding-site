@@ -12,10 +12,10 @@ export const SmsForm = (props: BoxProps) => {
 	const [error, setError] = useState<Error | null>()
 	const toast = useToast()
 
-	const handleSendSms = (e: BaseSyntheticEvent) =>
-		settle(
+	const handleSendSms = (e: BaseSyntheticEvent) => {
+		e.preventDefault()
+		return settle(
 			async () => {
-				e.preventDefault()
 				if (error) return
 				setLoading(true)
 				await sendSms(to, body)
@@ -24,6 +24,7 @@ export const SmsForm = (props: BoxProps) => {
 			(caughtError) => setError(caughtError instanceof Error ? caughtError : new Error(String(caughtError))),
 			() => setLoading(false),
 		)
+	}
 
 	const handleValidate = () => {
 		if (to && to.length < 10) setError(new Error('Please enter a valid phone number'))

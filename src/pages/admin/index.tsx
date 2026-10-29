@@ -4,9 +4,8 @@ import { logout } from '@/utils'
 import { Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalOverlay, Spinner } from '@chakra-ui/react'
 import { useState } from 'react'
 
-type ModalOption = 'sms' | 'twilio' | 'user'
-
 export default function Index() {
+	type ModalOption = 'sms' | 'twilio' | 'user'
 	const { session, mutateSession } = useSession({
 		redirectTo: '/admin/login',
 		redirectIfNotAdmin: true,
@@ -14,7 +13,7 @@ export default function Index() {
 
 	const [modal, setModal] = useState<ModalOption | null>(null)
 
-	if (!session || !session.isAdmin) return <Spinner placeSelf='center' />
+	if (!session?.isAdmin) return <Spinner placeSelf='center' />
 
 	const handleLogout = async () => await mutateSession(await logout())
 

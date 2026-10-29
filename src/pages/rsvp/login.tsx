@@ -24,13 +24,15 @@ export default function Login() {
 				setRemainingTime(remainingTime - 1000)
 				return
 			}
-			if (hasOtp) {
-				setError(new Error('OTP expired. Please try again.'))
-				void logout().then(mutateSession)
-			}
+			if (!hasOtp) return
+
+			setError(new Error('OTP expired. Please try again.'))
+			void logout().then(mutateSession)
 		}, 1000)
 		return () => clearInterval(interval)
 	}, [hasOtp, mutateSession, remainingTime])
+
+	if (!session) return <Spinner placeSelf='center' />
 
 	const handleValidatePhone = () => {
 		setError(null)
@@ -41,10 +43,10 @@ export default function Login() {
 
 	const onSubmitError = (err: unknown) => setError(err instanceof Error ? err : new Error(String(err)))
 
-	const handleSubmitPhone = (e: BaseSyntheticEvent) =>
-		settle(
+	const handleSubmitPhone = (e: BaseSyntheticEvent) => {
+		e.preventDefault()
+		return settle(
 			async () => {
-				e.preventDefault()
 				if (error) return
 				setLoading(true)
 				await mutateSession(await sendOtp(phone))
@@ -54,11 +56,12 @@ export default function Login() {
 			onSubmitError,
 			() => setLoading(false),
 		)
+	}
 
-	const handleSubmitOtp = (e: BaseSyntheticEvent) =>
-		settle(
+	const handleSubmitOtp = (e: BaseSyntheticEvent) => {
+		e.preventDefault()
+		return settle(
 			async () => {
-				e.preventDefault()
 				if (error) return
 				setLoading(true)
 				await mutateSession(await validateOtp(otp))
@@ -67,14 +70,13 @@ export default function Login() {
 			onSubmitError,
 			() => setLoading(false),
 		)
+	}
 
 	const handleSubmitForm = hasOtp ? handleSubmitOtp : handleSubmitPhone
 	const heading = hasOtp ? 'Enter Passcode' : 'Enter Phone Number'
 	const submitButtonText = hasOtp ? 'Submit Passcode' : 'Send Passcode'
 	const duration = intervalToDuration({ start: 0, end: remainingTime })
 	const formattedRemainingTime = `${padStart(duration.minutes ?? 0, 2)}:${padStart(duration.seconds ?? 0, 2)}`
-
-	if (!session) return <Spinner placeSelf='center' />
 
 	return (
 		<>

@@ -19,20 +19,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 
 	switch (req.method) {
-		case 'GET': {
+		case 'GET':
 			res.json(await getNotionUsers())
 			break
-		}
 		case 'PUT': {
 			const body = parseBody(putBodySchema, req, res)
 			if (!body) return
 			res.json(await notionClient.pages.update({ page_id: body.data.id, properties: body.data.properties }))
 			break
 		}
-		default: {
+		default:
 			res.setHeader('Allow', 'GET, PUT')
 			res.status(405).json({ message: 'Method Not Allowed' })
-		}
 	}
 }
 

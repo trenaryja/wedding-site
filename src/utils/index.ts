@@ -8,7 +8,7 @@ export const BACHELOR_PARTY_DATE = new Date('2023-09-01T05:00:00-05:00')
 export const RACHEL_VENMO = 'https://account.venmo.com/u/rachel-hamilton-23'
 export const JUSTIN_VENMO = 'https://account.venmo.com/u/trenaryja'
 export const CONTENT_WIDTH = 'min(70ch, calc(100% - 2rem))'
-export const FACTORIAL_52 = 80658175170943878571660636856403766975289505440883277824000000000000n
+export const FACTORIAL_52 = 80_658_175_170_943_878_571_660_636_856_403_766_975_289_505_440_883_277_824_000_000_000_000n
 
 /** `try`/`catch`/`finally` for component handlers, which React Compiler skips when they hold a `finally`. */
 export const settle = async (work: () => Promise<void>, onError: (error: unknown) => void, onSettled: () => void) => {
@@ -21,9 +21,7 @@ export const settle = async (work: () => Promise<void>, onError: (error: unknown
 	}
 }
 
-export const padStart = (num: number, length: number, char = '0') => {
-	return `${char.repeat(length)}${num}`.slice(-length)
-}
+export const padStart = (num: number, length: number, char = '0') => `${char.repeat(length)}${num}`.slice(-length)
 
 export const chunk = <T>(a: T[], n: number) => {
 	if (n < 2) return [a]
@@ -48,7 +46,7 @@ export const chunk = <T>(a: T[], n: number) => {
 
 export const formatPhoneNumber = (value?: string) => {
 	if (!value) return value
-	const numberValue = value.replace(/\D/g, '')
+	const numberValue = value.replaceAll(/\D/g, '')
 
 	if (numberValue.length < 4) return numberValue
 	if (numberValue.length < 7) return `(${numberValue.slice(0, 3)}) ${numberValue.slice(3)}`

@@ -39,8 +39,8 @@ export const FadeGallery = ({ urls, duration = 1000, fadeDuration }: FadeGallery
 			<Box
 				{...commonImageProps}
 				backgroundImage={`url(${urls[index]})`}
-				transition={`opacity ${!toggle ? _fadeDuration : 0}ms`}
-				opacity={!toggle ? 1 : 0}
+				transition={`opacity ${toggle ? 0 : _fadeDuration}ms`}
+				opacity={toggle ? 0 : 1}
 			/>
 		</Box>
 	)

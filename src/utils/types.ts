@@ -1,5 +1,5 @@
-import { notionUserSchema } from './notion'
 import { z } from 'zod'
+import { notionUserSchema } from './notion'
 
 export const sessionSchema = z.object({
 	isLoggedIn: z.boolean(),

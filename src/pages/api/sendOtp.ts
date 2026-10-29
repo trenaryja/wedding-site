@@ -21,13 +21,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const request = parseBody(bodySchema, req, res)
 	if (!request) return
 	const { to } = request
-	const formattedTo = `+1${to}`
-
 	if (!to) {
 		res.status(400).json({ message: 'Missing phone number' })
 		return
 	}
 
+	const formattedTo = `+1${to}`
 	if (!validateE164PhoneNumber(formattedTo)) {
 		res.status(400).json({ message: 'Not a valid E.164 formatted US phone number' })
 		return
@@ -44,7 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	console.log('OTP:', otp)
 
 	const body = `Your One-Time Passcode (OTP) is: ${otp}`
-	if (process.env.NODE_ENV !== 'development')
+	if (env.NODE_ENV !== 'development')
 		await twilioClient.messages.create({ from: env.TWILIO_PHONE_NUMBER, to: formattedTo, body })
 
 	const timeout = addMinutes(new Date(), 2).toISOString()

@@ -16,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 
 	switch (req.method) {
-		case 'GET': {
+		case 'GET':
 			if (session.data) {
 				if (session.data.timeout && Date.parse(session.data.timeout) >= Date.now()) {
 					res.json(session.data)
@@ -38,7 +38,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 			res.json(defaultSession)
 			break
-		}
 		case 'POST':
 		case 'PUT': {
 			const body = parseBody(bodySchema, req, res)
@@ -51,15 +50,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			await updateSession(req, res, { ...currentSession, user: body.user })
 			break
 		}
-		case 'DELETE': {
+		case 'DELETE':
 			session.destroy()
 			res.json(defaultSession)
 			break
-		}
-		default: {
+		default:
 			res.setHeader('Allow', 'GET, POST, PUT, DELETE')
 			res.status(405).json({ message: 'Method Not Allowed' })
-		}
 	}
 }
 

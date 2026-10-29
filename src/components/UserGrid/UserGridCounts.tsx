@@ -1,6 +1,6 @@
+import type { Properties } from '@/utils'
 import type { StackProps } from '@chakra-ui/react'
 import { Grid, Heading, Text, VStack } from '@chakra-ui/react'
-import type { Properties } from '@/utils'
 import type { UserTable } from '.'
 
 export type UserGridCountsProps = {

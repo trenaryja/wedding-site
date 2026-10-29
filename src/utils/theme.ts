@@ -53,6 +53,4 @@ export const chakraTheme = extendTheme({
 	},
 })
 
-export const useTheme = () => {
-	return useChakraTheme<Theme>()
-}
+export const useTheme = () => useChakraTheme<Theme>()

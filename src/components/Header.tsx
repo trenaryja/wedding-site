@@ -19,16 +19,14 @@ const MenuItem = ({ children, to, ...props }: MenuItemProps) => {
 	)
 }
 
-export const Header = () => {
-	return (
-		<Flex as='header' justifyContent='space-around' className='full-bleed' bg='blackAlpha.500' p={5} mb={10}>
-			<MenuItem to='/' textDecoration='none' color='transparent' textShadow='0 0 0 #FFF'>
-				❤️
-			</MenuItem>
-			<MenuItem to='/info'>info</MenuItem>
-			<MenuItem to='/people'>people</MenuItem>
-			<MenuItem to='/rsvp'>rsvp</MenuItem>
-			<MenuItem to='/photos'>photos</MenuItem>
-		</Flex>
-	)
-}
+export const Header = () => (
+	<Flex as='header' justifyContent='space-around' className='full-bleed' bg='blackAlpha.500' p={5} mb={10}>
+		<MenuItem to='/' textDecoration='none' color='transparent' textShadow='0 0 0 #FFF'>
+			❤️
+		</MenuItem>
+		<MenuItem to='/info'>info</MenuItem>
+		<MenuItem to='/people'>people</MenuItem>
+		<MenuItem to='/rsvp'>rsvp</MenuItem>
+		<MenuItem to='/photos'>photos</MenuItem>
+	</Flex>
+)

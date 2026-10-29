@@ -7,12 +7,10 @@ const Line = ({ children }: HeadingProps) => (
 	</Heading>
 )
 
-export const OurNames = () => {
-	return (
-		<VStack>
-			<Line>Rachel</Line>
-			<Line>&</Line>
-			<Line>Justin</Line>
-		</VStack>
-	)
-}
+export const OurNames = () => (
+	<VStack>
+		<Line>Rachel</Line>
+		<Line>&</Line>
+		<Line>Justin</Line>
+	</VStack>
+)

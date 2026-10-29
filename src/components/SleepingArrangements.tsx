@@ -18,11 +18,10 @@ export const BedAspectRatio: Record<BedSize, { aspectRatio: number; scale: numbe
 	},
 } as const
 
-export const getBedFromSize = (size: string | BedSize) =>
-	Object.entries(BedAspectRatio).find((x) => size.includes(x[0]))?.[1]
+export const getBedFromSize = (size: string) => Object.entries(BedAspectRatio).find((x) => size.includes(x[0]))?.[1]
 
 export type BedProps = {
-	size: string | BedSize
+	size: string
 	people: string[]
 }
 
@@ -37,7 +36,7 @@ export const Bed = ({ size, people }: BedProps) => {
 	return (
 		<Grid
 			textAlign='center'
-			aspectRatio={`${bed.aspectRatio}`}
+			aspectRatio={bed.aspectRatio}
 			width={`${bed.scale * 100}%`}
 			borderWidth='thin'
 			p={3}
@@ -45,8 +44,8 @@ export const Bed = ({ size, people }: BedProps) => {
 			sx={{ writingMode: 'vertical-rl' }}
 		>
 			<Grid gap={5} autoFlow='column'>
-				<Box bg='whiteAlpha.100' p={5} aspectRatio={`${9 / 16}`} />
-				<Box bg='whiteAlpha.100' p={5} aspectRatio={`${9 / 16}`} />
+				<Box bg='whiteAlpha.100' p={5} aspectRatio={9 / 16} />
+				<Box bg='whiteAlpha.100' p={5} aspectRatio={9 / 16} />
 			</Grid>
 			<Heading size='xs'>{size}</Heading>
 			<Grid>

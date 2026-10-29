@@ -17,9 +17,7 @@ export const useSession = ({
 
 		const contradictions = [redirectIfLoggedIn && redirectIfNotLoggedIn, redirectIfAdmin && redirectIfNotAdmin]
 
-		if (contradictions.some(Boolean)) {
-			throw new Error('useSession: contradictory redirect conditions detected')
-		}
+		if (contradictions.some(Boolean)) throw new Error('useSession: contradictory redirect conditions detected')
 
 		const anyReasonToRedirect = [
 			redirectIfNotLoggedIn && !session.isLoggedIn,
@@ -28,9 +26,7 @@ export const useSession = ({
 			redirectIfAdmin && session.isAdmin,
 		]
 
-		if (anyReasonToRedirect.some(Boolean)) {
-			void Router.push(redirectTo)
-		}
+		if (anyReasonToRedirect.some(Boolean)) void Router.push(redirectTo)
 	}, [session, redirectTo, redirectIfLoggedIn, redirectIfAdmin, redirectIfNotLoggedIn, redirectIfNotAdmin])
 
 	return { session, mutateSession }

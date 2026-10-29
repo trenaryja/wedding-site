@@ -2,9 +2,9 @@ import { useCountdown } from '@/hooks'
 import { WEDDING_DATE } from '@/utils'
 import { Heading, HStack, Text, VStack } from '@chakra-ui/react'
 
-const DateValue = ({ value, label }: { value: number | undefined; label: string }) => (
+const DateValue = ({ value = 0, label }: { value: number | undefined; label: string }) => (
 	<VStack>
-		<Heading>{value ?? 0}</Heading>
+		<Heading>{value}</Heading>
 		<Text>{label}</Text>
 	</VStack>
 )

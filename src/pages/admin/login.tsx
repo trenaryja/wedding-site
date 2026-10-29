@@ -11,7 +11,7 @@ import {
 	Switch,
 	VStack,
 } from '@chakra-ui/react'
-import type { FormEvent } from 'react'
+import type { SubmitEvent } from 'react'
 import { useState } from 'react'
 
 export default function Login() {
@@ -26,15 +26,15 @@ export default function Login() {
 
 	if (!session) return <Spinner placeSelf='center' />
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		if (error) return
 
 		try {
 			await mutateSession(await login(password, useHerPhoneNumber))
 			setError(null)
-		} catch (err: unknown) {
-			setError(err instanceof Error ? err : new Error('Login failed'))
+		} catch (error_: unknown) {
+			setError(error_ instanceof Error ? error_ : new Error('Login failed'))
 		}
 	}
 

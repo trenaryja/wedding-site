@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		await cloudinary.v2.api.resources({ type: 'upload', prefix: 'wedding', max_results: 500 }),
 		'the Cloudinary resources API',
 	)
-	const results = resources.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+	const results = resources.toSorted((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
 
 	// `secure_url`, not `url` — the Admin API's `url` is http:// regardless of `secure: true` above,
 	// which only affects the SDK's URL builders. next/image is configured for https only.

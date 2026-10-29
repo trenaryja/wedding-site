@@ -1,3 +1,10 @@
 {
-	"extends": ["github>trenaryja/config"]
+	"extends": ["github>trenaryja/config//renovate/base"],
+	"packageRules": [
+		{
+			"description": "Chakra 3 is a rewrite; this site stays on 2 until it moves off Chakra",
+			"matchDepNames": ["@chakra-ui/react"],
+			"allowedVersions": "<3"
+		}
+	]
 }

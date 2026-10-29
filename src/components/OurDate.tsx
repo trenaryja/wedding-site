@@ -17,11 +17,11 @@ export const OurDate = ({ lines, props, ...rest }: OurDateProps) => {
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-			svgElementsRef.current.forEach((svg) => {
+			for (const svg of svgElementsRef.current) {
 				const text = svg?.querySelector('text')
 				const bbox = text?.getBBox()
 				svg?.setAttribute('viewBox', [bbox?.x, bbox?.y, bbox?.width, bbox?.height].join(' '))
-			})
+			}
 		}, 500)
 		return () => clearTimeout(timeout)
 	}, [lines])

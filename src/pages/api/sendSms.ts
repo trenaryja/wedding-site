@@ -16,19 +16,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const request = parseBody(bodySchema, req, res)
 	if (!request) return
 	const { to, body } = request
-	const formattedTo = `+1${to}`
-
 	if (!to || !body) {
 		res.status(400).json({ message: 'Missing required fields' })
 		return
 	}
 
+	const formattedTo = `+1${to}`
 	if (!validateE164PhoneNumber(formattedTo)) {
 		res.status(400).json({ message: 'Not a valid E.164 formatted US phone number' })
 		return
 	}
 
-	if (process.env.NODE_ENV === 'development') res.json(body)
+	if (env.NODE_ENV === 'development') res.json(body)
 	else res.json(await twilioClient.messages.create({ from: env.TWILIO_PHONE_NUMBER, to: formattedTo, body }))
 }
 

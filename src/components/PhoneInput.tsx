@@ -12,8 +12,8 @@ export type PhoneInputProps = Omit<InputProps, 'defaultValue' | 'onChange' | 'va
 
 // Chakra v2's forwardRef, not React's: it also wires the `as` prop and theme resolution
 export const PhoneInput = forwardRef(
-	({ value, defaultValue, onChange, showClearButton = true, ...props }: PhoneInputProps, ref) => {
-		const [displayValue, setDisplayValue] = useState(() => formatPhoneNumber(defaultValue ?? value ?? ''))
+	({ value = '', defaultValue = value, onChange, showClearButton = true, ...props }: PhoneInputProps, ref) => {
+		const [displayValue, setDisplayValue] = useState(() => formatPhoneNumber(defaultValue))
 
 		return (
 			<InputGroup justifyContent='center' placeItems='center'>
@@ -25,7 +25,7 @@ export const PhoneInput = forwardRef(
 					onChange={(e) => {
 						const formattedPhoneNumber = formatPhoneNumber(e.target.value) ?? ''
 						setDisplayValue(formattedPhoneNumber)
-						onChange?.(formattedPhoneNumber.replace(/\D/g, ''))
+						onChange?.(formattedPhoneNumber.replaceAll(/\D/g, ''))
 					}}
 					ref={ref}
 					value={displayValue}
