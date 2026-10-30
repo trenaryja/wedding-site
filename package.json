@@ -21,7 +21,7 @@
 		"@types/react-slick": "^0.23.13",
 		"cloudinary": "^2.11.0",
 		"date-fns": "^4.4.0",
-		"framer-motion": "^14.8.0",
+		"framer-motion": "^14.9.0",
 		"google-photos-album-image-url-fetch": "^3.2.0",
 		"iron-session": "^9.0.1",
 		"next": "^16.4.5",
