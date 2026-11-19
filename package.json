@@ -24,7 +24,7 @@
 		"framer-motion": "^10.18.0",
 		"google-photos-album-image-url-fetch": "^3.2.0",
 		"iron-session": "^8.0.4",
-		"next": "16.3.6",
+		"next": "16.4.5",
 		"react": "^19.3.0",
 		"react-dom": "^19.3.0",
 		"react-icons": "^5.7.0",
