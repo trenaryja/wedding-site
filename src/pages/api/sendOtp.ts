@@ -5,7 +5,6 @@ import {
 	encrypt,
 	generateOtp,
 	getNotionUsers,
-	getSession,
 	parseBody,
 	twilioClient,
 	updateSession,
@@ -40,21 +39,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 
 	const otp = generateOtp()
-	console.log('OTP:', otp)
-
 	const body = `Your One-Time Passcode (OTP) is: ${otp}`
-	if (env.NODE_ENV !== 'development')
-		await twilioClient.messages.create({ from: env.TWILIO_PHONE_NUMBER, to: formattedTo, body })
+	if (env.NODE_ENV === 'development') console.log('OTP:', otp)
+	else await twilioClient.messages.create({ from: env.TWILIO_PHONE_NUMBER, to: formattedTo, body })
 
 	const timeout = addMinutes(new Date(), 2).toISOString()
-	const currentSession = (await getSession(req, res)).data ?? defaultSession
-	const session: Session = {
-		...currentSession,
-		otp: encrypt(otp),
-		user,
-		timeout,
-	}
-
+	/** A fresh session, never the current one: spreading it let a logged-in guest become anyone whose phone they knew. */
+	const session: Session = { ...defaultSession, otp: encrypt(otp), otpExpires: timeout, user, timeout }
 	await updateSession(req, res, session)
 }
 

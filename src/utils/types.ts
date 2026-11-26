@@ -5,6 +5,7 @@ export const sessionSchema = z.object({
 	isLoggedIn: z.boolean(),
 	isAdmin: z.boolean(),
 	otp: z.string().optional(),
+	otpExpires: z.string().optional(),
 	user: notionUserSchema.optional(),
 	timeout: z.string().optional(),
 })

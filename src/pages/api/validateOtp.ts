@@ -16,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return
 	}
 
-	if (!session.data?.otp) {
+	if (!session.data?.otp || !session.data.otpExpires || Date.parse(session.data.otpExpires) < Date.now()) {
 		res.status(400).json({ message: 'Passcode timed out. Go back and try again' })
 		return
 	}
@@ -38,7 +38,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 	await notionClient.pages.update({ page_id: user.id, properties })
 
-	const { otp: _oldOtp, ...currentSession } = session.data
+	const { otp: _oldOtp, otpExpires: _oldOtpExpires, ...currentSession } = session.data
 	const timeout = addMinutes(new Date(), 2).toISOString()
 	await updateSession(req, res, { ...currentSession, isLoggedIn: true, timeout })
 }
