@@ -1,7 +1,7 @@
 import { FadeGallery, FullScreenLoader, NoYes } from '@/components'
 import { useSession } from '@/hooks'
-import type { Properties } from '@/utils'
-import { logout, setSessionUser, settle, SUIT_STATUSES, updateNotionUser, WEDDING_DATE } from '@/utils'
+import type { Properties, Session } from '@/utils'
+import { logout, setSessionUser, settle, SUIT_STATUSES, updateMessage, updateNotionUser, WEDDING_DATE } from '@/utils'
 import {
 	Button,
 	Flex,
@@ -36,10 +36,12 @@ const BACHELOR_GIFS = [
 
 const textContent = (content: string) => [{ text: { content } }]
 
+type Toast = { title: string; description: string }
+
 type SectionProps = {
 	properties: Properties
 	isLoading: boolean
-	onUpdate: (patch: Partial<Properties>, message: { title: string; description: string }) => Promise<void>
+	onUpdate: (patch: Partial<Properties>, toast: Toast) => Promise<void>
 }
 
 const PlusOneQuestion = ({ properties, onUpdate }: SectionProps) => (
@@ -116,7 +118,9 @@ const SuitStatusForm = ({ properties, onUpdate }: SectionProps) => (
 	</>
 )
 
-const MessageToUsForm = ({ properties, isLoading, onUpdate }: SectionProps) => {
+type MessageToUsFormProps = Omit<SectionProps, 'onUpdate'> & { onSave: (message: string, toast: Toast) => void }
+
+const MessageToUsForm = ({ properties, isLoading, onSave }: MessageToUsFormProps) => {
 	const messageToUsRef = useRef<HTMLTextAreaElement>(null)
 
 	return (
@@ -132,13 +136,10 @@ const MessageToUsForm = ({ properties, isLoading, onUpdate }: SectionProps) => {
 					isLoading={isLoading}
 					isDisabled={isLoading}
 					onClick={() =>
-						void onUpdate(
-							{ MessageToUs: { rich_text: textContent(messageToUsRef.current?.value ?? '') } },
-							{
-								title: 'Message Updated',
-								description: 'We saved your current message. Thanks for taking the time to write us something!',
-							},
-						)
+						onSave(messageToUsRef.current?.value ?? '', {
+							title: 'Message Updated',
+							description: 'We saved your current message. Thanks for taking the time to write us something!',
+						})
 					}
 				>
 					Submit
@@ -174,13 +175,12 @@ export default function Index() {
 	const { properties } = user
 	const tags = new Set(properties.Tags.multi_select.map((x) => x.name))
 
-	const onUpdate: SectionProps['onUpdate'] = async (patch, message) => {
+	const save = async (request: () => Promise<Session>, success: Toast) => {
 		setIsLoading(true)
 		await settle(
 			async () => {
-				const updated = await updateNotionUser({ ...user, properties: { ...properties, ...patch } })
-				await mutateSession(await setSessionUser(updated))
-				toast({ ...message, status: 'success' })
+				await mutateSession(await request())
+				toast({ ...success, status: 'success' })
 			},
 			(err) =>
 				toast({
@@ -191,6 +191,12 @@ export default function Index() {
 			() => setIsLoading(false),
 		)
 	}
+
+	const onUpdate: SectionProps['onUpdate'] = async (patch, success) =>
+		await save(
+			async () => await setSessionUser(await updateNotionUser({ ...user, properties: { ...properties, ...patch } })),
+			success,
+		)
 
 	const handleChangeAttendance = (isAttending: boolean) =>
 		void onUpdate(
@@ -211,24 +217,32 @@ export default function Index() {
 				<Grid placeItems='center' gap={10}>
 					<Heading>Hello {properties.Name.title[0]?.plain_text}!</Heading>
 
-					<Text>
-						Please let us know if you will be attending. Feel free to update at any time, but we would ask that you
-						please finalize your info by:{' '}
-						<Text as='span' textDecoration='underline'>
-							{RSVP_DEADLINE}
-						</Text>
-					</Text>
+					{session.isAdmin && (
+						<>
+							<Text>
+								Please let us know if you will be attending. Feel free to update at any time, but we would ask that you
+								please finalize your info by:{' '}
+								<Text as='span' textDecoration='underline'>
+									{RSVP_DEADLINE}
+								</Text>
+							</Text>
 
-					<NoYes
-						isDisabled={isLoading}
-						onChange={(value) => handleChangeAttendance(value ?? false)}
-						value={properties.IsAttending.checkbox}
+							<NoYes
+								isDisabled={isLoading}
+								onChange={(value) => handleChangeAttendance(value ?? false)}
+								value={properties.IsAttending.checkbox}
+							/>
+
+							{properties.IsAttending.checkbox && tags.has('+1') && <PlusOneQuestion {...sectionProps} />}
+							{properties.IsPlusOneAttending.checkbox && <PlusOneNameForm {...sectionProps} />}
+							{tags.has('Suit') && <SuitStatusForm {...sectionProps} />}
+						</>
+					)}
+					<MessageToUsForm
+						properties={properties}
+						isLoading={isLoading}
+						onSave={(message, success) => void save(async () => await updateMessage(message), success)}
 					/>
-
-					{properties.IsAttending.checkbox && tags.has('+1') && <PlusOneQuestion {...sectionProps} />}
-					{properties.IsPlusOneAttending.checkbox && <PlusOneNameForm {...sectionProps} />}
-					{tags.has('Suit') && <SuitStatusForm {...sectionProps} />}
-					<MessageToUsForm {...sectionProps} />
 					{tags.has('Bachelor') && <BachelorPartyLink isLoading={isLoading} />}
 
 					<Button isDisabled={isLoading} onClick={() => void handleLogout()}>

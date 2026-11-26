@@ -68,5 +68,8 @@ export const getPhotos = async (signal: AbortSignal) =>
 
 export const getNotionUsers = async () => await fetchJson(z.array(notionUserSchema), '/api/notion')
 
+export const updateMessage = async (message: string) =>
+	await fetchJson(sessionSchema, '/api/message', { method: 'PUT', body: { message } })
+
 export const updateNotionUser = async (user: NotionUser) =>
 	await fetchJson(notionUserSchema, '/api/notion', { method: 'PUT', body: { data: user } })
